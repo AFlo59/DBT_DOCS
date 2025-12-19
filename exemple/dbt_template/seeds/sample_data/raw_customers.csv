@@ -1,0 +1,12 @@
+customer_id,first_name,last_name,email,country_code,created_at,is_active
+1,Jean,Dupont,jean.dupont@email.fr,FR,2023-01-15 10:30:00,true
+2,Marie,Martin,marie.martin@email.fr,FR,2023-02-20 14:45:00,true
+3,John,Smith,john.smith@email.com,US,2023-03-10 09:15:00,true
+4,Emma,Wilson,emma.wilson@email.co.uk,GB,2023-04-05 16:20:00,true
+5,Hans,Mueller,hans.mueller@email.de,DE,2023-05-12 11:00:00,true
+6,Yuki,Tanaka,yuki.tanaka@email.jp,JP,2023-06-01 08:30:00,true
+7,Carlos,Garcia,carlos.garcia@email.es,ES,2023-07-18 15:45:00,false
+8,Sophie,Bernard,sophie.bernard@email.fr,FR,2023-08-22 13:10:00,true
+9,Michael,Brown,michael.brown@email.com,US,2023-09-14 10:00:00,true
+10,Anna,Rossi,anna.rossi@email.it,IT,2023-10-30 17:30:00,true
+

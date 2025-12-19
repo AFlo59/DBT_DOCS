@@ -1,0 +1,10 @@
+payment_method_code,payment_method_name,payment_category,is_active
+CC,Credit Card,Card,true
+DC,Debit Card,Card,true
+PP,PayPal,Digital Wallet,true
+AP,Apple Pay,Digital Wallet,true
+GP,Google Pay,Digital Wallet,true
+BT,Bank Transfer,Bank,true
+CA,Cash,Cash,true
+GC,Gift Card,Voucher,true
+

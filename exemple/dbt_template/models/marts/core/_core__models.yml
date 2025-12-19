@@ -1,0 +1,440 @@
+version: 2
+
+# =============================================================================
+# MODÈLES MARTS CORE
+# =============================================================================
+# Tables finales pour les analyses business.
+# Ces modèles sont consommés par les outils BI et les analystes.
+# =============================================================================
+
+models:
+  # ===========================================================================
+  # dim_customers
+  # ===========================================================================
+  - name: dim_customers
+    description: |
+      Dimension des clients avec métriques de valeur.
+      
+      ## Grain
+      Une ligne par client unique.
+      
+      ## Usage
+      - Segmentation client (VIP, Regular, etc.)
+      - Analyse de la valeur vie client (LTV)
+      - Ciblage marketing
+      
+      ## Dépendances
+      - stg_ecommerce__customers
+      - stg_ecommerce__orders
+      - order_status_mapping
+      - country_codes
+      
+    config:
+      contract:
+        enforced: true
+      tags: ['marts', 'core']
+      
+    columns:
+      # Clé primaire
+      - name: customer_id
+        description: "Identifiant unique du client (PK)"
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+          
+      # Attributs
+      - name: first_name
+        description: "Prénom du client"
+        data_type: varchar
+        
+      - name: last_name
+        description: "Nom de famille du client"
+        data_type: varchar
+        
+      - name: full_name
+        description: "Nom complet du client"
+        data_type: varchar
+        tests:
+          - not_null
+          
+      - name: email
+        description: "Adresse email du client"
+        data_type: varchar
+        tests:
+          - unique
+          - not_null
+          
+      - name: country_code
+        description: "Code pays ISO du client"
+        data_type: varchar
+        
+      - name: country_name
+        description: "Nom complet du pays"
+        data_type: varchar
+        
+      - name: country_region
+        description: "Région géographique"
+        data_type: varchar
+        
+      - name: country_currency
+        description: "Devise du pays"
+        data_type: varchar
+        
+      - name: is_active
+        description: "Client actif ou non"
+        data_type: boolean
+        
+      - name: customer_since
+        description: "Date de création du compte"
+        data_type: timestamp
+        
+      # Métriques
+      - name: total_orders
+        description: "Nombre total de commandes"
+        data_type: integer
+        tests:
+          - not_null
+          
+      - name: completed_orders
+        description: "Nombre de commandes complétées"
+        data_type: integer
+        
+      - name: cancelled_orders
+        description: "Nombre de commandes annulées"
+        data_type: integer
+        
+      - name: lifetime_value
+        description: "Valeur totale des achats complétés"
+        data_type: float
+        tests:
+          - not_null
+          
+      - name: average_order_value
+        description: "Panier moyen"
+        data_type: float
+        
+      - name: first_order_at
+        description: "Date de la première commande"
+        data_type: timestamp
+        
+      - name: last_order_at
+        description: "Date de la dernière commande"
+        data_type: timestamp
+        
+      - name: customer_lifespan_days
+        description: "Nombre de jours entre première et dernière commande"
+        data_type: integer
+        
+      # Segmentation
+      - name: customer_segment
+        description: "Segment client (VIP, Regular, Occasional, New, Prospect)"
+        data_type: varchar
+        tests:
+          - accepted_values:
+              values: ['VIP', 'Regular', 'Occasional', 'New', 'Prospect']
+              
+      - name: engagement_status
+        description: "Statut d'engagement (Active, At Risk, Dormant, Churned, Never Ordered)"
+        data_type: varchar
+        
+      - name: is_high_value
+        description: "Client à haute valeur (LTV >= 500)"
+        data_type: boolean
+        
+      - name: is_first_order_same_day
+        description: "A commandé le jour de son inscription"
+        data_type: boolean
+
+  # ===========================================================================
+  # dim_products
+  # ===========================================================================
+  - name: dim_products
+    description: |
+      Dimension des produits avec performances de vente.
+      
+      ## Grain
+      Une ligne par produit.
+      
+      ## Usage
+      - Analyse du catalogue
+      - Performance produit
+      - Décisions d'inventaire
+      
+    config:
+      contract:
+        enforced: true
+      tags: ['marts', 'core']
+      
+    columns:
+      - name: product_id
+        description: "Identifiant unique du produit (PK)"
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+          
+      - name: product_name
+        description: "Nom du produit"
+        data_type: varchar
+        tests:
+          - not_null
+          
+      - name: product_category
+        description: "Catégorie du produit"
+        data_type: varchar
+        
+      - name: price_cents
+        description: "Prix en centimes"
+        data_type: integer
+        
+      - name: price_amount
+        description: "Prix en devise"
+        data_type: float
+        tests:
+          - not_null
+          
+      - name: currency_code
+        description: "Code devise"
+        data_type: varchar
+        
+      - name: is_available
+        description: "Produit disponible à la vente"
+        data_type: boolean
+        
+      - name: total_orders
+        description: "Nombre total de commandes"
+        data_type: integer
+        
+      - name: total_quantity_sold
+        description: "Quantité totale vendue"
+        data_type: integer
+        
+      - name: total_revenue
+        description: "Revenu total généré"
+        data_type: float
+        
+      - name: avg_order_value
+        description: "Valeur moyenne par commande"
+        data_type: float
+        
+      - name: unique_customers
+        description: "Nombre de clients uniques"
+        data_type: integer
+        
+      - name: first_sold_at
+        description: "Date de première vente"
+        data_type: timestamp
+        
+      - name: last_sold_at
+        description: "Date de dernière vente"
+        data_type: timestamp
+        
+      - name: product_performance_tier
+        description: "Tier de performance (Best Seller, Popular, Regular, New/No Sales)"
+        data_type: varchar
+        
+      - name: price_tier
+        description: "Gamme de prix (Premium, Mid-Range, Budget)"
+        data_type: varchar
+        
+      - name: is_popular
+        description: "Produit populaire (>= 5 commandes)"
+        data_type: boolean
+
+  # ===========================================================================
+  # fct_orders
+  # ===========================================================================
+  - name: fct_orders
+    description: |
+      Table de faits des commandes.
+      
+      ## Grain
+      Une ligne par commande.
+      
+      ## Usage
+      - Analyse des ventes
+      - Suivi des performances
+      - KPIs business (CA, AOV, taux de conversion)
+      
+      ## Notes
+      - Les attributs client et produit sont dénormalisés pour faciliter les analyses
+      - net_revenue = 0 pour les commandes annulées
+      
+    config:
+      contract:
+        enforced: true
+      tags: ['marts', 'core']
+      
+    columns:
+      # Clés
+      - name: order_id
+        description: "Identifiant unique de la commande (PK)"
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+          
+      - name: customer_id
+        description: "FK vers dim_customers"
+        data_type: integer
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+              
+      - name: product_id
+        description: "FK vers dim_products"
+        data_type: integer
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+              
+      # Attributs client dénormalisés
+      - name: customer_name
+        description: "Nom du client"
+        data_type: varchar
+        
+      - name: customer_email
+        description: "Email du client"
+        data_type: varchar
+        
+      - name: customer_country_code
+        description: "Code pays du client"
+        data_type: varchar
+        
+      - name: customer_country_name
+        description: "Pays du client"
+        data_type: varchar
+        
+      - name: customer_region
+        description: "Région du client"
+        data_type: varchar
+        
+      # Attributs produit dénormalisés
+      - name: product_name
+        description: "Nom du produit"
+        data_type: varchar
+        
+      - name: product_category
+        description: "Catégorie du produit"
+        data_type: varchar
+        
+      - name: product_unit_price
+        description: "Prix unitaire du produit"
+        data_type: float
+        
+      # Mesures
+      - name: quantity
+        description: "Quantité commandée"
+        data_type: integer
+        tests:
+          - not_null
+          
+      - name: order_total_cents
+        description: "Montant total en centimes"
+        data_type: integer
+        
+      - name: order_total
+        description: "Montant total de la commande"
+        data_type: float
+        tests:
+          - not_null
+          
+      # Statut
+      - name: status_code
+        description: "Code statut"
+        data_type: varchar
+        
+      - name: status_name
+        description: "Nom du statut"
+        data_type: varchar
+        
+      - name: status_category
+        description: "Catégorie de statut"
+        data_type: varchar
+        
+      - name: is_status_final
+        description: "Statut final (plus de changement)"
+        data_type: boolean
+        
+      # Paiement
+      - name: payment_method_code
+        description: "Code méthode de paiement"
+        data_type: varchar
+        
+      - name: payment_method_name
+        description: "Nom de la méthode de paiement"
+        data_type: varchar
+        
+      - name: payment_method_category
+        description: "Catégorie de paiement"
+        data_type: varchar
+        
+      # Dates
+      - name: ordered_at
+        description: "Date et heure de commande"
+        data_type: timestamp
+        tests:
+          - not_null
+          
+      - name: order_date
+        description: "Date de commande"
+        data_type: date
+        
+      - name: shipped_at
+        description: "Date d'expédition"
+        data_type: timestamp
+        
+      - name: delivered_at
+        description: "Date de livraison"
+        data_type: timestamp
+        
+      # Délais
+      - name: hours_to_ship
+        description: "Heures entre commande et expédition"
+        data_type: integer
+        
+      - name: hours_to_deliver
+        description: "Heures entre expédition et livraison"
+        data_type: integer
+        
+      - name: total_fulfillment_hours
+        description: "Heures totales de traitement"
+        data_type: integer
+        
+      # Flags
+      - name: is_shipped
+        description: "Commande expédiée"
+        data_type: boolean
+        
+      - name: is_delivered
+        description: "Commande livrée"
+        data_type: boolean
+        
+      - name: is_first_order
+        description: "Première commande du client"
+        data_type: boolean
+        
+      - name: is_completed
+        description: "Commande complétée"
+        data_type: boolean
+        
+      - name: is_cancelled
+        description: "Commande annulée"
+        data_type: boolean
+        
+      # Métriques
+      - name: customer_order_number
+        description: "Numéro de commande pour ce client"
+        data_type: integer
+        
+      - name: net_revenue
+        description: "Revenu net (0 si annulée)"
+        data_type: float
+        tests:
+          - not_null
+

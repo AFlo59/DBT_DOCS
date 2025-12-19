@@ -1,0 +1,223 @@
+version: 2
+
+seeds:
+  # ===========================================================================
+  # DONNÉES DE RÉFÉRENCE
+  # ===========================================================================
+  
+  - name: country_codes
+    description: |
+      Table de référence des codes pays ISO 3166-1 alpha-2.
+      
+      **Source**: Standard ISO 3166-1
+      **Mise à jour**: Manuelle lors de changements ISO
+      
+    config:
+      schema: "{{ 'reference' if target.name == 'prod' else 'reference_' ~ target.name }}"
+      column_types:
+        country_code: varchar(2)
+        country_name: varchar(100)
+        region: varchar(50)
+        currency_code: varchar(3)
+        language_code: varchar(5)
+    columns:
+      - name: country_code
+        description: "Code pays ISO 3166-1 alpha-2 (2 lettres)"
+        data_type: varchar
+        tests:
+          - unique
+          - not_null
+      - name: country_name
+        description: "Nom complet du pays en anglais"
+        data_type: varchar
+        tests:
+          - not_null
+      - name: region
+        description: "Région géographique (continent)"
+        data_type: varchar
+      - name: currency_code
+        description: "Code devise ISO 4217 (3 lettres)"
+        data_type: varchar
+      - name: language_code
+        description: "Code langue ISO 639-1 (2 lettres)"
+        data_type: varchar
+
+  - name: order_status_mapping
+    description: |
+      Mapping des codes de statut de commande vers leurs libellés.
+      
+      **Catégories**:
+      - In Progress: commandes en cours
+      - Completed: commandes terminées avec succès
+      - Cancelled: commandes annulées/remboursées
+      
+    config:
+      schema: "{{ 'reference' if target.name == 'prod' else 'reference_' ~ target.name }}"
+      column_types:
+        status_code: varchar(3)
+        status_name: varchar(50)
+        status_category: varchar(20)
+        is_final: boolean
+        display_order: integer
+    columns:
+      - name: status_code
+        description: "Code court du statut (3 caractères)"
+        data_type: varchar
+        tests:
+          - unique
+          - not_null
+      - name: status_name
+        description: "Nom complet du statut"
+        data_type: varchar
+        tests:
+          - not_null
+      - name: status_category
+        description: "Catégorie du statut (In Progress, Completed, Cancelled)"
+        data_type: varchar
+        tests:
+          - accepted_values:
+              values: ['In Progress', 'Completed', 'Cancelled']
+      - name: is_final
+        description: "Indique si le statut est final (pas de transition possible)"
+        data_type: boolean
+      - name: display_order
+        description: "Ordre d'affichage du statut"
+        data_type: integer
+
+  - name: payment_methods
+    description: |
+      Table de référence des méthodes de paiement disponibles.
+      
+    config:
+      schema: "{{ 'reference' if target.name == 'prod' else 'reference_' ~ target.name }}"
+      column_types:
+        payment_method_code: varchar(2)
+        payment_method_name: varchar(50)
+        payment_category: varchar(20)
+        is_active: boolean
+    columns:
+      - name: payment_method_code
+        description: "Code court de la méthode de paiement"
+        data_type: varchar
+        tests:
+          - unique
+          - not_null
+      - name: payment_method_name
+        description: "Nom complet de la méthode de paiement"
+        data_type: varchar
+        tests:
+          - not_null
+      - name: payment_category
+        description: "Catégorie de paiement (Card, Digital Wallet, Bank, Cash, Voucher)"
+        data_type: varchar
+      - name: is_active
+        description: "Indique si la méthode est actuellement disponible"
+        data_type: boolean
+
+  # ===========================================================================
+  # DONNÉES D'EXEMPLE (SAMPLE DATA)
+  # Ces seeds simulent des tables sources pour l'exemple
+  # ===========================================================================
+  
+  - name: raw_customers
+    description: |
+      Données clients brutes (simulation de source).
+      
+      **Usage**: Cet exemple simule des données brutes provenant d'un système CRM.
+      En production, ces données viendraient d'une vraie source via source().
+      
+    config:
+      schema: "{{ 'raw' if target.name == 'prod' else 'raw_' ~ target.name }}"
+      column_types:
+        customer_id: integer
+        first_name: varchar(50)
+        last_name: varchar(50)
+        email: varchar(100)
+        country_code: varchar(2)
+        created_at: timestamp
+        is_active: boolean
+    columns:
+      - name: customer_id
+        description: "Identifiant unique du client"
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: "Email du client"
+        data_type: varchar
+        tests:
+          - unique
+          - not_null
+
+  - name: raw_products
+    description: |
+      Catalogue produits brut (simulation de source).
+      
+      **Usage**: Simule les données d'un système e-commerce.
+      
+    config:
+      schema: "{{ 'raw' if target.name == 'prod' else 'raw_' ~ target.name }}"
+      column_types:
+        product_id: integer
+        product_name: varchar(100)
+        category: varchar(50)
+        price_cents: integer
+        currency_code: varchar(3)
+        is_available: boolean
+    columns:
+      - name: product_id
+        description: "Identifiant unique du produit"
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+      - name: price_cents
+        description: "Prix en centimes"
+        data_type: integer
+        tests:
+          - not_null
+
+  - name: raw_orders
+    description: |
+      Commandes brutes (simulation de source).
+      
+      **Grain**: Une ligne par commande
+      
+    config:
+      schema: "{{ 'raw' if target.name == 'prod' else 'raw_' ~ target.name }}"
+      column_types:
+        order_id: integer
+        customer_id: integer
+        product_id: integer
+        quantity: integer
+        status_code: varchar(3)
+        payment_method_code: varchar(2)
+        order_total_cents: integer
+        ordered_at: timestamp
+        shipped_at: timestamp
+        delivered_at: timestamp
+    columns:
+      - name: order_id
+        description: "Identifiant unique de la commande"
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "FK vers raw_customers"
+        data_type: integer
+        tests:
+          - not_null
+          - relationships:
+              to: ref('raw_customers')
+              field: customer_id
+      - name: product_id
+        description: "FK vers raw_products"
+        data_type: integer
+        tests:
+          - not_null
+          - relationships:
+              to: ref('raw_products')
+              field: product_id
+

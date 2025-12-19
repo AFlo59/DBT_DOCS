@@ -1,0 +1,10 @@
+status_code,status_name,status_category,is_final,display_order
+PEN,Pending,In Progress,false,1
+CON,Confirmed,In Progress,false,2
+PRO,Processing,In Progress,false,3
+SHP,Shipped,In Progress,false,4
+DEL,Delivered,Completed,true,5
+CAN,Cancelled,Cancelled,true,6
+REF,Refunded,Cancelled,true,7
+FAI,Failed,Cancelled,true,8
+

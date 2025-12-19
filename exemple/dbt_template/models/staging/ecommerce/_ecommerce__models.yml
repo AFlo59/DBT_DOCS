@@ -1,0 +1,243 @@
+version: 2
+
+# =============================================================================
+# MODÈLES STAGING E-COMMERCE
+# =============================================================================
+# Documentation et tests des modèles de la couche staging.
+# Convention: stg_<source>__<table>
+# =============================================================================
+
+models:
+  # ===========================================================================
+  # stg_ecommerce__customers
+  # ===========================================================================
+  - name: stg_ecommerce__customers
+    description: |
+      Staging des données clients.
+      
+      ## Grain
+      Une ligne par client unique.
+      
+      ## Transformations
+      - Nettoyage des textes (trim, lowercase email)
+      - Création du nom complet
+      - Casting des types
+      
+      ## Source
+      - `{{ source('ecommerce', 'customers') }}`
+      
+    config:
+      contract:
+        enforced: true
+      tags: ['staging', 'ecommerce']
+      
+    columns:
+      - name: customer_id
+        description: "Identifiant unique du client (PK)"
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+          
+      - name: first_name
+        description: "Prénom du client"
+        data_type: varchar
+        tests:
+          - not_null
+          
+      - name: last_name
+        description: "Nom de famille du client"
+        data_type: varchar
+        tests:
+          - not_null
+          
+      - name: full_name
+        description: "Nom complet (prénom + nom)"
+        data_type: varchar
+        tests:
+          - not_null
+          
+      - name: email
+        description: "Email du client (lowercase)"
+        data_type: varchar
+        tests:
+          - unique
+          - not_null
+          
+      - name: country_code
+        description: "Code pays ISO 3166-1 alpha-2"
+        data_type: varchar
+        tests:
+          - not_null
+          - relationships:
+              to: ref('country_codes')
+              field: country_code
+              
+      - name: is_active
+        description: "Indique si le client est actif"
+        data_type: boolean
+        
+      - name: created_at
+        description: "Date de création du compte"
+        data_type: timestamp
+
+  # ===========================================================================
+  # stg_ecommerce__products
+  # ===========================================================================
+  - name: stg_ecommerce__products
+    description: |
+      Staging du catalogue produits.
+      
+      ## Grain
+      Une ligne par produit.
+      
+      ## Transformations
+      - Conversion prix centimes → devise
+      - Nettoyage des textes
+      
+    config:
+      contract:
+        enforced: true
+      tags: ['staging', 'ecommerce']
+      
+    columns:
+      - name: product_id
+        description: "Identifiant unique du produit (PK)"
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+          
+      - name: product_name
+        description: "Nom du produit"
+        data_type: varchar
+        tests:
+          - not_null
+          
+      - name: product_category
+        description: "Catégorie du produit"
+        data_type: varchar
+        
+      - name: price_cents
+        description: "Prix en centimes (original)"
+        data_type: integer
+        tests:
+          - not_null
+          
+      - name: price_amount
+        description: "Prix converti en devise (centimes / 100)"
+        data_type: float
+        tests:
+          - not_null
+          
+      - name: currency_code
+        description: "Code devise ISO 4217"
+        data_type: varchar
+        
+      - name: is_available
+        description: "Indique si le produit est disponible"
+        data_type: boolean
+
+  # ===========================================================================
+  # stg_ecommerce__orders
+  # ===========================================================================
+  - name: stg_ecommerce__orders
+    description: |
+      Staging des commandes.
+      
+      ## Grain
+      Une ligne par commande.
+      
+      ## Transformations
+      - Conversion montants centimes → devise
+      - Casting des dates
+      - Calcul des flags is_shipped, is_delivered
+      
+    config:
+      contract:
+        enforced: true
+      tags: ['staging', 'ecommerce']
+      
+    columns:
+      - name: order_id
+        description: "Identifiant unique de la commande (PK)"
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+          
+      - name: customer_id
+        description: "FK vers stg_ecommerce__customers"
+        data_type: integer
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_ecommerce__customers')
+              field: customer_id
+              
+      - name: product_id
+        description: "FK vers stg_ecommerce__products"
+        data_type: integer
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_ecommerce__products')
+              field: product_id
+              
+      - name: quantity
+        description: "Quantité commandée"
+        data_type: integer
+        tests:
+          - not_null
+          
+      - name: status_code
+        description: "Code statut de la commande"
+        data_type: varchar
+        tests:
+          - not_null
+          - relationships:
+              to: ref('order_status_mapping')
+              field: status_code
+              
+      - name: payment_method_code
+        description: "Code méthode de paiement"
+        data_type: varchar
+        tests:
+          - not_null
+          
+      - name: order_total_cents
+        description: "Montant total en centimes"
+        data_type: integer
+        
+      - name: order_total
+        description: "Montant total en devise"
+        data_type: float
+        tests:
+          - not_null
+          
+      - name: ordered_at
+        description: "Date et heure de la commande"
+        data_type: timestamp
+        tests:
+          - not_null
+          
+      - name: order_date
+        description: "Date de la commande (sans heure)"
+        data_type: date
+        
+      - name: shipped_at
+        description: "Date d'expédition"
+        data_type: timestamp
+        
+      - name: delivered_at
+        description: "Date de livraison"
+        data_type: timestamp
+        
+      - name: is_shipped
+        description: "TRUE si la commande a été expédiée"
+        data_type: boolean
+        
+      - name: is_delivered
+        description: "TRUE si la commande a été livrée"
+        data_type: boolean
+

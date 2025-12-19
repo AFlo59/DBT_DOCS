@@ -1,0 +1,110 @@
+# =============================================================================
+# Requirements pour projet DBT + Python
+# =============================================================================
+# Installation: pip install -r requirements.txt
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# DBT Core et Adaptateurs
+# -----------------------------------------------------------------------------
+
+# DBT Core - Le framework de transformation de données
+dbt-core>=1.7.0,<2.0.0
+
+# Adaptateur Snowflake pour DBT
+dbt-snowflake>=1.7.0,<2.0.0
+
+# Autres adaptateurs (décommenter selon votre warehouse)
+# dbt-bigquery>=1.7.0,<2.0.0
+# dbt-redshift>=1.7.0,<2.0.0
+# dbt-postgres>=1.7.0,<2.0.0
+# dbt-databricks>=1.7.0,<2.0.0
+# dbt-spark>=1.7.0,<2.0.0
+
+# -----------------------------------------------------------------------------
+# Utilitaires Python de base
+# -----------------------------------------------------------------------------
+
+# Gestion des variables d'environnement
+python-dotenv>=1.0.0
+
+# Requêtes HTTP (utile pour les APIs, webhooks)
+requests>=2.31.0
+
+# Manipulation de fichiers YAML
+PyYAML>=6.0.1
+
+# -----------------------------------------------------------------------------
+# Qualité de code (optionnel mais recommandé)
+# -----------------------------------------------------------------------------
+
+# Linter Python
+# flake8>=6.1.0
+# pylint>=3.0.0
+
+# Formateur de code
+# black>=23.12.0
+
+# Tri des imports
+# isort>=5.13.0
+
+# Vérification de types
+# mypy>=1.7.0
+
+# -----------------------------------------------------------------------------
+# Tests (optionnel)
+# -----------------------------------------------------------------------------
+
+# Framework de tests Python
+# pytest>=7.4.0
+# pytest-cov>=4.1.0
+
+# -----------------------------------------------------------------------------
+# Documentation (optionnel)
+# -----------------------------------------------------------------------------
+
+# Génération de documentation
+# mkdocs>=1.5.0
+# mkdocs-material>=9.5.0
+
+# -----------------------------------------------------------------------------
+# Notebooks (optionnel)
+# -----------------------------------------------------------------------------
+
+# Jupyter pour exploration de données
+# jupyter>=1.0.0
+# jupyterlab>=4.0.0
+
+# -----------------------------------------------------------------------------
+# Data Processing (optionnel)
+# -----------------------------------------------------------------------------
+
+# Manipulation de données
+# pandas>=2.1.0
+# numpy>=1.26.0
+
+# Connexions bases de données
+# sqlalchemy>=2.0.0
+
+# =============================================================================
+# Notes d'installation
+# =============================================================================
+#
+# 1. Créer un environnement virtuel:
+#    python -m venv venv
+#
+# 2. Activer l'environnement:
+#    - Windows: venv\Scripts\activate
+#    - macOS/Linux: source venv/bin/activate
+#
+# 3. Installer les dépendances:
+#    pip install -r requirements.txt
+#
+# 4. Vérifier l'installation:
+#    dbt --version
+#
+# 5. Mettre à jour pip si nécessaire:
+#    pip install --upgrade pip
+#
+# =============================================================================
+
