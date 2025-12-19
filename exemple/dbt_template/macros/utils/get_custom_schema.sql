@@ -1,5 +1,5 @@
-{% macro generate_schema_name(custom_schema_name, node) -%}
-{#
+/*
+    Macro: generate_schema_name
     Macro pour générer le nom du schéma.
     
     Comportement par environnement:
@@ -7,8 +7,9 @@
     - dev/rec: Préfixe avec le schéma par défaut (dbt_user_staging, etc.)
     
     Cette macro override le comportement par défaut de DBT.
-#}
+*/
 
+{% macro generate_schema_name(custom_schema_name, node) -%}
     {%- set default_schema = target.schema -%}
     
     {%- if target.name == 'prod' -%}

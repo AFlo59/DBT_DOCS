@@ -1,5 +1,5 @@
-{% macro limit_in_dev(default_limit=10000) %}
-{#
+/*
+    Macro: limit_in_dev
     Ajoute une clause LIMIT uniquement en environnement de développement.
     Utile pour accélérer les tests locaux.
     
@@ -13,8 +13,9 @@
     Comportement:
         - En dev: ajoute "LIMIT 10000"
         - En prod/rec: n'ajoute rien
-#}
+*/
 
+{% macro limit_in_dev(default_limit=10000) %}
     {%- if target.name == 'dev' -%}
         LIMIT {{ var('dev_row_limit', default_limit) }}
     {%- endif -%}

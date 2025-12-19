@@ -1,5 +1,4 @@
-{% test positive_value(model, column_name, allow_zero=true) %}
-{#
+/*
     Test générique personnalisé: vérifie que les valeurs sont positives.
     
     Arguments:
@@ -14,7 +13,9 @@
               - positive_value
               - positive_value:
                   allow_zero: false
-#}
+*/
+
+{% test positive_value(model, column_name, allow_zero=true) %}
 
 SELECT
     {{ column_name }}

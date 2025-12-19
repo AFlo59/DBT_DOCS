@@ -1,5 +1,5 @@
-{% macro cents_to_dollars(column_name, precision=2) %}
-{#
+/*
+    Macro: cents_to_dollars
     Convertit un montant en centimes vers dollars (ou devise principale).
     
     Arguments:
@@ -12,7 +12,9 @@
     
     Résultat:
         ROUND(price_cents / 100.0, 2)
-#}
+*/
+
+{% macro cents_to_dollars(column_name, precision=2) %}
     ROUND({{ column_name }} / 100.0, {{ precision }})
 {% endmacro %}
 

@@ -1,5 +1,5 @@
-{% macro safe_divide(numerator, denominator, default=0) %}
-{#
+/*
+    Macro: safe_divide
     Division sécurisée qui évite les erreurs de division par zéro.
     
     Arguments:
@@ -16,7 +16,9 @@
             WHEN denominator = 0 OR denominator IS NULL THEN default
             ELSE numerator / denominator 
         END
-#}
+*/
+
+{% macro safe_divide(numerator, denominator, default=0) %}
     CASE 
         WHEN {{ denominator }} = 0 OR {{ denominator }} IS NULL THEN {{ default }}
         ELSE {{ numerator }} / {{ denominator }}
