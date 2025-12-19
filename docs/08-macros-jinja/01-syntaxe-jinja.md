@@ -18,32 +18,32 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    JINJA DANS DBT                                    │
+│                    JINJA DANS DBT                                   │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │   Fichier .sql (avec Jinja)        SQL compilé                      │
-│   ┌─────────────────────┐          ┌─────────────────────────────┐  │
-│   │ SELECT *            │   dbt    │ SELECT *                    │  │
-│   │ FROM {{ ref(       │ ──────> │ FROM "analytics"."stg_orders"│  │
-│   │   'stg_orders'     │ compile │                              │  │
-│   │ ) }}               │          │                              │  │
-│   └─────────────────────┘          └─────────────────────────────┘  │
-│                                                                      │
-│   Jinja transforme le SQL dynamiquement avant exécution            │
-│                                                                      │
+│   ┌─────────────────────┐          ┌──────────────────────────────┐ │
+│   │ SELECT *            │   dbt    │ SELECT *                     │ │
+│   │ FROM {{ ref(        │ ──────>  │ FROM "analytics"."stg_orders"│ │
+│   │   'stg_orders'      │ compile  │                              │ │
+│   │ ) }}                │          │                              │ │
+│   └─────────────────────┘          └──────────────────────────────┘ │
+│                                                                     │
+│   Jinja transforme le SQL dynamiquement avant exécution             │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Pourquoi utiliser Jinja ?
 
-| Usage | Exemple |
-|-------|---------|
-| **Références** | `{{ ref('model') }}` |
+| Usage             | Exemple                              |
+|-------------------|--------------------------------------|
+| **Références**    | `{{ ref('model') }}`                 |
 | **Configuration** | `{{ config(materialized='table') }}` |
-| **Variables** | `{{ var('start_date') }}` |
-| **Conditions** | `{% if target.name == 'prod' %}` |
-| **Boucles** | `{% for col in columns %}` |
-| **Macros** | Code réutilisable |
+| **Variables**     | `{{ var('start_date') }}`            |
+| **Conditions**    | `{% if target.name == 'prod' %}`     |
+| **Boucles**       | `{% for col in columns %}`           |
+| **Macros**        | Code réutilisable                    |
 
 ---
 
@@ -72,11 +72,11 @@
 
 ### Tableau récapitulatif
 
-| Délimiteur | Type | Usage |
-|------------|------|-------|
+| Délimiteur  | Type        | Usage                        |
+|-------------|-------------|------------------------------|
 | `{# ... #}` | Commentaire | Notes, désactivation de code |
-| `{{ ... }}` | Expression | Afficher une valeur |
-| `{% ... %}` | Statement | Logique (if, for, set) |
+| `{{ ... }}` | Expression  | Afficher une valeur          |
+| `{% ... %}` | Statement   | Logique (if, for, set)       |
 
 ---
 
@@ -406,27 +406,27 @@ Affiche un message dans les logs.
 
 ### Syntaxe rapide
 
-| Syntaxe | Usage |
-|---------|-------|
-| `{{ }}` | Expression (valeur) |
-| `{% %}` | Statement (logique) |
-| `{# #}` | Commentaire |
-| `{% set x = y %}` | Variable |
-| `{% if %}...{% endif %}` | Condition |
-| `{% for %}...{% endfor %}` | Boucle |
-| `{{ x \| filter }}` | Filtre |
+| Syntaxe                    | Usage               |
+|----------------------------|---------------------|
+| `{{ }}`                    | Expression (valeur) |
+| `{% %}`                    | Statement (logique) |
+| `{# #}`                    | Commentaire         |
+| `{% set x = y %}`          | Variable            |
+| `{% if %}...{% endif %}`   | Condition           |
+| `{% for %}...{% endfor %}` | Boucle              |
+| `{{ x \| filter }}`        | Filtre              |
 
 ### Fonctions clés
 
-| Fonction | Usage |
-|----------|-------|
-| `ref()` | Référencer un model |
-| `source()` | Référencer une source |
-| `config()` | Configurer le model |
-| `var()` | Variable de projet |
+| Fonction    | Usage                    |
+|-------------|--------------------------|
+| `ref()`     | Référencer un model      |
+| `source()`  | Référencer une source    |
+| `config()`  | Configurer le model      |
+| `var()`     | Variable de projet       |
 | `env_var()` | Variable d'environnement |
-| `this` | Model actuel |
-| `target` | Environnement cible |
+| `this`      | Model actuel             |
+| `target`    | Environnement cible      |
 
 ---
 

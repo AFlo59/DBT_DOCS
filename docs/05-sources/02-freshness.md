@@ -17,36 +17,36 @@ La **freshness** permet de surveiller si vos données sources sont à jour en v�
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    CONCEPT DE FRESHNESS                              │
+│                    CONCEPT DE FRESHNESS                             │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  Source: orders                                                      │
-│                                                                      │
+│                                                                     │
+│  Source: orders                                                     │
+│                                                                     │
 │  ┌─────────────────────────────────────────────────────────────┐    │
 │  │  id    │  amount  │  _loaded_at           │                 │    │
 │  │  1     │  100     │  2024-01-15 08:00:00  │                 │    │
 │  │  2     │  200     │  2024-01-15 09:00:00  │                 │    │
 │  │  3     │  150     │  2024-01-15 10:00:00  │  ◄── Plus récent│    │
 │  └─────────────────────────────────────────────────────────────┘    │
-│                                                                      │
+│                                                                     │
 │  Heure actuelle : 2024-01-15 11:00:00                               │
 │  Dernière donnée : 2024-01-15 10:00:00                              │
 │  Âge des données : 1 heure                                          │
-│                                                                      │
+│                                                                     │
 │  ┌─────────────────────────────────────────────────────────────┐    │
-│  │  Seuil warn_after  : 2 heures   →  ✅ OK                    │    │
-│  │  Seuil error_after : 6 heures   →  ✅ OK                    │    │
+│  │  Seuil warn_after  : 2 heures   →  ✅ OK ✅                │    │
+│  │  Seuil error_after : 6 heures   →  ✅ OK ✅                │    │
 │  └─────────────────────────────────────────────────────────────┘    │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Pourquoi surveiller la freshness ?
 
-| Risque | Impact |
-|--------|--------|
-| **Pipeline cassé** | Données non mises à jour |
-| **Problème source** | API down, erreur d'ingestion |
+| Risque                | Impact                            |
+|-----------------------|-----------------------------------|
+| **Pipeline cassé**    | Données non mises à jour          |
+| **Problème source**   | API down, erreur d'ingestion      |
 | **Décisions fausses** | Dashboards avec données obsolètes |
 
 ---
@@ -110,11 +110,11 @@ loaded_at_field: _loaded_timestamp
 
 ### Périodes disponibles
 
-| Période | Usage |
-|---------|-------|
-| `minute` | Données temps réel |
-| `hour` | Données horaires |
-| `day` | Données quotidiennes |
+| Période  | Usage                |
+|----------|----------------------|
+| `minute` | Données temps réel   |
+| `hour`   | Données horaires     |
+| `day`    | Données quotidiennes |
 
 ### Désactiver la freshness
 
@@ -191,10 +191,10 @@ Done. PASS=1 WARN=1 ERROR=1 TOTAL=3
 
 ### Statuts
 
-| Statut | Signification |
-|--------|---------------|
-| **PASS** | Données fraîches |
-| **WARN** | Dépasse `warn_after` |
+| Statut    | Signification         |
+|-----------|-----------------------|
+| **PASS**  | Données fraîches      |
+| **WARN**  | Dépasse `warn_after`  |
 | **ERROR** | Dépasse `error_after` |
 
 ### Intégration dans le workflow
@@ -288,19 +288,19 @@ def check_freshness_and_alert():
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    DBT CLOUD FRESHNESS                               │
+│                    DBT CLOUD FRESHNESS                              │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  ✅ dbt Cloud inclut nativement :                                   │
-│                                                                      │
+│                                                                     │
+│  ✅ dbt Cloud inclut nativement ✅ :                               │
+│                                                                     │
 │  • Exécution automatique de source freshness                        │
 │  • Dashboard de monitoring                                          │
-│  • Alertes email/Slack intégrées                                   │
+│  • Alertes email/Slack intégrées                                    │
 │  • Historique des vérifications                                     │
-│                                                                      │
+│                                                                     │
 │  Configuration dans dbt Cloud :                                     │
 │  Jobs > New Job > "Source Freshness" checkbox                       │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -411,11 +411,11 @@ sources:
 
 ### Commandes
 
-| Commande | Usage |
-|----------|-------|
-| `dbt source freshness` | Vérifier toutes les sources |
-| `--select source:X` | Vérifier une source spécifique |
-| `--output file.json` | Exporter les résultats |
+| Commande               | Usage                          |
+|------------------------|--------------------------------|
+| `dbt source freshness` | Vérifier toutes les sources    |
+| `--select source:X`    | Vérifier une source spécifique |
+| `--output file.json`   | Exporter les résultats         |
 
 ### Checklist
 

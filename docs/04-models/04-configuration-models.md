@@ -16,22 +16,22 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    HIÉRARCHIE DE CONFIGURATION                       │
+│                    HIÉRARCHIE DE CONFIGURATION                      │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  PRIORITÉ CROISSANTE                                                 │
-│  ───────────────────                                                 │
-│                                                                      │
+│                                                                     │
+│  PRIORITÉ CROISSANTE                                                │
+│  ───────────────────                                                │
+│                                                                     │
 │  1. dbt_project.yml (global)      ─── Moins prioritaire             │
-│         │                                                            │
-│         ▼                                                            │
+│         │                                                           │
+│         ▼                                                           │
 │  2. schema.yml (par model)                                          │
-│         │                                                            │
-│         ▼                                                            │
+│         │                                                           │
+│         ▼                                                           │
 │  3. config() dans le model        ─── Plus prioritaire              │
-│                                                                      │
+│                                                                     │
 │  La config la plus spécifique l'emporte toujours.                   │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -124,14 +124,14 @@ models:
 
 ### Configurations courantes
 
-| Option | Description | Valeurs |
-|--------|-------------|---------|
-| `materialized` | Type de matérialisation | `view`, `table`, `incremental`, `ephemeral` |
-| `schema` | Schéma cible | String |
-| `database` | Base de données cible | String |
-| `alias` | Nom de la table (override) | String |
-| `tags` | Tags pour sélection | Liste |
-| `enabled` | Activer/désactiver | Boolean |
+| Option         | Description                | Valeurs                                     |
+|----------------|----------------------------|---------------------------------------------|
+| `materialized` | Type de matérialisation    | `view`, `table`, `incremental`, `ephemeral` |
+| `schema`       | Schéma cible               | String                                      |
+| `database`     | Base de données cible      | String                                      |
+| `alias`        | Nom de la table (override) | String                                      |
+| `tags`         | Tags pour sélection        | Liste                                       |
+| `enabled`      | Activer/désactiver         | Boolean                                     |
 
 ### Configuration schema et alias
 
@@ -257,17 +257,17 @@ Les **hooks** sont des commandes SQL exécutées avant ou après un model.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    ORDRE D'EXÉCUTION                                 │
+│                    ORDRE D'EXÉCUTION                                │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  1. pre-hook       (avant la création de la table)                  │
-│         │                                                            │
-│         ▼                                                            │
+│         │                                                           │
+│         ▼                                                           │
 │  2. CREATE TABLE AS SELECT ...                                      │
-│         │                                                            │
-│         ▼                                                            │
+│         │                                                           │
+│         ▼                                                           │
 │  3. post-hook      (après la création de la table)                  │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -396,22 +396,22 @@ models:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    HOOKS vs GRANTS                                   │
+│                    HOOKS vs GRANTS                                  │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  HOOKS (post_hook)                                                   │
-│  ─────────────────                                                   │
+│                                                                     │
+│  HOOKS (post_hook)                                                  │
+│  ─────────────────                                                  │
 │  • Exécuté à chaque run                                             │
 │  • Flexible (n'importe quel SQL)                                    │
 │  • Peut échouer silencieusement                                     │
-│                                                                      │
-│  GRANTS (config)                                                     │
-│  ───────────────                                                     │
+│                                                                     │
+│  GRANTS (config)                                                    │
+│  ───────────────                                                    │
 │  • Géré par DBT nativement                                          │
 │  • Révocation automatique si supprimé                               │
 │  • Meilleure traçabilité                                            │
 │  • Recommandé pour les permissions                                  │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -547,14 +547,14 @@ models:
 
 ### Options essentielles
 
-| Option | Usage |
-|--------|-------|
-| `materialized` | Type de table créée |
-| `schema` | Schéma cible |
-| `tags` | Sélection et organisation |
-| `enabled` | Activer/désactiver |
-| `grants` | Permissions |
-| `pre_hook/post_hook` | SQL avant/après |
+| Option               | Usage                     |
+|----------------------|---------------------------|
+| `materialized`       | Type de table créée       |
+| `schema`             | Schéma cible              |
+| `tags`               | Sélection et organisation |
+| `enabled`            | Activer/désactiver        |
+| `grants`             | Permissions               |
+| `pre_hook/post_hook` | SQL avant/après           |
 
 ### Checklist
 

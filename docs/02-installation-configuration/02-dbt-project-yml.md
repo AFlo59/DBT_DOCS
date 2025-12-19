@@ -25,20 +25,20 @@ Le fichier `dbt_project.yml` est le **fichier de configuration principal** d'un 
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    RÔLE DE dbt_project.yml                           │
+│                    RÔLE DE dbt_project.yml                          │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  my_project/                                                         │
+│                                                                     │
+│  my_project/                                                        │
 │  ├── dbt_project.yml  ◄─── Configuration centrale                   │
 │  │                         - Nom du projet                          │
 │  │                         - Chemins des ressources                 │
 │  │                         - Config par défaut                      │
-│  │                                                                   │
-│  ├── models/                                                         │
-│  ├── seeds/                                                          │
-│  ├── snapshots/                                                      │
-│  └── macros/                                                         │
-│                                                                      │
+│  │                                                                  │
+│  ├── models/                                                        │
+│  ├── seeds/                                                         │
+│  ├── snapshots/                                                     │
+│  └── macros/                                                        │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -207,15 +207,15 @@ my_warehouse:        # ◄── Doit correspondre
 
 ### Chemins des ressources
 
-| Propriété | Défaut | Description |
-|-----------|--------|-------------|
-| `model-paths` | `["models"]` | Dossier des modèles SQL |
-| `seed-paths` | `["seeds"]` | Dossier des fichiers CSV |
-| `test-paths` | `["tests"]` | Dossier des tests singuliers |
-| `snapshot-paths` | `["snapshots"]` | Dossier des snapshots |
-| `macro-paths` | `["macros"]` | Dossier des macros Jinja |
-| `analysis-paths` | `["analyses"]` | Dossier des analyses |
-| `asset-paths` | `["assets"]` | Dossier des assets (images, etc.) |
+| Propriété        | Défaut          | Description                       |
+|------------------|-----------------|-----------------------------------|
+| `model-paths`    | `["models"]`    | Dossier des modèles SQL           |
+| `seed-paths`     | `["seeds"]`     | Dossier des fichiers CSV          |
+| `test-paths`     | `["tests"]`     | Dossier des tests singuliers      |
+| `snapshot-paths` | `["snapshots"]` | Dossier des snapshots             |
+| `macro-paths`    | `["macros"]`    | Dossier des macros Jinja          |
+| `analysis-paths` | `["analyses"]`  | Dossier des analyses              |
+| `asset-paths`    | `["assets"]`    | Dossier des assets (images, etc.) |
 
 ```yaml
 # Personnalisation des chemins
@@ -269,29 +269,29 @@ models:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│               HIÉRARCHIE DE CONFIGURATION                            │
+│               HIÉRARCHIE DE CONFIGURATION                           │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  Priorité croissante (le plus spécifique gagne) :                   │
-│                                                                      │
+│                                                                     │
 │  1. dbt_project.yml (niveau projet)     ─── Moins prioritaire       │
 │  2. dbt_project.yml (niveau dossier)                                │
 │  3. Fichier schema.yml                                              │
 │  4. Bloc config() dans le modèle        ─── Plus prioritaire        │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Options de configuration courantes
 
-| Option | Valeurs | Description |
-|--------|---------|-------------|
-| `materialized` | `view`, `table`, `incremental`, `ephemeral` | Type de matérialisation |
-| `schema` | String | Schéma cible |
-| `database` | String | Base de données cible |
-| `tags` | Liste | Tags pour sélection |
-| `enabled` | Boolean | Activer/désactiver le modèle |
-| `persist_docs` | Object | Persister la documentation |
+| Option         | Valeurs                                     | Description                  |
+|----------------|---------------------------------------------|------------------------------|
+| `materialized` | `view`, `table`, `incremental`, `ephemeral` | Type de matérialisation      |
+| `schema`       | String                                      | Schéma cible                 |
+| `database`     | String                                      | Base de données cible        |
+| `tags`         | Liste                                       | Tags pour sélection          |
+| `enabled`      | Boolean                                     | Activer/désactiver le modèle |
+| `persist_docs` | Object                                      | Persister la documentation   |
 
 ### Exemple par dossier
 
@@ -691,25 +691,25 @@ dbt debug
 
 ### Erreurs courantes
 
-| Erreur | Cause | Solution |
-|--------|-------|----------|
-| `name` invalide | Caractères spéciaux | Utiliser uniquement `a-z`, `0-9`, `_` |
-| `profile` not found | Profil manquant dans profiles.yml | Créer le profil |
-| Indentation YAML | Espaces/tabs mélangés | Utiliser uniquement des espaces |
-| `+` manquant | Oubli du préfixe | Ajouter `+` devant les configs |
+| Erreur              | Cause                             | Solution                              |
+|---------------------|-----------------------------------|---------------------------------------|
+| `name` invalide     | Caractères spéciaux               | Utiliser uniquement `a-z`, `0-9`, `_` |
+| `profile` not found | Profil manquant dans profiles.yml | Créer le profil                       |
+| Indentation YAML    | Espaces/tabs mélangés             | Utiliser uniquement des espaces       |
+| `+` manquant        | Oubli du préfixe                  | Ajouter `+` devant les configs        |
 
 ---
 
 ## Résumé
 
-| Section | Description |
-|---------|-------------|
-| **Métadonnées** | `name`, `version`, `config-version`, `profile` |
-| **Chemins** | `model-paths`, `seed-paths`, `macro-paths`, etc. |
-| **Variables** | `vars` - valeurs globales réutilisables |
-| **Models** | Configuration par dossier, matérialisation, schéma |
-| **Seeds** | Types de colonnes, schéma cible |
-| **Snapshots** | Stratégie, schéma cible |
+| Section         | Description                                        |
+|-----------------|----------------------------------------------------|
+| **Métadonnées** | `name`, `version`, `config-version`, `profile`     |
+| **Chemins**     | `model-paths`, `seed-paths`, `macro-paths`, etc.   |
+| **Variables**   | `vars` - valeurs globales réutilisables            |
+| **Models**      | Configuration par dossier, matérialisation, schéma |
+| **Seeds**       | Types de colonnes, schéma cible                    |
+| **Snapshots**   | Stratégie, schéma cible                            |
 
 ---
 

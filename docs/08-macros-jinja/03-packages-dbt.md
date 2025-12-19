@@ -17,33 +17,33 @@ Un **package DBT** est une collection de macros, tests, et modèles réutilisabl
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    PACKAGES DBT                                      │
+│                    PACKAGES DBT                                     │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   packages.yml                       dbt_packages/                   │
-│   ┌──────────────────┐              ┌───────────────────────────┐   │
-│   │ packages:        │   dbt deps   │ dbt_utils/                │   │
-│   │   - package:     │ ──────────>  │   ├── macros/             │   │
-│   │       dbt-labs/  │              │   │   └── generate_key... │   │
-│   │       dbt_utils  │              │   └── tests/              │   │
-│   │     version: 1.1.1│             │ dbt_expectations/         │   │
-│   └──────────────────┘              │   └── ...                 │   │
-│                                      └───────────────────────────┘   │
-│                                                                      │
-│   Utilisation :                                                      │
+│                                                                     │
+│   packages.yml                       dbt_packages/                  │
+│   ┌───────────────────┐              ┌───────────────────────────┐  │
+│   │ packages:         │   dbt deps   │ dbt_utils/                │  │
+│   │   - package:      │ ──────────>  │   ├── macros/             │  │
+│   │       dbt-labs/   │              │   │   └── generate_key... │  │
+│   │       dbt_utils   │              │   └── tests/              │  │
+│   │     version: 1.1.1│              │ dbt_expectations/         │  │
+│   └───────────────────┘              │   └── ...                 │  │
+│                                      └───────────────────────────┘  │
+│                                                                     │
+│   Utilisation :                                                     │
 │   {{ dbt_utils.generate_surrogate_key(['col1', 'col2']) }}          │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Avantages
 
-| Avantage | Description |
-|----------|-------------|
-| **Réutilisation** | Ne pas réinventer la roue |
-| **Qualité** | Code testé par la communauté |
-| **Standardisation** | Macros communes entre projets |
-| **Maintenance** | Mises à jour par les mainteneurs |
+| Avantage            | Description                      |
+|---------------------|----------------------------------|
+| **Réutilisation**   | Ne pas réinventer la roue        |
+| **Qualité**         | Code testé par la communauté     |
+| **Standardisation** | Macros communes entre projets    |
+| **Maintenance**     | Mises à jour par les mainteneurs |
 
 ---
 
@@ -368,13 +368,13 @@ dbt deps
 
 ### Packages essentiels
 
-| Package | Usage |
-|---------|-------|
-| `dbt_utils` | Utilitaires généraux |
-| `dbt_expectations` | Tests avancés |
-| `dbt_date` | Manipulation de dates |
-| `audit_helper` | Comparaison de données |
-| `codegen` | Génération de code |
+| Package            | Usage                  |
+|--------------------|------------------------|
+| `dbt_utils`        | Utilitaires généraux   |
+| `dbt_expectations` | Tests avancés          |
+| `dbt_date`         | Manipulation de dates  |
+| `audit_helper`     | Comparaison de données |
+| `codegen`          | Génération de code     |
 
 ### Checklist
 

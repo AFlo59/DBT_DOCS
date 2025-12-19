@@ -15,37 +15,37 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    VALEUR DE LA DOCUMENTATION                        │
+│                    VALEUR DE LA DOCUMENTATION                       │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  SANS DOCUMENTATION                    AVEC DOCUMENTATION           │
 │  ──────────────────                    ───────────────────          │
-│                                                                      │
-│  "C'est quoi cette               ┌─────────────────────────┐       │
-│   colonne 'amt_ttc' ?"           │ fct_orders              │       │
-│                                   │                         │       │
-│  "Quelle est la source           │ Description:            │       │
-│   de ces données ?"              │ Commandes validées      │       │
-│                                   │                         │       │
-│  "Ce montant est en              │ Colonnes:               │       │
-│   TTC ou HT ?"                   │ • order_total: Montant  │       │
-│                                   │   TTC en EUR            │       │
-│  "Qui maintient ce               │ • customer_id: FK vers  │       │
-│   modèle ?"                      │   dim_customers         │       │
-│                                   └─────────────────────────┘       │
-│                                                                      │
+│                                                                     │
+│  "C'est quoi cette               ┌─────────────────────────┐        │
+│   colonne 'amt_ttc' ?"           │ fct_orders              │        │
+│                                  │                         │        │
+│  "Quelle est la source           │ Description:            │        │
+│   de ces données ?"              │ Commandes validées      │        │
+│                                  │                         │        │
+│  "Ce montant est en              │ Colonnes:               │        │
+│   TTC ou HT ?"                   │ • order_total: Montant  │        │
+│                                  │   TTC en EUR            │        │
+│  "Qui maintient ce               │ • customer_id: FK vers  │        │
+│   modèle ?"                      │   dim_customers         │        │
+│                                  └─────────────────────────┘        │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Avantages
 
-| Bénéfice | Description |
-|----------|-------------|
-| **Autonomie** | Utilisateurs trouvent les infos seuls |
-| **Onboarding** | Nouveaux membres opérationnels rapidement |
-| **Qualité** | Moins d'erreurs d'interprétation |
-| **Maintenance** | Code plus facile à reprendre |
-| **Confiance** | Données traçables et comprises |
+| Bénéfice        | Description                               |
+|-----------------|-------------------------------------------|
+| **Autonomie**   | Utilisateurs trouvent les infos seuls     |
+| **Onboarding**  | Nouveaux membres opérationnels rapidement |
+| **Qualité**     | Moins d'erreurs d'interprétation          |
+| **Maintenance** | Code plus facile à reprendre              |
+| **Confiance**   | Données traçables et comprises            |
 
 ---
 
@@ -101,9 +101,9 @@ models:
       
       ## Colonnes clés
       
-      | Colonne | Description |
-      |---------|-------------|
-      | customer_id | Clé primaire |
+      | Colonne        | Description                   |
+      |----------------|-------------------------------|
+      | customer_id    | Clé primaire                  |
       | lifetime_value | Somme de toutes les commandes |
       
     columns:
@@ -183,25 +183,25 @@ models:
 
 /*
 ╔═══════════════════════════════════════════════════════════════════╗
-║                         FCT_ORDERS                                 ║
+║                         FCT_ORDERS                                ║
 ╠═══════════════════════════════════════════════════════════════════╣
-║                                                                     ║
-║  Description : Table de faits des commandes validées               ║
-║                                                                     ║
-║  Grain : Une ligne par commande (order_id)                         ║
-║                                                                     ║
-║  Source :                                                           ║
-║    - stg_shopify__orders                                           ║
-║    - stg_stripe__payments                                          ║
-║                                                                     ║
-║  Mise à jour : Quotidienne (job: daily_transform)                  ║
-║                                                                     ║
-║  Owner : @data-team                                                ║
-║                                                                     ║
-║  Changelog :                                                        ║
-║    - 2024-01-15 : Ajout colonne payment_method                     ║
-║    - 2023-12-01 : Création initiale                                ║
-║                                                                     ║
+║                                                                   ║
+║  Description : Table de faits des commandes validées              ║
+║                                                                   ║
+║  Grain : Une ligne par commande (order_id)                        ║
+║                                                                   ║
+║  Source :                                                         ║
+║    - stg_shopify__orders                                          ║
+║    - stg_stripe__payments                                         ║
+║                                                                   ║
+║  Mise à jour : Quotidienne (job: daily_transform)                 ║
+║                                                                   ║
+║  Owner : @data-team                                               ║
+║                                                                   ║
+║  Changelog :                                                      ║
+║    - 2024-01-15 : Ajout colonne payment_method                    ║
+║    - 2023-12-01 : Création initiale                               ║
+║                                                                   ║
 ╚═══════════════════════════════════════════════════════════════════╝
 */
 
@@ -244,23 +244,23 @@ Les **doc blocks** permettent de créer des descriptions réutilisables.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    DOC BLOCKS                                        │
+│                    DOC BLOCKS                                       │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  Définition (docs/descriptions.md)                                  │
 │  ┌─────────────────────────────────────────────────────────────┐    │
 │  │  {% docs order_status %}                                    │    │
-│  │  Statut de la commande : pending, shipped, delivered...    │    │
+│  │  Statut de la commande : pending, shipped, delivered...     │    │
 │  │  {% enddocs %}                                              │    │
 │  └─────────────────────────────────────────────────────────────┘    │
-│                                                                      │
+│                                                                     │
 │  Utilisation (schema.yml)                                           │
 │  ┌─────────────────────────────────────────────────────────────┐    │
 │  │  columns:                                                   │    │
 │  │    - name: status                                           │    │
 │  │      description: "{{ doc('order_status') }}"               │    │
 │  └─────────────────────────────────────────────────────────────┘    │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -273,13 +273,13 @@ Les **doc blocks** permettent de créer des descriptions réutilisables.
 
 Statut de la commande dans le cycle de vie.
 
-| Valeur | Description |
-|--------|-------------|
-| `pending` | En attente de paiement |
-| `confirmed` | Paiement reçu |
-| `shipped` | Expédiée |
-| `delivered` | Livrée |
-| `cancelled` | Annulée |
+| Valeur      | Description            |
+|-------------|------------------------|
+| `pending`   | En attente de paiement |
+| `confirmed` | Paiement reçu          |
+| `shipped`   | Expédiée               |
+| `delivered` | Livrée                 |
+| `cancelled` | Annulée                |
 
 {% enddocs %}
 
@@ -359,11 +359,11 @@ Notre warehouse est organisé en couches :
 
 ## 📊 Marts disponibles
 
-| Mart | Description |
-|------|-------------|
-| Core | Dimensions et faits partagés |
-| Finance | Métriques financières |
-| Marketing | Performance des campagnes |
+| Mart      | Description                  |
+|-----------|------------------------------|
+| Core      | Dimensions et faits partagés |
+| Finance   | Métriques financières        |
+| Marketing | Performance des campagnes    |
 
 ## 📞 Contact
 
@@ -419,12 +419,12 @@ DESCRIBE TABLE fct_orders;
 
 ### Support par warehouse
 
-| Warehouse | Relation | Columns |
-|-----------|----------|---------|
-| Snowflake | ✅ | ✅ |
-| BigQuery | ✅ | ✅ |
-| Redshift | ✅ | ❌ |
-| PostgreSQL | ✅ | ✅ |
+| Warehouse  | Relation | Columns |
+|------------|----------|---------|
+| Snowflake  | ✅✅    | ✅✅   |
+| BigQuery   | ✅✅    | ✅✅   |
+| Redshift   | ✅✅    | ❌❌   |
+| PostgreSQL | ✅✅    | ✅✅   |
 
 ---
 
@@ -432,12 +432,12 @@ DESCRIBE TABLE fct_orders;
 
 ### Où documenter ?
 
-| Type | Emplacement |
-|------|-------------|
-| Description model | `schema.yml` |
-| Description colonne | `schema.yml` |
-| Texte réutilisable | Doc blocks (`.md`) |
-| Notes techniques | Commentaires SQL |
+| Type                | Emplacement        |
+|---------------------|--------------------|
+| Description model   | `schema.yml`       |
+| Description colonne | `schema.yml`       |
+| Texte réutilisable  | Doc blocks (`.md`) |
+| Notes techniques    | Commentaires SQL   |
 
 ### Template de documentation
 

@@ -17,15 +17,15 @@ Un **hook** est une commande SQL exécutée automatiquement à un moment précis
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    CYCLE D'EXÉCUTION AVEC HOOKS                      │
+│                    CYCLE D'EXÉCUTION AVEC HOOKS                     │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   dbt run                                                            │
+│                                                                     │
+│   dbt run                                                           │
 │   ┌─────────────────────────────────────────────────────────────┐   │
 │   │  on-run-start     ← Hook début de run                       │   │
 │   └─────────────────────────────────────────────────────────────┘   │
-│                              │                                       │
-│                              ▼                                       │
+│                              │                                      │
+│                              ▼                                      │
 │   ┌─────────────────────────────────────────────────────────────┐   │
 │   │  Pour chaque model :                                        │   │
 │   │  ┌───────────────────────────────────────────────────────┐  │   │
@@ -42,23 +42,23 @@ Un **hook** est une commande SQL exécutée automatiquement à un moment précis
 │   │  │  post-hook      ← Après le model                      │  │   │
 │   │  └───────────────────────────────────────────────────────┘  │   │
 │   └─────────────────────────────────────────────────────────────┘   │
-│                              │                                       │
-│                              ▼                                       │
+│                              │                                      │
+│                              ▼                                      │
 │   ┌─────────────────────────────────────────────────────────────┐   │
 │   │  on-run-end       ← Hook fin de run                         │   │
 │   └─────────────────────────────────────────────────────────────┘   │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Types de hooks
 
-| Hook | Portée | Moment |
-|------|--------|--------|
-| `pre-hook` | Model | Avant création du model |
-| `post-hook` | Model | Après création du model |
-| `on-run-start` | Run | Début du run complet |
-| `on-run-end` | Run | Fin du run complet |
+| Hook           | Portée | Moment                  |
+|----------------|--------|-------------------------|
+| `pre-hook`     | Model  | Avant création du model |
+| `post-hook`    | Model  | Après création du model |
+| `on-run-start` | Run    | Début du run complet    |
+| `on-run-end`   | Run    | Fin du run complet      |
 
 ---
 
@@ -354,12 +354,12 @@ post_hook:
 
 ### Types de hooks
 
-| Hook | Quand | Où configurer |
-|------|-------|---------------|
-| `pre-hook` | Avant model | config() ou dbt_project.yml |
-| `post-hook` | Après model | config() ou dbt_project.yml |
-| `on-run-start` | Début run | dbt_project.yml |
-| `on-run-end` | Fin run | dbt_project.yml |
+| Hook           | Quand       | Où configurer               |
+|----------------|-------------|-----------------------------|
+| `pre-hook`     | Avant model | config() ou dbt_project.yml |
+| `post-hook`    | Après model | config() ou dbt_project.yml |
+| `on-run-start` | Début run   | dbt_project.yml             |
+| `on-run-end`   | Fin run     | dbt_project.yml             |
 
 ### Syntaxe rapide
 

@@ -17,34 +17,34 @@ Une **source** dans DBT représente une table de données brutes qui existe déj
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    SOURCES VS MODELS                                 │
+│                    SOURCES VS MODELS                                │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  SOURCES (Externes)                  MODELS (DBT)                    │
-│  ──────────────────                  ────────────                    │
-│                                                                      │
+│                                                                     │
+│  SOURCES (Externes)                  MODELS (DBT)                   │
+│  ──────────────────                  ────────────                   │
+│                                                                     │
 │  ┌─────────────────┐                ┌─────────────────┐             │
 │  │  raw.orders     │   source()     │  stg_orders     │             │
 │  │  raw.customers  │ ─────────────> │  fct_orders     │             │
 │  │  raw.products   │                │  dim_customers  │             │
 │  └─────────────────┘                └─────────────────┘             │
-│                                                                      │
+│                                                                     │
 │  • Créées par Fivetran, Airbyte     • Créées par DBT                │
 │  • DBT ne les modifie pas           • DBT les gère                  │
 │  • Définies dans sources.yml        • Fichiers .sql                 │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Pourquoi définir des sources ?
 
-| Avantage | Description |
-|----------|-------------|
-| **Documentation** | Décrire les tables brutes |
-| **Lineage** | Visualiser l'origine des données |
-| **Freshness** | Surveiller la fraîcheur |
-| **Abstraction** | Un seul endroit pour changer le nom/schéma |
-| **Tests** | Appliquer des tests sur les données brutes |
+| Avantage          | Description                                |
+|-------------------|--------------------------------------------|
+| **Documentation** | Décrire les tables brutes                  |
+| **Lineage**       | Visualiser l'origine des données           |
+| **Freshness**     | Surveiller la fraîcheur                    |
+| **Abstraction**   | Un seul endroit pour changer le nom/schéma |
+| **Tests**         | Appliquer des tests sur les données brutes |
 
 ---
 
@@ -239,10 +239,10 @@ WITH source AS (
 
 ### source() vs ref()
 
-| Fonction | Usage | Cible |
-|----------|-------|-------|
+| Fonction   | Usage                  | Cible                |
+|------------|------------------------|----------------------|
 | `source()` | Tables brutes externes | Tables raw (non-DBT) |
-| `ref()` | Models DBT | Autres models |
+| `ref()`    | Models DBT             | Autres models        |
 
 ```sql
 -- ✅ CORRECT
@@ -453,12 +453,12 @@ sources:
 
 ## Résumé
 
-| Concept | Description |
-|---------|-------------|
-| **Source** | Table brute externe à DBT |
-| **source()** | Fonction pour référencer une source |
-| **Freshness** | Surveillance de la fraîcheur |
-| **Identifier** | Nom réel de la table |
+| Concept        | Description                         |
+|----------------|-------------------------------------|
+| **Source**     | Table brute externe à DBT           |
+| **source()**   | Fonction pour référencer une source |
+| **Freshness**  | Surveillance de la fraîcheur        |
+| **Identifier** | Nom réel de la table                |
 
 ### Checklist sources
 

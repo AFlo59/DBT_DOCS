@@ -18,31 +18,31 @@ Un **model** dans DBT est un fichier SQL contenant une instruction `SELECT` qui 
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                      CONCEPT DE MODEL                                │
+│                      CONCEPT DE MODEL                               │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │   Fichier .sql                        Objet dans le Warehouse       │
-│                                                                      │
-│   ┌─────────────────┐                ┌─────────────────────────┐   │
-│   │ stg_orders.sql  │   dbt run      │  Table ou View          │   │
-│   │                 │ ─────────────> │  "stg_orders"           │   │
-│   │ SELECT ...      │                │                         │   │
-│   │ FROM ...        │                │  Résultat du SELECT     │   │
-│   └─────────────────┘                └─────────────────────────┘   │
-│                                                                      │
+│                                                                     │
+│   ┌─────────────────┐                ┌─────────────────────────┐    │
+│   │ stg_orders.sql  │   dbt run      │  Table ou View          │    │
+│   │                 │ ─────────────> │  "stg_orders"           │    │
+│   │ SELECT ...      │                │                         │    │
+│   │ FROM ...        │                │  Résultat du SELECT     │    │
+│   └─────────────────┘                └─────────────────────────┘    │
+│                                                                     │
 │   Un fichier = Un model = Une table ou view                         │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Ce qu'un model est
 
-| Caractéristique | Description |
-|-----------------|-------------|
-| **Fichier SQL** | Un fichier `.sql` dans le dossier `models/` |
-| **Une seule query** | Une instruction SELECT (pas de CREATE TABLE) |
-| **Nommé par le fichier** | `orders.sql` → table/vue `orders` |
-| **Transformable** | Utilise Jinja pour la logique dynamique |
+| Caractéristique          | Description                                  |
+|--------------------------|----------------------------------------------|
+| **Fichier SQL**          | Un fichier `.sql` dans le dossier `models/`  |
+| **Une seule query**      | Une instruction SELECT (pas de CREATE TABLE) |
+| **Nommé par le fichier** | `orders.sql` → table/vue `orders`            |
+| **Transformable**        | Utilise Jinja pour la logique dynamique      |
 
 ### Ce qu'un model n'est PAS
 
@@ -214,31 +214,31 @@ SELECT * FROM "ANALYTICS"."STAGING"."stg_orders"
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    DAG AUTOMATIQUE                                   │
+│                    DAG AUTOMATIQUE                                  │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │   stg_orders.sql                       fct_orders.sql               │
-│   ┌─────────────────┐                 ┌─────────────────┐          │
-│   │ SELECT *        │                 │ SELECT *        │          │
-│   │ FROM source()   │─────────────────│ FROM ref(       │          │
-│   │                 │   ref() crée    │   'stg_orders'  │          │
-│   └─────────────────┘   la dépendance │ )               │          │
-│          │                            └─────────────────┘          │
+│   ┌─────────────────┐                 ┌─────────────────┐           │
+│   │ SELECT *        │                 │ SELECT *        │           │
+│   │ FROM source()   │─────────────────│ FROM ref(       │           │
+│   │                 │   ref() crée    │   'stg_orders'  │           │
+│   └─────────────────┘   la dépendance │ )               │           │
+│          │                            └─────────────────┘           │
 │          │                                    │                     │
 │          ▼                                    ▼                     │
-│   Exécuté EN PREMIER            Exécuté APRÈS stg_orders           │
-│                                                                      │
+│   Exécuté EN PREMIER            Exécuté APRÈS stg_orders            │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Avantages de ref()
 
-| Avantage | Description |
-|----------|-------------|
-| **Dépendances auto** | DBT sait quel model exécuter en premier |
-| **Noms qualifiés** | Génère `database.schema.table` automatiquement |
-| **Environnements** | Même code, différents schémas (dev/prod) |
-| **Refactoring** | Renommer un model = une seule modification |
+| Avantage             | Description                                    |
+|----------------------|------------------------------------------------|
+| **Dépendances auto** | DBT sait quel model exécuter en premier        |
+| **Noms qualifiés**   | Génère `database.schema.table` automatiquement |
+| **Environnements**   | Même code, différents schémas (dev/prod)       |
+| **Refactoring**      | Renommer un model = une seule modification     |
 
 ### Exemples
 
@@ -308,28 +308,28 @@ FROM "raw_database"."raw_schema"."orders"
 
 ### source() vs ref()
 
-| Fonction | Usage | Cible |
-|----------|-------|-------|
-| `source()` | Données brutes (externes à DBT) | Tables raw |
-| `ref()` | Données transformées (models DBT) | Models DBT |
+| Fonction   | Usage                             | Cible      |
+|------------|-----------------------------------|------------|
+| `source()` | Données brutes (externes à DBT)   | Tables raw |
+| `ref()`    | Données transformées (models DBT) | Models DBT |
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                                                                      │
-│   SOURCES (externes)              MODELS DBT                         │
-│                                                                      │
+│                                                                     │
+│   SOURCES (externes)              MODELS DBT                        │
+│                                                                     │
 │   ┌──────────────┐               ┌──────────────┐                   │
 │   │ raw.orders   │──source()───> │ stg_orders   │                   │
 │   └──────────────┘               └──────┬───────┘                   │
-│                                         │                            │
+│                                         │                           │
 │   ┌──────────────┐               ┌──────▼───────┐                   │
 │   │raw.customers │──source()───> │stg_customers │                   │
 │   └──────────────┘               └──────┬───────┘                   │
-│                                         │                            │
+│                                         │                           │
 │                                   ┌─────▼────────┐                  │
 │                                   │  fct_orders  │◄──ref()          │
 │                                   └──────────────┘                  │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -381,30 +381,30 @@ models:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    PRIORITÉ (croissante)                             │
+│                    PRIORITÉ (croissante)                            │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  1. dbt_project.yml (niveau projet)      ─── Moins prioritaire     │
+│                                                                     │
+│  1. dbt_project.yml (niveau projet)      ─── Moins prioritaire      │
 │  2. dbt_project.yml (niveau dossier)                                │
 │  3. Fichier schema.yml                                              │
 │  4. Bloc config() dans le model          ─── Plus prioritaire       │
-│                                                                      │
-│  La configuration la plus spécifique l'emporte toujours.           │
-│                                                                      │
+│                                                                     │
+│  La configuration la plus spécifique l'emporte toujours.            │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Options de configuration courantes
 
-| Option | Description | Valeurs |
-|--------|-------------|---------|
-| `materialized` | Type de matérialisation | `view`, `table`, `incremental`, `ephemeral` |
-| `schema` | Schéma cible | String |
-| `alias` | Nom de la table (override) | String |
-| `database` | Base de données cible | String |
-| `tags` | Tags pour sélection | Liste |
-| `enabled` | Activer/désactiver | Boolean |
-| `persist_docs` | Persister la documentation | Object |
+| Option         | Description | Valeurs |
+|----------------|----------------------------|---------------------------------------------|
+| `materialized` | Type de matérialisation    | `view`, `table`, `incremental`, `ephemeral` |
+| `schema`       | Schéma cible               | String                                      |
+| `alias`        | Nom de la table (override) | String                                      |
+| `database`     | Base de données cible      | String                                      |
+| `tags`         | Tags pour sélection        | Liste                                       |
+| `enabled`      | Activer/désactiver         | Boolean                                     |
+| `persist_docs` | Persister la documentation | Object                                      |
 
 ---
 
@@ -452,24 +452,24 @@ dbt run --select tag:daily --exclude fct_debug
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    CYCLE D'EXÉCUTION                                 │
+│                    CYCLE D'EXÉCUTION                                │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  1. PARSING        Lecture des fichiers .sql et .yml               │
-│         │                                                            │
-│         ▼                                                            │
+│                                                                     │
+│  1. PARSING        Lecture des fichiers .sql et .yml                │
+│         │                                                           │
+│         ▼                                                           │
 │  2. RESOLUTION     Construction du DAG (dépendances)                │
-│         │                                                            │
-│         ▼                                                            │
+│         │                                                           │
+│         ▼                                                           │
 │  3. COMPILATION    Jinja → SQL pur                                  │
 │         │          ref() → "schema"."table"                         │
-│         ▼                                                            │
+│         ▼                                                           │
 │  4. EXECUTION      Envoi du SQL au warehouse                        │
 │         │          Ordre respecté selon le DAG                      │
-│         ▼                                                            │
+│         ▼                                                           │
 │  5. LOGGING        Résultats enregistrés                            │
 │                    target/run_results.json                          │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -487,13 +487,13 @@ cat target/compiled/my_project/models/fct_orders.sql
 
 ## Résumé
 
-| Concept | Description |
-|---------|-------------|
-| **Model** | Fichier .sql avec un SELECT |
-| **ref()** | Référence un autre model DBT |
-| **source()** | Référence une table brute externe |
-| **DAG** | Graphe de dépendances auto-construit |
-| **config()** | Configuration du model |
+| Concept      | Description                          |
+|--------------|--------------------------------------|
+| **Model**    | Fichier .sql avec un SELECT          |
+| **ref()**    | Référence un autre model DBT         |
+| **source()** | Référence une table brute externe    |
+| **DAG**      | Graphe de dépendances auto-construit |
+| **config()** | Configuration du model               |
 
 ### Règles clés
 

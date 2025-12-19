@@ -17,12 +17,12 @@ Un **test générique personnalisé** est une macro réutilisable qui définit u
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    TEST GÉNÉRIQUE PERSONNALISÉ                       │
+│                    TEST GÉNÉRIQUE PERSONNALISÉ                      │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  macros/tests/                                                       │
+│                                                                     │
+│  macros/tests/                                                      │
 │  └── test_positive_value.sql    ◄── Définition de la macro          │
-│                                                                      │
+│                                                                     │
 │  ┌─────────────────────────────────────────────────────────────┐    │
 │  │  {% test positive_value(model, column_name) %}              │    │
 │  │      SELECT *                                               │    │
@@ -30,26 +30,26 @@ Un **test générique personnalisé** est une macro réutilisable qui définit u
 │  │      WHERE {{ column_name }} < 0                            │    │
 │  │  {% endtest %}                                              │    │
 │  └─────────────────────────────────────────────────────────────┘    │
-│                                                                      │
+│                                                                     │
 │  Utilisation (YAML) :                                               │
 │  ┌─────────────────────────────────────────────────────────────┐    │
 │  │  columns:                                                   │    │
 │  │    - name: amount                                           │    │
 │  │      tests:                                                 │    │
-│  │        - positive_value   ◄── Appliqué comme test natif    │    │
+│  │        - positive_value   ◄── Appliqué comme test natif     │    │
 │  └─────────────────────────────────────────────────────────────┘    │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Avantages
 
-| Avantage | Description |
-|----------|-------------|
+| Avantage            | Description                        |
+|---------------------|------------------------------------|
 | **Réutilisabilité** | Un test, plusieurs colonnes/tables |
-| **Maintenabilité** | Logique centralisée |
-| **Lisibilité** | YAML déclaratif |
-| **Paramétrable** | Arguments personnalisables |
+| **Maintenabilité**  | Logique centralisée                |
+| **Lisibilité**      | YAML déclaratif                    |
+| **Paramétrable**    | Arguments personnalisables         |
 
 ---
 
@@ -466,12 +466,12 @@ WHERE {{ column_name }} NOT IN {{ get_valid_values('status') }}
 
 ### Quand créer un test personnalisé ?
 
-| Situation | Recommandation |
-|-----------|----------------|
-| Test standard (unique, not_null) | Utiliser les tests natifs |
-| Test dans dbt_utils | Utiliser le package |
-| Test réutilisable spécifique | Créer un test personnalisé |
-| Test unique à un cas | Test singulier (.sql dans tests/) |
+| Situation                        | Recommandation                    |
+|----------------------------------|-----------------------------------|
+| Test standard (unique, not_null) | Utiliser les tests natifs         |
+| Test dans dbt_utils              | Utiliser le package               |
+| Test réutilisable spécifique     | Créer un test personnalisé        |
+| Test unique à un cas             | Test singulier (.sql dans tests/) |
 
 ---
 

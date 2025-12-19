@@ -34,13 +34,13 @@ ORDER BY customer_id
 
 ### Règles de formatage
 
-| Règle | Exemple |
-|-------|---------|
-| **Mots-clés en majuscules** | `SELECT`, `FROM`, `WHERE` |
-| **Noms en minuscules** | `customer_id`, `order_total` |
-| **Indentation 4 espaces** | Pas de tabs |
-| **Une colonne par ligne** | Après le premier SELECT |
-| **Virgule en début de ligne** | Optionnel mais cohérent |
+| Règle                         | Exemple                      |
+|-------------------------------|------------------------------|
+| **Mots-clés en majuscules**   | `SELECT`, `FROM`, `WHERE`    |
+| **Noms en minuscules**        | `customer_id`, `order_total` |
+| **Indentation 4 espaces**     | Pas de tabs                  |
+| **Une colonne par ligne**     | Après le premier SELECT      |
+| **Virgule en début de ligne** | Optionnel mais cohérent      |
 
 ### Style des colonnes
 
@@ -289,16 +289,16 @@ my_project/
 
 ### Conventions de nommage
 
-| Élément | Convention | Exemple |
-|---------|------------|---------|
-| **Staging** | `stg_<source>__<table>` | `stg_shopify__orders` |
-| **Intermediate** | `int_<description>` | `int_orders_enriched` |
-| **Fact** | `fct_<événement>` | `fct_orders` |
-| **Dimension** | `dim_<entité>` | `dim_customers` |
-| **Snapshot** | `snap_<table>` | `snap_customers` |
-| **Colonne PK** | `<entity>_id` | `customer_id` |
-| **Colonne date** | `<action>_at` ou `_date` | `created_at` |
-| **Colonne bool** | `is_`, `has_`, `was_` | `is_active` |
+| Élément          | Convention               | Exemple               |
+|------------------|--------------------------|-----------------------|
+| **Staging**      | `stg_<source>__<table>`  | `stg_shopify__orders` |
+| **Intermediate** | `int_<description>`      | `int_orders_enriched` |
+| **Fact**         | `fct_<événement>`        | `fct_orders`          |
+| **Dimension**    | `dim_<entité>`           | `dim_customers`       |
+| **Snapshot**     | `snap_<table>`           | `snap_customers`      |
+| **Colonne PK**   | `<entity>_id`            | `customer_id`         |
+| **Colonne date** | `<action>_at` ou `_date` | `created_at`          |
+| **Colonne bool** | `is_`, `has_`, `was_`    | `is_active`           |
 
 ---
 
@@ -440,20 +440,20 @@ WITH orders AS (
 
 ### Style SQL
 
-| Règle | Application |
-|-------|-------------|
-| Majuscules | Mots-clés SQL |
+| Règle      | Application            |
+|------------|------------------------|
+| Majuscules | Mots-clés SQL          |
 | Minuscules | Noms, colonnes, tables |
-| CTEs | Toujours, bien nommées |
-| AS | Toujours explicite |
+| CTEs       | Toujours, bien nommées |
+| AS         | Toujours explicite     |
 
 ### Structure
 
-| Couche | Préfixe | Matérialisation |
-|--------|---------|-----------------|
-| Staging | `stg_` | view |
-| Intermediate | `int_` | ephemeral |
-| Marts | `fct_`, `dim_` | table |
+| Couche       | Préfixe        | Matérialisation |
+|--------------|----------------|-----------------|
+| Staging      | `stg_`         | view            |
+| Intermediate | `int_`         | ephemeral       |
+| Marts        | `fct_`, `dim_` | table           |
 
 ### Documentation
 

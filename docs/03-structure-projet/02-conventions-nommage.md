@@ -16,37 +16,37 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    RÈGLES DE NOMMAGE                                 │
+│                    RÈGLES DE NOMMAGE                                │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  1. SNAKE_CASE partout                                              │
 │     └── order_id, customer_name, created_at                         │
-│                                                                      │
+│                                                                     │
 │  2. SINGULIER pour les noms de tables                               │
 │     └── customer (pas customers)                                    │
 │     └── Sauf si concept pluriel (events, logs)                      │
-│                                                                      │
+│                                                                     │
 │  3. PRÉFIXES descriptifs                                            │
-│     └── stg_ (staging), int_ (intermediate), fct_ (fact), dim_     │
-│                                                                      │
+│     └── stg_ (staging), int_ (intermediate), fct_ (fact), dim_      │
+│                                                                     │
 │  4. NOMS COMPLETS (pas d'abréviations)                              │
 │     └── customer_id (pas cust_id)                                   │
 │     └── Exceptions : id, qty, amt si standards                      │
-│                                                                      │
+│                                                                     │
 │  5. COHÉRENCE avant tout                                            │
 │     └── Une convention = partout la même                            │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Formats autorisés
 
-| Format | Exemple | Usage dans DBT |
-|--------|---------|----------------|
-| **snake_case** | `order_id` | ✅ Standard |
-| **PascalCase** | `OrderId` | ❌ Éviter |
-| **camelCase** | `orderId` | ❌ Éviter |
-| **SCREAMING_SNAKE** | `ORDER_ID` | ⚠️ Selon warehouse |
+| Format              | Exemple    | Usage dans DBT         |
+|---------------------|------------|------------------------|
+| **snake_case**      | `order_id` | ✅ Standard ✅        |
+| **PascalCase**      | `OrderId`  | ❌ Éviter ❌          |
+| **camelCase**       | `orderId`  | ❌ Éviter ❌          |
+| **SCREAMING_SNAKE** | `ORDER_ID` | ⚠️ Selon warehouse ⚠️ |
 
 ---
 
@@ -54,14 +54,14 @@
 
 ### Préfixes par couche
 
-| Couche | Préfixe | Exemple |
-|--------|---------|---------|
-| **Staging** | `stg_` | `stg_shopify__orders` |
-| **Intermediate** | `int_` | `int_orders_enriched` |
-| **Fact (Marts)** | `fct_` | `fct_orders` |
-| **Dimension (Marts)** | `dim_` | `dim_customers` |
-| **Snapshot** | `snap_` | `snap_customers` |
-| **Utility** | `util_` | `util_date_spine` |
+| Couche                | Préfixe | Exemple               |
+|-----------------------|---------|-----------------------|
+| **Staging**           | `stg_`  | `stg_shopify__orders` |
+| **Intermediate**      | `int_`  | `int_orders_enriched` |
+| **Fact (Marts)**      | `fct_`  | `fct_orders`          |
+| **Dimension (Marts)** | `dim_`  | `dim_customers`       |
+| **Snapshot**          | `snap_` | `snap_customers`      |
+| **Utility**           | `util_` | `util_date_spine`     |
 
 ### Format des modèles staging
 
@@ -116,23 +116,23 @@ dim_geography           -- Dimension : la géographie
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    EXEMPLES COMPLETS                                 │
+│                    EXEMPLES COMPLETS                                │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  Source: Shopify (e-commerce)                                       │
-│  ──────────────────────────────────────────────────────────────────  │
+│  ───────────────────────────────────────────────────────────────────│
 │  Staging:     stg_shopify__orders                                   │
 │               stg_shopify__customers                                │
 │               stg_shopify__products                                 │
-│                                                                      │
+│                                                                     │
 │  Intermediate: int_orders_with_line_items                           │
 │                int_customer_order_history                           │
-│                                                                      │
+│                                                                     │
 │  Marts:       fct_orders                                            │
 │               fct_order_line_items                                  │
 │               dim_customers                                         │
 │               dim_products                                          │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -216,19 +216,19 @@ num_products            -- Nombre de produits
 
 ### Tableau des suffixes courants
 
-| Suffixe | Usage | Exemple |
-|---------|-------|---------|
-| `_id` | Identifiant | `customer_id` |
-| `_at` | Timestamp | `created_at` |
-| `_date` | Date | `order_date` |
-| `_name` | Nom textuel | `customer_name` |
-| `_code` | Code court | `country_code` |
-| `_status` | Statut | `order_status` |
-| `_type` | Type/catégorie | `payment_type` |
-| `_amount` | Montant | `tax_amount` |
-| `_count` | Comptage | `order_count` |
-| `_rate` | Taux/ratio | `conversion_rate` |
-| `_pct` | Pourcentage | `discount_pct` |
+| Suffixe   | Usage          | Exemple           |
+|-----------|----------------|-------------------|
+| `_id`     | Identifiant    | `customer_id`     |
+| `_at`     | Timestamp      | `created_at`      |
+| `_date`   | Date           | `order_date`      |
+| `_name`   | Nom textuel    | `customer_name`   |
+| `_code`   | Code court     | `country_code`    |
+| `_status` | Statut         | `order_status`    |
+| `_type`   | Type/catégorie | `payment_type`    |
+| `_amount` | Montant        | `tax_amount`      |
+| `_count`  | Comptage       | `order_count`     |
+| `_rate`   | Taux/ratio     | `conversion_rate` |
+| `_pct`    | Pourcentage    | `discount_pct`    |
 
 ---
 
@@ -364,14 +364,14 @@ models:
 ```
 
 **Tags courants :**
-| Tag | Usage |
-|-----|-------|
-| `daily` | Exécution quotidienne |
-| `hourly` | Exécution horaire |
-| `core` | Modèle fondamental |
-| `finance` | Domaine finance |
-| `marketing` | Domaine marketing |
-| `pii` | Contient des données sensibles |
+| Tag         | Usage                          |
+|-------------|--------------------------------|
+| `daily`     | Exécution quotidienne          |
+| `hourly`    | Exécution horaire              |
+| `core`      | Modèle fondamental             |
+| `finance`   | Domaine finance                |
+| `marketing` | Domaine marketing              |
+| `pii`       | Contient des données sensibles |
 
 ### Variables
 
@@ -440,17 +440,17 @@ prod_marts
 
 ## Résumé
 
-| Élément | Convention | Exemple |
-|---------|------------|---------|
-| **Modèle staging** | `stg_<source>__<table>` | `stg_shopify__orders` |
-| **Modèle intermediate** | `int_<description>` | `int_orders_enriched` |
-| **Modèle fact** | `fct_<événement>` | `fct_orders` |
-| **Modèle dimension** | `dim_<entité>` | `dim_customers` |
-| **Clé primaire** | `<entity>_id` | `customer_id` |
-| **Timestamp** | `<action>_at` | `created_at` |
-| **Date** | `<type>_date` | `order_date` |
-| **Booléen** | `is_/has_/was_<état>` | `is_active` |
-| **Fichier YAML** | `_<scope>__<type>.yml` | `_shopify__sources.yml` |
+| Élément                 | Convention              | Exemple                 |
+|-------------------------|-------------------------|-------------------------|
+| **Modèle staging**      | `stg_<source>__<table>` | `stg_shopify__orders`   |
+| **Modèle intermediate** | `int_<description>`     | `int_orders_enriched`   |
+| **Modèle fact**         | `fct_<événement>`       | `fct_orders`            |
+| **Modèle dimension**    | `dim_<entité>`          | `dim_customers`         |
+| **Clé primaire**        | `<entity>_id`           | `customer_id`           |
+| **Timestamp**           | `<action>_at`           | `created_at`            |
+| **Date**                | `<type>_date`           | `order_date`            |
+| **Booléen**             | `is_/has_/was_<état>`   | `is_active`             |
+| **Fichier YAML**        | `_<scope>__<type>.yml`  | `_shopify__sources.yml` |
 
 ---
 

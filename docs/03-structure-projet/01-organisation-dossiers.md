@@ -142,36 +142,36 @@ target/
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    ARCHITECTURE EN COUCHES                           │
+│                    ARCHITECTURE EN COUCHES                          │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  ┌───────────────────────────────────────────────────────────────┐  │
-│  │                      MARTS (Business Layer)                    │  │
+│  │                      MARTS (Business Layer)                   │  │
 │  │   Dimensions et faits pour les utilisateurs finaux            │  │
-│  │   Matérialisation : TABLE                                      │  │
+│  │   Matérialisation : TABLE                                     │  │
 │  │   fct_orders, dim_customers, dim_products                     │  │
 │  └───────────────────────────────────────────────────────────────┘  │
-│                              ▲                                       │
+│                              ▲                                      │
 │  ┌───────────────────────────────────────────────────────────────┐  │
-│  │                   INTERMEDIATE (Logic Layer)                   │  │
+│  │                   INTERMEDIATE (Logic Layer)                  │  │
 │  │   Logique métier complexe, jointures                          │  │
 │  │   Matérialisation : EPHEMERAL (ou VIEW)                       │  │
 │  │   int_orders_enriched, int_customer_metrics                   │  │
 │  └───────────────────────────────────────────────────────────────┘  │
-│                              ▲                                       │
+│                              ▲                                      │
 │  ┌───────────────────────────────────────────────────────────────┐  │
-│  │                    STAGING (Clean Layer)                       │  │
+│  │                    STAGING (Clean Layer)                      │  │
 │  │   Nettoyage, renommage, typage                                │  │
-│  │   Matérialisation : VIEW                                       │  │
+│  │   Matérialisation : VIEW                                      │  │
 │  │   stg_shopify__orders, stg_stripe__payments                   │  │
 │  └───────────────────────────────────────────────────────────────┘  │
-│                              ▲                                       │
+│                              ▲                                      │
 │  ┌───────────────────────────────────────────────────────────────┐  │
-│  │                     SOURCES (Raw Data)                         │  │
+│  │                     SOURCES (Raw Data)                        │  │
 │  │   Données brutes (définies dans sources.yml)                  │  │
 │  │   raw.shopify_orders, raw.stripe_payments                     │  │
 │  └───────────────────────────────────────────────────────────────┘  │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -405,12 +405,12 @@ models/
 
 ### Bonnes pratiques
 
-| Règle | Exemple |
-|-------|---------|
-| Staging par source | `staging/shopify/`, `staging/stripe/` |
-| Marts par domaine métier | `marts/finance/`, `marts/marketing/` |
-| Un fichier YAML par dossier | `_shopify__models.yml` |
-| Préfixe `_` pour les YAML | Place en haut du dossier |
+| Règle                       | Exemple                               |
+|-----------------------------|---------------------------------------|
+| Staging par source          | `staging/shopify/`, `staging/stripe/` |
+| Marts par domaine métier    | `marts/finance/`, `marts/marketing/`  |
+| Un fichier YAML par dossier | `_shopify__models.yml`                |
+| Préfixe `_` pour les YAML   | Place en haut du dossier              |
 
 ---
 

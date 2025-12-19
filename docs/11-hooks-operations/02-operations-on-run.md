@@ -16,24 +16,24 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    RUN-OPERATION                                     │
+│                    RUN-OPERATION                                    │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   Commande :                                                         │
+│                                                                     │
+│   Commande :                                                        │
 │   dbt run-operation my_macro --args '{"param": "value"}'            │
-│                                                                      │
-│                         │                                            │
-│                         ▼                                            │
-│                                                                      │
-│   Macro exécutée :                                                   │
+│                                                                     │
+│                         │                                           │
+│                         ▼                                           │
+│                                                                     │
+│   Macro exécutée :                                                  │
 │   ┌─────────────────────────────────────────────────────────────┐   │
 │   │  {% macro my_macro(param) %}                                │   │
-│   │      {% do run_query("SQL utilisant " ~ param) %}          │   │
+│   │      {% do run_query("SQL utilisant " ~ param) %}           │   │
 │   │  {% endmacro %}                                             │   │
 │   └─────────────────────────────────────────────────────────────┘   │
-│                                                                      │
-│   Usage : Tâches administratives, maintenance, scripts ponctuels   │
-│                                                                      │
+│                                                                     │
+│   Usage : Tâches administratives, maintenance, scripts ponctuels    │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -375,13 +375,13 @@ dbt run-operation <macro_name> --args '{"param": "value"}'
 
 ### Cas d'usage
 
-| Opération | Description |
-|-----------|-------------|
+| Opération          | Description                      |
+|--------------------|----------------------------------|
 | Génération de code | Créer des models automatiquement |
-| Nettoyage | Supprimer les tables obsolètes |
-| Administration | Créer des rôles, permissions |
-| Monitoring | Statistiques, vérifications |
-| Backup | Sauvegardes ponctuelles |
+| Nettoyage          | Supprimer les tables obsolètes   |
+| Administration     | Créer des rôles, permissions     |
+| Monitoring         | Statistiques, vérifications      |
+| Backup             | Sauvegardes ponctuelles          |
 
 ---
 

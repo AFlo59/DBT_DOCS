@@ -17,36 +17,36 @@ Un **test singulier** est un fichier SQL personnalisé qui vérifie une assertio
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    TESTS SINGULIERS                                  │
+│                    TESTS SINGULIERS                                 │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  tests/                                                              │
+│                                                                     │
+│  tests/                                                             │
 │  ├── assert_total_revenue_matches.sql      ◄── Fichier SQL          │
 │  ├── assert_no_negative_amounts.sql                                 │
 │  └── assert_orders_have_customers.sql                               │
-│                                                                      │
-│  Règle : Le test ÉCHOUE si la requête retourne des lignes          │
-│                                                                      │
+│                                                                     │
+│  Règle : Le test ÉCHOUE si la requête retourne des lignes           │
+│                                                                     │
 │  ┌─────────────────────────────────────────────────────────────┐    │
 │  │  SELECT *                                                   │    │
 │  │  FROM {{ ref('fct_orders') }}                               │    │
 │  │  WHERE amount < 0   -- Condition d'échec                    │    │
 │  └─────────────────────────────────────────────────────────────┘    │
-│                         │                                            │
-│       Si résultat = 0 lignes → ✅ PASS                              │
-│       Si résultat > 0 lignes → ❌ FAIL                              │
-│                                                                      │
+│                         │                                           │
+│       Si résultat = 0 lignes → ✅ PASS ✅                          │
+│       Si résultat > 0 lignes → ❌ FAIL ❌                          │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Différence avec les tests génériques
 
-| Aspect | Tests Génériques | Tests Singuliers |
-|--------|------------------|------------------|
-| **Définition** | Dans YAML | Fichier .sql |
+| Aspect           | Tests Génériques      | Tests Singuliers |
+|------------------|-----------------------|------------------|
+| **Définition**   | Dans YAML             | Fichier .sql     |
 | **Réutilisable** | Oui (avec paramètres) | Non (spécifique) |
-| **Complexité** | Limitée | Illimitée |
-| **Usage** | Validations standard | Logique métier |
+| **Complexité**   | Limitée               | Illimitée        |
+| **Usage**        | Validations standard  | Logique métier   |
 
 ---
 
@@ -369,24 +369,24 @@ analytics.test_results.assert_revenue_positive
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    CHOISIR LE TYPE DE TEST                           │
+│                    CHOISIR LE TYPE DE TEST                          │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  "Le test est-il standard (unique, not_null, etc.) ?"               │
-│      │                                                               │
+│      │                                                              │
 │      ├── OUI → Test générique natif                                 │
-│      │                                                               │
-│      └── NON → "Existe-t-il dans dbt_utils ou dbt_expectations ?"  │
-│                   │                                                  │
+│      │                                                              │
+│      └── NON → "Existe-t-il dans dbt_utils ou dbt_expectations ?"   │
+│                   │                                                 │
 │                   ├── OUI → Test générique du package               │
-│                   │                                                  │
+│                   │                                                 │
 │                   └── NON → "Est-ce réutilisable ?"                 │
-│                               │                                      │
+│                               │                                     │
 │                               ├── OUI → Créer un test générique     │
 │                               │         personnalisé (macro)        │
-│                               │                                      │
+│                               │                                     │
 │                               └── NON → Test singulier              │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 

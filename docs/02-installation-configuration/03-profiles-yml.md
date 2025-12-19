@@ -18,11 +18,11 @@
 Le fichier `profiles.yml` contient les **informations de connexion** à votre data warehouse. Il fait le lien entre votre projet DBT et votre base de données.
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                    RELATION PROJET ↔ PROFILES                        │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   Projet DBT                         profiles.yml                    │
+┌────────────────────────────────────────────────────────────────────┐
+│                    RELATION PROJET ↔ PROFILES                      │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│   Projet DBT                         profiles.yml                  │
 │   ┌──────────────────┐              ┌──────────────────────────┐   │
 │   │ dbt_project.yml  │              │                          │   │
 │   │                  │              │  my_profile:             │   │
@@ -30,27 +30,27 @@ Le fichier `profiles.yml` contient les **informations de connexion** à votre da
 │   │   'my_profile'   │   référence  │      dev:                │   │
 │   │                  │              │        type: snowflake   │   │
 │   └──────────────────┘              │        account: ...      │   │
-│                                      │        user: ...        │   │
-│                                      │        password: ...    │   │
-│                                      └──────────────────────────┘   │
-│                                                  │                  │
-│                                                  ▼                  │
-│                                      ┌──────────────────────────┐   │
-│                                      │     DATA WAREHOUSE       │   │
-│                                      │   (Snowflake, BQ, etc.)  │   │
-│                                      └──────────────────────────┘   │
-│                                                                      │
-└─────────────────────────────────────────────────────────────────────┘
+│                                     │        user: ...         │   │
+│                                     │        password: ...     │   │
+│                                     └──────────────────────────┘   │
+│                                                 │                  │
+│                                                 ▼                  │
+│                                     ┌──────────────────────────┐   │
+│                                     │     DATA WAREHOUSE       │   │
+│                                     │   (Snowflake, BQ, etc.)  │   │
+│                                     └──────────────────────────┘   │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Pourquoi un fichier séparé ?
 
-| Raison | Explication |
-|--------|-------------|
-| **Sécurité** | Contient des secrets (mots de passe, tokens) |
-| **Portabilité** | Chaque développeur a ses propres credentials |
-| **Git** | Ne doit JAMAIS être versionné (.gitignore) |
-| **Multi-environnement** | Un fichier pour dev, staging, prod |
+| Raison                  | Explication                                  |
+|-------------------------|----------------------------------------------|
+| **Sécurité**            | Contient des secrets (mots de passe, tokens) |
+| **Portabilité**         | Chaque développeur a ses propres credentials |
+| **Git**                 | Ne doit JAMAIS être versionné (.gitignore)   |
+| **Multi-environnement** | Un fichier pour dev, staging, prod           |
 
 ---
 
@@ -60,11 +60,11 @@ Le fichier `profiles.yml` contient les **informations de connexion** à votre da
 
 Le fichier `profiles.yml` se trouve dans le **dossier home de l'utilisateur** :
 
-| OS | Chemin |
-|----|--------|
+| OS          | Chemin                                  |
+|-------------|-----------------------------------------|
 | **Windows** | `C:\Users\<username>\.dbt\profiles.yml` |
-| **macOS** | `~/.dbt/profiles.yml` |
-| **Linux** | `~/.dbt/profiles.yml` |
+| **macOS**   | `~/.dbt/profiles.yml`                   |
+| **Linux**   | `~/.dbt/profiles.yml`                   |
 
 ### Créer le dossier et le fichier
 
@@ -182,16 +182,16 @@ snowflake_profile:
 
 #### Paramètres Snowflake
 
-| Paramètre | Requis | Description |
-|-----------|--------|-------------|
-| `account` | ✅ | Identifiant du compte (avec région) |
-| `user` | ✅ | Nom d'utilisateur |
-| `password` | ⚠️ | Mot de passe (ou key-pair) |
-| `role` | ✅ | Rôle Snowflake |
-| `warehouse` | ✅ | Virtual warehouse |
-| `database` | ✅ | Base de données cible |
-| `schema` | ✅ | Schéma par défaut |
-| `threads` | ❌ | Parallélisme (défaut: 4) |
+| Paramètre        | Requis | Description                         |
+|------------------|--------|-------------------------------------|
+| `account`        | ✅    | Identifiant du compte (avec région) |
+| `user`           | ✅    | Nom d'utilisateur                   |
+| `password`       | ⚠️    | Mot de passe (ou key-pair)          |
+| `role`           | ✅    | Rôle Snowflake                      |
+| `warehouse`      | ✅    | Virtual warehouse                   |
+| `database`       | ✅    | Base de données cible               |
+| `schema`         | ✅    | Schéma par défaut                   |
+| `threads`        | ❌    | Parallélisme (défaut: 4)            |
 
 ### BigQuery
 
@@ -226,14 +226,14 @@ bigquery_profile:
 
 #### Paramètres BigQuery
 
-| Paramètre | Requis | Description |
-|-----------|--------|-------------|
-| `method` | ✅ | `oauth` ou `service-account` |
-| `project` | ✅ | ID du projet GCP |
-| `dataset` | ✅ | Dataset par défaut |
-| `keyfile` | ⚠️ | Chemin vers le JSON (si service-account) |
-| `location` | ❌ | Région (US, EU, etc.) |
-| `threads` | ❌ | Parallélisme |
+| Paramètre  | Requis | Description                              |
+|------------|--------|------------------------------------------|
+| `method`   | ✅     | `oauth` ou `service-account`             |
+| `project`  | ✅     | ID du projet GCP                         |
+| `dataset`  | ✅     | Dataset par défaut                       |
+| `keyfile`  | ⚠️     | Chemin vers le JSON (si service-account) |
+| `location` | ❌     | Région (US, EU, etc.)                    |
+| `threads`  | ❌     | Parallélisme                             |
 
 ### Redshift
 
@@ -584,13 +584,13 @@ my_profile:
 
 ## Résumé
 
-| Aspect | Détail |
-|--------|--------|
-| **Localisation** | `~/.dbt/profiles.yml` |
-| **Contenu** | Credentials, environnements |
-| **Sécurité** | Variables d'environnement, JAMAIS dans Git |
-| **Multi-env** | `outputs:` avec dev, staging, prod |
-| **Sélection env** | `dbt run --target <env>` |
+| Aspect            | Détail                                     |
+|-------------------|--------------------------------------------|
+| **Localisation**  | `~/.dbt/profiles.yml`                      |
+| **Contenu**       | Credentials, environnements                |
+| **Sécurité**      | Variables d'environnement, JAMAIS dans Git |
+| **Multi-env**     | `outputs:` avec dev, staging, prod         | 
+| **Sélection env** | `dbt run --target <env>`                   |
 
 ### Checklist
 

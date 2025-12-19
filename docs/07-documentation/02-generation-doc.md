@@ -72,69 +72,69 @@ dbt docs serve
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    SITE DBT DOCS                                     │
+│                    SITE DBT DOCS                                    │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  ┌────────────────┐  ┌────────────────────────────────────────────┐ │
-│  │   Navigation   │  │                 Contenu                    │ │
-│  │                │  │                                            │ │
-│  │  📁 Sources    │  │  ┌─────────────────────────────────────┐  │ │
-│  │    shopify     │  │  │          fct_orders                 │  │ │
-│  │    stripe      │  │  │                                     │  │ │
-│  │                │  │  │  Description:                       │  │ │
-│  │  📁 Models     │  │  │  Table de faits des commandes...   │  │ │
-│  │   staging/     │  │  │                                     │  │ │
-│  │   marts/       │  │  │  Columns:                           │  │ │
-│  │    └ core/     │  │  │  • order_id (PK)                   │  │ │
-│  │    └ finance/  │  │  │  • customer_id                     │  │ │
-│  │                │  │  │  • amount                          │  │ │
-│  │  📁 Tests      │  │  │                                     │  │ │
-│  │                │  │  │  Referenced by:                     │  │ │
-│  │  📁 Macros     │  │  │  • dim_customers                   │  │ │
-│  │                │  │  └─────────────────────────────────────┘  │ │
-│  └────────────────┘  └────────────────────────────────────────────┘ │
-│                                                                      │
+│                                                                     │
+│  ┌─────────────────┐  ┌───────────────────────────────────────────┐ │
+│  │   Navigation    │  │                 Contenu                   │ │
+│  │                 │  │                                           │ │
+│  │  📁 Sources 📁 │  │  ┌─────────────────────────────────────┐  │ │
+│  │    shopify      │  │  │          fct_orders                 │  │ │
+│  │    stripe       │  │  │                                     │  │ │
+│  │                 │  │  │  Description:                       │  │ │
+│  │  📁 Models 📁  │  │  │  │  Table de faits des commandes... │  │ │
+│  │   staging/      │  │  │                                     │  │ │
+│  │   marts/        │  │  │  Columns:                           │  │ │
+│  │    └ core/      │  │  │  • order_id (PK)                    │  │ │
+│  │    └ finance/   │  │  │  • customer_id                      │  │ │
+│  │                 │  │  │  • amount                           │  │ │
+│  │  📁 Tests 📁   │  │  │  │                                  │  │ │
+│  │                 │  │  │  Referenced by:                     │  │ │
+│  │  📁 Macros 📁  │  │  │  │  • dim_customers                 │  │ │
+│  │                 │  │  └─────────────────────────────────────┘  │ │
+│  └─────────────────┘  └───────────────────────────────────────────┘ │
+│                                                                     │
 │  ┌────────────────────────────────────────────────────────────────┐ │
-│  │                    🔗 LINEAGE GRAPH                            │ │
-│  │                                                                 │ │
-│  │   [source] ───> [stg_orders] ───> [fct_orders] ───> [expose]  │ │
-│  │                                                                 │ │
+│  │                    🔗 LINEAGE GRAPH 🔗                        │ │
+│  │                                                                │ │
+│  │   [source] ───> [stg_orders] ───> [fct_orders] ───> [expose]   │ │
+│  │                                                                │ │
 │  └────────────────────────────────────────────────────────────────┘ │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Fonctionnalités
 
-| Fonctionnalité | Description |
-|----------------|-------------|
-| **Navigation** | Arborescence des resources |
-| **Recherche** | Recherche globale |
-| **Lineage** | Graphe des dépendances |
+| Fonctionnalité   | Description                       |
+|------------------|-----------------------------------|
+| **Navigation**   | Arborescence des resources        |
+| **Recherche**    | Recherche globale                 |
+| **Lineage**      | Graphe des dépendances            |
 | **Descriptions** | Documentation des models/colonnes |
-| **Code** | SQL compilé visible |
-| **Tests** | Liste des tests associés |
+| **Code**         | SQL compilé visible               |
+| **Tests**        | Liste des tests associés          |
 
 ### Le Lineage Graph
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    LINEAGE GRAPH                                     │
+│                    LINEAGE GRAPH                                    │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  Visualisation interactive du DAG :                                 │
-│                                                                      │
-│  • Cliquer sur un nœud pour voir les détails                       │
-│  • Filtrer par sélecteur (+model, model+, etc.)                    │
+│                                                                     │
+│  • Cliquer sur un nœud pour voir les détails                        │
+│  • Filtrer par sélecteur (+model, model+, etc.)                     │
 │  • Zoomer / déplacer                                                │
-│  • Mettre en évidence les dépendances                              │
-│                                                                      │
+│  • Mettre en évidence les dépendances                               │
+│                                                                     │
 │  Couleurs par défaut :                                              │
-│  🟢 Sources                                                          │
-│  🔵 Models                                                           │
-│  🟡 Exposures                                                        │
-│  🔴 Tests échoués                                                    │
-│                                                                      │
+│  🟢 Sources 🟢                                                     │
+│  🔵 Models 🔵                                                      │
+│  🟡 Exposures 🟡                                                   │
+│  🔴 Tests échoués 🔴                                               │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -172,10 +172,10 @@ dbt test
 
 ## Team
 
-| Nom | Rôle |
-|-----|------|
+| Nom   | Rôle               |
+|-------|--------------------|
 | Alice | Analytics Engineer |
-| Bob | Data Engineer |
+| Bob   | Data Engineer      |
 
 {% enddocs %}
 ```
@@ -236,18 +236,18 @@ Les exposures apparaissent dans le lineage graph.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    DBT CLOUD DOCUMENTATION                           │
+│                    DBT CLOUD DOCUMENTATION                          │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  ✅ Automatique avec dbt Cloud                                      │
-│                                                                      │
+│                                                                     │
+│  ✅ Automatique avec dbt Cloud  ✅                                 │
+│                                                                     │
 │  • Mise à jour après chaque run                                     │
 │  • URL persistante                                                  │
 │  • Authentification intégrée                                        │
-│  • Versionning                                                       │
-│                                                                      │
+│  • Versionning                                                      │
+│                                                                     │
 │  URL : https://cloud.getdbt.com/accounts/{id}/documentation         │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -399,18 +399,18 @@ models:
 
 ## Résumé
 
-| Commande | Action |
-|----------|--------|
+| Commande            | Action                    |
+|---------------------|---------------------------|
 | `dbt docs generate` | Créer les fichiers de doc |
-| `dbt docs serve` | Visualiser localement |
+| `dbt docs serve`    | Visualiser localement     |
 
 ### Hébergement recommandé
 
-| Contexte | Solution |
-|----------|----------|
-| dbt Cloud | Automatique |
-| Open source | GitHub Pages |
-| Enterprise | S3 + CloudFront |
+| Contexte    | Solution        |
+|-------------|-----------------|
+| dbt Cloud   | Automatique     |
+| Open source | GitHub Pages    |
+| Enterprise  | S3 + CloudFront |
 
 ---
 

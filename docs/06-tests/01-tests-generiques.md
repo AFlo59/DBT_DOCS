@@ -17,31 +17,31 @@ Un **test** dans DBT est une assertion sur vos données. Si le test retourne des
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    LOGIQUE DES TESTS DBT                             │
+│                    LOGIQUE DES TESTS DBT                            │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  Test = requête SQL                                                  │
-│                                                                      │
+│                                                                     │
+│  Test = requête SQL                                                 │
+│                                                                     │
 │  ┌─────────────────────────────────────────────────────────────┐    │
 │  │  SELECT * FROM my_table WHERE condition_invalide            │    │
 │  └─────────────────────────────────────────────────────────────┘    │
-│                         │                                            │
-│                         ▼                                            │
+│                         │                                           │
+│                         ▼                                           │
 │          ┌──────────────┴──────────────┐                            │
-│          │                             │                             │
+│          │                             │                            │
 │    0 lignes retournées          > 0 lignes retournées               │
-│          │                             │                             │
-│          ▼                             ▼                             │
-│       ✅ PASS                       ❌ FAIL                          │
-│                                                                      │
+│          │                             │                            │
+│          ▼                             ▼                            │
+│       ✅ PASS                       ❌ FAIL                        │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Types de tests
 
-| Type | Description | Définition |
-|------|-------------|------------|
-| **Génériques** | Tests réutilisables | Dans fichiers YAML |
+| Type           | Description             | Définition                  |
+|----------------|-------------------------|-----------------------------|
+| **Génériques** | Tests réutilisables     | Dans fichiers YAML          |
 | **Singuliers** | Tests SQL personnalisés | Fichiers .sql dans `tests/` |
 
 ---
@@ -139,12 +139,12 @@ WHERE customer_id IS NOT NULL
 
 ### Tableau récapitulatif
 
-| Test | Vérifie | Paramètres |
-|------|---------|------------|
-| `unique` | Pas de doublons | - |
-| `not_null` | Pas de NULL | - |
-| `accepted_values` | Valeurs dans une liste | `values` |
-| `relationships` | Intégrité référentielle | `to`, `field` |
+| Test              | Vérifie                 | Paramètres    |
+|-------------------|-------------------------|---------------|
+| `unique`          | Pas de doublons         | -             |
+| `not_null`        | Pas de NULL             | -             |
+| `accepted_values` | Valeurs dans une liste  | `values`      |
+| `relationships`   | Intégrité référentielle | `to`, `field` |
 
 ---
 
@@ -223,10 +223,10 @@ columns:
           severity: warn
 ```
 
-| Sévérité | Comportement | Exit code |
-|----------|--------------|-----------|
-| `error` | Bloque le pipeline | 1 |
-| `warn` | Avertit uniquement | 0 |
+| Sévérité | Comportement       | Exit code |
+|----------|--------------------|-----------|
+| `error`  | Bloque le pipeline | 1         |
+| `warn`   | Avertit uniquement | 0         |
 
 ### Threshold (seuil)
 
@@ -443,19 +443,19 @@ WHERE status NOT IN ('pending', 'shipped', 'delivered', 'cancelled')
 
 ### Les 4 tests natifs
 
-| Test | Usage | Exemple |
-|------|-------|---------|
-| `unique` | Clé primaire | `customer_id` |
-| `not_null` | Champs requis | `order_id` |
-| `accepted_values` | Énumérations | `status` |
-| `relationships` | Clés étrangères | `FK → dim_table` |
+| Test              | Usage           | Exemple          |
+|-------------------|-----------------|------------------|
+| `unique`          | Clé primaire    | `customer_id`    |
+| `not_null`        | Champs requis   | `order_id`       |
+| `accepted_values` | Énumérations    | `status`         |
+| `relationships`   | Clés étrangères | `FK → dim_table` |
 
 ### Packages recommandés
 
-| Package | Tests populaires |
-|---------|------------------|
-| `dbt_utils` | `unique_combination`, `recency`, `accepted_range` |
-| `dbt_expectations` | `regex`, `between`, `row_count` |
+| Package            | Tests populaires                                  |
+|--------------------|---------------------------------------------------|
+| `dbt_utils`        | `unique_combination`, `recency`, `accepted_range` |
+| `dbt_expectations` | `regex`, `between`, `row_count`                   |
 
 ### Checklist tests
 

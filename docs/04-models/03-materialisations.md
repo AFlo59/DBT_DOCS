@@ -18,26 +18,26 @@ Une **matérialisation** définit **comment** DBT va créer le résultat d'un mo
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    LES 4 MATÉRIALISATIONS                            │
+│                    LES 4 MATÉRIALISATIONS                           │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐          │
-│   │    VIEW     │     │    TABLE    │     │ INCREMENTAL │          │
-│   ├─────────────┤     ├─────────────┤     ├─────────────┤          │
-│   │ CREATE VIEW │     │CREATE TABLE │     │ INSERT INTO │          │
-│   │ AS SELECT   │     │ AS SELECT   │     │ (new rows)  │          │
-│   │             │     │             │     │             │          │
-│   │ Pas de      │     │ Données     │     │ Ajout       │          │
-│   │ stockage    │     │ stockées    │     │ uniquement  │          │
-│   └─────────────┘     └─────────────┘     └─────────────┘          │
-│                                                                      │
-│   ┌─────────────┐                                                   │
-│   │  EPHEMERAL  │                                                   │
-│   ├─────────────┤                                                   │
+│                                                                     │
+│   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐           │
+│   │    VIEW     │     │    TABLE    │     │ INCREMENTAL │           │
+│   ├─────────────┤     ├─────────────┤     ├─────────────┤           │
+│   │ CREATE VIEW │     │CREATE TABLE │     │ INSERT INTO │           │
+│   │ AS SELECT   │     │ AS SELECT   │     │ (new rows)  │           │
+│   │             │     │             │     │             │           │
+│   │ Pas de      │     │ Données     │     │ Ajout       │           │
+│   │ stockage    │     │ stockées    │     │ uniquement  │           │
+│   └─────────────┘     └─────────────┘     └─────────────┘           │
+│                                                                     │
+│   ┌──────────────┐                                                  │
+│   │  EPHEMERAL   │                                                  │
+│   ├──────────────┤                                                  │
 │   │  Pas d'objet │                                                  │
 │   │  CTE inline  │                                                  │
-│   └─────────────┘                                                   │
-│                                                                      │
+│   └──────────────┘                                                  │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -78,13 +78,13 @@ CREATE VIEW analytics.my_model AS (
 
 ### Caractéristiques
 
-| Aspect | Description |
-|--------|-------------|
-| **Stockage** | ❌ Aucun (requête stockée) |
-| **Temps de création** | ⚡ Instantané |
-| **Temps de query** | ⏱️ Recalculé à chaque fois |
-| **Coût stockage** | 💰 Aucun |
-| **Fraîcheur** | ✅ Toujours à jour |
+| Aspect                | Description                    |
+|-----------------------|--------------------------------|
+| **Stockage**          | ❌ Aucun (requête stockée) ❌ |
+| **Temps de création** | ⚡ Instantané ⚡              |
+| **Temps de query**    | ⏱️ Recalculé à chaque fois ⏱️ |
+| **Coût stockage**     | 💰 Aucun 💰                   |
+| **Fraîcheur**         | ✅ Toujours à jour ✅         |
 
 ### Quand utiliser VIEW ?
 
@@ -139,13 +139,13 @@ CREATE OR REPLACE TABLE analytics.my_model AS (...);
 
 ### Caractéristiques
 
-| Aspect | Description |
-|--------|-------------|
-| **Stockage** | ✅ Données physiques |
-| **Temps de création** | ⏱️ Proportionnel au volume |
-| **Temps de query** | ⚡ Rapide (pré-calculé) |
-| **Coût stockage** | 💰 Payant |
-| **Fraîcheur** | ⚠️ Dernière exécution |
+| Aspect                | Description                    |
+|-----------------------|--------------------------------|
+| **Stockage**          | ✅ Données physiques ✅       |
+| **Temps de création** | ⏱️ Proportionnel au volume ⏱️ |
+| **Temps de query**    | ⚡ Rapide (pré-calculé) ⚡    |
+| **Coût stockage**     | 💰 Payant 💰                  |
+| **Fraîcheur**         | ⚠️ Dernière exécution ⚠️      |
 
 ### Quand utiliser TABLE ?
 
@@ -204,12 +204,12 @@ INSERT INTO analytics.my_model (
 
 ### Caractéristiques
 
-| Aspect | Description |
-|--------|-------------|
-| **Stockage** | ✅ Données physiques |
-| **Temps de création** | ⚡ Rapide (delta uniquement) |
-| **Coût compute** | 💰 Réduit |
-| **Complexité** | ⚠️ Plus élevée |
+| Aspect                | Description                     |
+|-----------------------|---------------------------------|
+| **Stockage**          | ✅ Données physiques ✅        |
+| **Temps de création** | ⚡ Rapide (delta uniquement) ⚡|
+| **Coût compute**      | 💰 Réduit 💰                   |
+| **Complexité**        | ⚠️ Plus élevée ⚠️              |
 
 ### Configuration
 
@@ -251,12 +251,12 @@ WHERE event_timestamp > (
 
 ### Stratégies incrémentales
 
-| Stratégie | Description | Warehouse |
-|-----------|-------------|-----------|
-| `append` | INSERT simple | Tous |
-| `merge` | MERGE (upsert) | Snowflake, BigQuery |
-| `delete+insert` | DELETE puis INSERT | Redshift, Postgres |
-| `insert_overwrite` | Remplace des partitions | BigQuery, Spark |
+| Stratégie          | Description             | Warehouse           |
+|--------------------|-------------------------|---------------------|
+| `append`           | INSERT simple           | Tous                |
+| `merge`            | MERGE (upsert)          | Snowflake, BigQuery |
+| `delete+insert`    | DELETE puis INSERT      | Redshift, Postgres  |
+| `insert_overwrite` | Remplace des partitions | BigQuery, Spark     |
 
 ### Exemple avec MERGE
 
@@ -330,12 +330,12 @@ SELECT * FROM int_helper
 
 ### Caractéristiques
 
-| Aspect | Description |
-|--------|-------------|
-| **Stockage** | ❌ Aucun objet créé |
-| **Visibilité** | ❌ Non queryable directement |
-| **Performance** | ⚠️ Réexécuté à chaque ref() |
-| **Debug** | ⚠️ Plus difficile |
+| Aspect          | Description                      |
+|-----------------|----------------------------------|
+| **Stockage**    | ❌ Aucun objet créé ❌          |
+| **Visibilité**  | ❌ Non queryable directement ❌ |
+| **Performance** | ⚠️ Réexécuté à chaque ref() ⚠️  |
+| **Debug**       | ⚠️ Plus difficile ⚠️            |
 
 ### Quand utiliser EPHEMERAL ?
 
@@ -369,38 +369,38 @@ WHERE status != 'cancelled'
 
 ### Tableau comparatif
 
-| Critère | View | Table | Incremental | Ephemeral |
-|---------|------|-------|-------------|-----------|
-| **Objet créé** | Vue | Table | Table | Aucun |
-| **Stockage** | ❌ | ✅ | ✅ | ❌ |
-| **Temps build** | ⚡ | ⏱️ | ⚡ (delta) | ⚡ |
-| **Temps query** | ⏱️ | ⚡ | ⚡ | N/A |
-| **Fraîcheur** | ✅ | ⚠️ | ⚠️ | N/A |
-| **Complexité** | Faible | Faible | Élevée | Faible |
+| Critère         | View   | Table  | Incremental   | Ephemeral |
+|-----------------|--------|--------|---------------|-----------|
+| **Objet créé**  | Vue    | Table  | Table         | Aucun     |
+| **Stockage**    | ❌❌  | ✅✅  | ✅✅         | ❌❌     |
+| **Temps build** | ⚡⚡  | ⏱️⏱️  | ⚡⚡ (delta) | ⚡⚡     |
+| **Temps query** | ⏱️⏱️  | ⚡⚡  | ⚡⚡         | N/A       |
+| **Fraîcheur**   | ✅✅  | ⚠️⚠️  | ⚠️⚠️         | N/A       |
+| **Complexité**  | Faible | Faible | Élevée        | Faible    |
 
 ### Guide de choix
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    ARBRE DE DÉCISION                                 │
+│                    ARBRE DE DÉCISION                                │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  "Table volumineuse (> 10M lignes) ?"                               │
-│      │                                                               │
+│      │                                                              │
 │      ├── OUI → "Données avec timestamp fiable ?"                    │
-│      │            │                                                  │
+│      │            │                                                 │
 │      │            ├── OUI → INCREMENTAL                             │
 │      │            └── NON → TABLE                                   │
-│      │                                                               │
-│      └── NON → "Utilisé par les utilisateurs finaux ?"             │
-│                   │                                                  │
+│      │                                                              │
+│      └── NON → "Utilisé par les utilisateurs finaux ?"              │
+│                   │                                                 │
 │                   ├── OUI → TABLE (marts)                           │
-│                   │                                                  │
+│                   │                                                 │
 │                   └── NON → "Référencé par plusieurs models ?"      │
-│                               │                                      │
+│                               │                                     │
 │                               ├── OUI → VIEW                        │
 │                               └── NON → EPHEMERAL                   │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -453,12 +453,12 @@ models:
 
 ## Résumé
 
-| Matérialisation | Cas d'usage | Couche typique |
-|-----------------|-------------|----------------|
-| **View** | Transformations légères | Staging |
-| **Table** | Tables finales, performance | Marts |
-| **Incremental** | Gros volumes, événements | Marts/Events |
-| **Ephemeral** | Logique intermédiaire | Intermediate |
+| Matérialisation | Cas d'usage                 | Couche typique |
+|-----------------|-----------------------------|----------------|
+| **View**        | Transformations légères     | Staging        |
+| **Table**       | Tables finales, performance | Marts          |
+| **Incremental** | Gros volumes, événements    | Marts/Events   |
+| **Ephemeral**   | Logique intermédiaire       | Intermediate   |
 
 ---
 

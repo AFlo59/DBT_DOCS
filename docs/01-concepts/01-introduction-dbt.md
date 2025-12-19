@@ -178,14 +178,14 @@ dbt docs generate
 
 ### Comparaison
 
-| Fonctionnalité | DBT Core   | DBT Cloud |
-|----------------|------------|-----------|
-| Prix           | Gratuit    | Freemium |
-| Installation   | Locale     | Cloud |
-| IDE            | VS Code + extensions | Intégré |
-| Scheduling     | Manuel (Airflow, etc.) | Intégré |
-| CI/CD          | Configuration manuelle | Automatisé |
-| Support        | Communauté | Commercial |
+| Fonctionnalité | DBT Core                | DBT Cloud  |
+|----------------|-------------------------|------------|
+| Prix           | Gratuit                 | Freemium   |
+| Installation   | Locale                  | Cloud      |
+| IDE            | VS Code + extensions    | Intégré    |
+| Scheduling     | Manuel (Airflow, etc.)  | Intégré    |
+| CI/CD          | Configuration manuelle  | Automatisé |
+| Support        | Communauté              | Commercial |
 
 ---
 
@@ -232,14 +232,14 @@ DBT crée des tables/vues optimisées pour :
 
 ## Résumé
 
-| Aspect | Description |
-|--------|-------------|
-| **Type** | Outil de transformation SQL |
-| **Paradigme** | ELT (pas ETL) |
-| **Langage** | SQL + Jinja |
-| **Exécution** | Dans le data warehouse |
-| **Forces** | Tests, docs, modularité, versioning |
-| **Cible** | Analytics Engineers, Data Analysts |
+| Aspect        | Description                         |
+|---------------|-------------------------------------|
+| **Type**      | Outil de transformation SQL         |
+| **Paradigme** | ELT (pas ETL)                       |
+| **Langage**   | SQL + Jinja                         |
+| **Exécution** | Dans le data warehouse              |
+| **Forces**    | Tests, docs, modularité, versioning |
+| **Cible**     | Analytics Engineers, Data Analysts  |
 
 ---
 

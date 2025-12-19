@@ -18,33 +18,33 @@ Une **macro** est une fonction réutilisable écrite en Jinja qui génère du SQ
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    CONCEPT DE MACRO                                  │
+│                    CONCEPT DE MACRO                                 │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │   Définition (macros/)              Utilisation (models/)           │
 │   ┌──────────────────────┐         ┌──────────────────────────────┐ │
-│   │ {% macro           │         │ SELECT                       │ │
-│   │   cents_to_dollars │         │   {{ cents_to_dollars(      │ │
-│   │   (column) %}      │  ──────>│     'price_cents'           │ │
-│   │   ({{ column }}    │         │   ) }} AS price              │ │
-│   │   / 100.0)         │         │ FROM table                   │ │
-│   │ {% endmacro %}     │         └──────────────────────────────┘ │
+│   │ {% macro             │         │ SELECT                       │ │
+│   │   cents_to_dollars   │         │   {{ cents_to_dollars(       │ │
+│   │   (column) %}        │  ──────>│     'price_cents'            │ │
+│   │   ({{ column }}      │         │   ) }} AS price              │ │
+│   │   / 100.0)           │         │ FROM table                   │ │
+│   │ {% endmacro %}       │         └──────────────────────────────┘ │
 │   └──────────────────────┘                                          │
-│                                                                      │
+│                                                                     │
 │   Résultat compilé :                                                │
 │   SELECT (price_cents / 100.0) AS price FROM table                  │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Avantages des macros
 
-| Avantage | Description |
-|----------|-------------|
-| **DRY** | Ne pas répéter le même code |
+| Avantage           | Description                 |
+|--------------------|-----------------------------|
+| **DRY**            | Ne pas répéter le même code |
 | **Maintenabilité** | Modifier en un seul endroit |
-| **Lisibilité** | Code plus propre |
-| **Tests** | Logique testable |
+| **Lisibilité**     | Code plus propre            |
+| **Tests**          | Logique testable            |
 
 ---
 
@@ -437,13 +437,13 @@ macros:
 
 ### Macros à avoir
 
-| Macro | Usage |
-|-------|-------|
-| `cents_to_dollars` | Conversion monétaire |
-| `safe_divide` | Division sécurisée |
-| `generate_schema_name` | Schéma dynamique |
-| `date_diff` | Différence de dates |
-| `get_column_values` | Valeurs dynamiques |
+| Macro                  | Usage                |
+|------------------------|----------------------|
+| `cents_to_dollars`     | Conversion monétaire |
+| `safe_divide`          | Division sécurisée   |
+| `generate_schema_name` | Schéma dynamique     |
+| `date_diff`            | Différence de dates  |
+| `get_column_values`    | Valeurs dynamiques   |
 
 ---
 

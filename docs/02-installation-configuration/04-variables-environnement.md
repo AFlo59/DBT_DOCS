@@ -19,36 +19,36 @@ Les variables d'environnement permettent de :
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    AVANTAGES ENV VARS                                │
+│                    AVANTAGES ENV VARS                               │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  🔐 SÉCURITÉ                                                        │
+│                                                                     │
+│  🔐 SÉCURITÉ 🔐                                                    │
 │     └── Pas de secrets dans le code                                 │
 │     └── Pas de credentials dans Git                                 │
-│                                                                      │
-│  🔄 FLEXIBILITÉ                                                     │
+│                                                                     │
+│  🔄 FLEXIBILITÉ 🔄                                                 │
 │     └── Même code, différentes configurations                       │
 │     └── Dev/Staging/Prod avec le même projet                        │
-│                                                                      │
-│  👥 COLLABORATION                                                   │
+│                                                                     │
+│  👥 COLLABORATION 👥                                               │
 │     └── Chaque développeur a ses propres valeurs                    │
 │     └── CI/CD avec ses propres secrets                              │
-│                                                                      │
-│  🔧 MAINTENANCE                                                     │
+│                                                                     │
+│  🔧 MAINTENANCE 🔧                                                 │
 │     └── Changement de config sans modifier le code                  │
 │     └── Rotation des secrets simplifiée                             │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Types de variables
 
-| Type | Usage | Exemple |
-|------|-------|---------|
-| **Secrets** | Authentification | Mots de passe, tokens |
-| **Configuration** | Paramètres dynamiques | Schéma, database |
-| **Feature flags** | Activer/désactiver | Debug mode |
-| **Contexte** | Métadonnées | User, CI job ID |
+| Type              | Usage                 | Exemple               |
+|-------------------|-----------------------|-----------------------|
+| **Secrets**       | Authentification      | Mots de passe, tokens |
+| **Configuration** | Paramètres dynamiques | Schéma, database      |
+| **Feature flags** | Activer/désactiver    | Debug mode            |
+| **Contexte**      | Métadonnées           | User, CI job ID       |
 
 ---
 
@@ -493,24 +493,24 @@ stages:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    HIÉRARCHIE DES SECRETS                            │
+│                    HIÉRARCHIE DES SECRETS                           │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  PRODUCTION                                                          │
+│                                                                     │
+│  PRODUCTION                                                         │
 │  └── Vault (HashiCorp, AWS Secrets Manager, etc.)                   │
-│      └── Rotation automatique                                        │
-│      └── Audit trail                                                 │
-│                                                                      │
-│  CI/CD                                                               │
-│  └── Secrets natifs (GitHub Secrets, GitLab CI Variables)          │
+│      └── Rotation automatique                                       │
+│      └── Audit trail                                                │
+│                                                                     │
+│  CI/CD                                                              │
+│  └── Secrets natifs (GitHub Secrets, GitLab CI Variables)           │
 │      └── Chiffrés au repos                                          │
 │      └── Injectés à l'exécution                                     │
-│                                                                      │
-│  DÉVELOPPEMENT                                                       │
+│                                                                     │
+│  DÉVELOPPEMENT                                                      │
 │  └── Fichier .env local                                             │
 │      └── Jamais versionné                                           │
 │      └── Credentials personnels                                     │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -543,14 +543,14 @@ stages:
 
 ### Variables communes
 
-| Variable | Usage |
-|----------|-------|
-| `SNOWFLAKE_ACCOUNT` | Compte Snowflake |
-| `SNOWFLAKE_USER` | Utilisateur |
-| `SNOWFLAKE_PASSWORD` | Mot de passe |
-| `DBT_TARGET` | Environnement cible |
-| `DBT_THREADS` | Parallélisme |
-| `DBT_SCHEMA` | Schéma par défaut |
+| Variable             | Usage               |
+|----------------------|---------------------|
+| `SNOWFLAKE_ACCOUNT`  | Compte Snowflake    |
+| `SNOWFLAKE_USER`     | Utilisateur         |
+| `SNOWFLAKE_PASSWORD` | Mot de passe        |
+| `DBT_TARGET`         | Environnement cible |
+| `DBT_THREADS`        | Parallélisme        |
+| `DBT_SCHEMA`         | Schéma par défaut   |
 
 ---
 

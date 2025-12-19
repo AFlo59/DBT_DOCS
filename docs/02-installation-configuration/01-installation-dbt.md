@@ -64,26 +64,26 @@ pipx install dbt-snowflake
 ### Structure des packages DBT
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
+┌──────────────────────────────────────────────────────────────────────┐
 │                    PACKAGES DBT                                      │
-├─────────────────────────────────────────────────────────────────────┤
+├──────────────────────────────────────────────────────────────────────┤
 │                                                                      │
-│                       ┌─────────────┐                               │
-│                       │  dbt-core   │                               │
-│                       │  (moteur)   │                               │
-│                       └──────┬──────┘                               │
+│                       ┌─────────────┐                                │
+│                       │  dbt-core   │                                │
+│                       │  (moteur)   │                                │
+│                       └──────┬──────┘                                │
 │                              │                                       │
-│           ┌──────────────────┼──────────────────┐                   │
-│           │                  │                  │                   │
-│           ▼                  ▼                  ▼                   │
-│    ┌────────────┐     ┌────────────┐     ┌────────────┐            │
-│    │dbt-snowflake│    │dbt-bigquery│    │dbt-postgres │            │
-│    │  (adapter) │     │  (adapter) │     │  (adapter) │            │
-│    └────────────┘     └────────────┘     └────────────┘            │
+│           ┌──────────────────┼──────────────────┐                    │
+│           │                  │                  │                    │
+│           ▼                  ▼                  ▼                    │
+│    ┌─────────────┐     ┌────────────┐     ┌─────────────┐            │
+│    │dbt-snowflake│     │dbt-bigquery│     │dbt-postgres │            │
+│    │  (adapter)  │     │  (adapter) │     │  (adapter)  │            │
+│    └─────────────┘     └────────────┘     └─────────────┘            │
 │                                                                      │
-│  Note: Installer un adapter installe automatiquement dbt-core       │
+│  Note: Installer un adapter installe automatiquement dbt-core        │
 │                                                                      │
-└─────────────────────────────────────────────────────────────────────┘
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -92,16 +92,16 @@ pipx install dbt-snowflake
 
 ### Liste des adapters officiels
 
-| Adapter | Commande | Documentation |
-|---------|----------|---------------|
-| **Snowflake** | `pip install dbt-snowflake` | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup) |
-| **BigQuery** | `pip install dbt-bigquery` | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup) |
-| **Redshift** | `pip install dbt-redshift` | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/redshift-setup) |
-| **PostgreSQL** | `pip install dbt-postgres` | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/postgres-setup) |
-| **Databricks** | `pip install dbt-databricks` | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/databricks-setup) |
-| **Spark** | `pip install dbt-spark` | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/spark-setup) |
-| **SQL Server** | `pip install dbt-sqlserver` | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/mssql-setup) |
-| **Trino** | `pip install dbt-trino` | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/trino-setup) |
+| Adapter         | Commande                     | Documentation                                                                     |
+|-----------------|------------------------------|-----------------------------------------------------------------------------------|
+| **Snowflake**   | `pip install dbt-snowflake`  | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup)   |
+| **BigQuery**    | `pip install dbt-bigquery`   | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup)    |
+| **Redshift**    | `pip install dbt-redshift`   | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/redshift-setup)    |
+| **PostgreSQL**  | `pip install dbt-postgres`   | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/postgres-setup)    |
+| **Databricks**  | `pip install dbt-databricks` | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/databricks-setup)  |
+| **Spark**       | `pip install dbt-spark`      | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/spark-setup)       |
+| **SQL Server**  | `pip install dbt-sqlserver`  | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/mssql-setup)       |
+| **Trino**       | `pip install dbt-trino`      | [docs](https://docs.getdbt.com/docs/core/connect-data-platform/trino-setup)       |
 
 ### Installation Snowflake (exemple détaillé)
 
@@ -166,38 +166,38 @@ DBT Cloud est la version **SaaS** de DBT, ne nécessitant pas d'installation loc
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                      DBT CLOUD                                       │
+│                      DBT CLOUD                                      │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  ┌───────────────────────────────────────────────────────────────┐  │
-│  │                         NAVIGATEUR                             │  │
+│  │                         NAVIGATEUR                            │  │
 │  │  ┌─────────────────────────────────────────────────────────┐  │  │
-│  │  │                    IDE Intégré                           │  │  │
+│  │  │                    IDE Intégré                          │  │  │
 │  │  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │  │  │
 │  │  │  │   Éditeur    │  │   Terminal   │  │   Logs       │   │  │  │
 │  │  │  │   SQL        │  │   dbt run    │  │   Results    │   │  │  │
 │  │  │  └──────────────┘  └──────────────┘  └──────────────┘   │  │  │
 │  │  └─────────────────────────────────────────────────────────┘  │  │
-│  │                                                                │  │
+│  │                                                               │  │
 │  │  Features incluses :                                          │  │
-│  │  ✓ Scheduling intégré                                        │  │
-│  │  ✓ CI/CD automatique                                         │  │
-│  │  ✓ Environnements (dev/staging/prod)                         │  │
-│  │  ✓ Gestion des secrets                                       │  │
-│  │  ✓ Documentation hébergée                                    │  │
-│  │                                                                │  │
+│  │  ✓ Scheduling intégré                                         │  │
+│  │  ✓ CI/CD automatique                                          │  │
+│  │  ✓ Environnements (dev/staging/prod)                          │  │
+│  │  ✓ Gestion des secrets                                        │  │
+│  │  ✓ Documentation hébergée                                     │  │
+│  │                                                               │  │
 │  └───────────────────────────────────────────────────────────────┘  │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Plans disponibles
 
-| Plan | Prix | Fonctionnalités |
-|------|------|-----------------|
-| **Developer** | Gratuit | 1 développeur, 1 projet |
-| **Team** | $100/seat/mois | Multi-utilisateurs, CI/CD |
-| **Enterprise** | Sur devis | SSO, SLA, Support dédié |
+| Plan           | Prix           | Fonctionnalités           |
+|----------------|----------------|---------------------------|
+| **Developer**  | Gratuit        | 1 développeur, 1 projet   |
+| **Team**       | $100/seat/mois | Multi-utilisateurs, CI/CD |
+| **Enterprise** | Sur devis      | SSO, SLA, Support dédié   |
 
 ### Inscription
 
@@ -376,14 +376,14 @@ pip install dbt-snowflake
 
 ## Résumé
 
-| Étape | Commande |
-|-------|----------|
-| Créer environnement virtuel | `python -m venv dbt-env` |
-| Activer l'environnement | `source dbt-env/bin/activate` |
-| Installer DBT + adapter | `pip install dbt-snowflake` |
-| Vérifier l'installation | `dbt --version` |
-| Créer un projet | `dbt init my_project` |
-| Diagnostiquer | `dbt debug` |
+| Étape                       | Commande                      |
+|-----------------------------|-------------------------------|
+| Créer environnement virtuel | `python -m venv dbt-env`      |
+| Activer l'environnement     | `source dbt-env/bin/activate` |
+| Installer DBT + adapter     | `pip install dbt-snowflake`   |
+| Vérifier l'installation     | `dbt --version`               |
+| Créer un projet             | `dbt init my_project`         |
+| Diagnostiquer               | `dbt debug`                   |
 
 ---
 

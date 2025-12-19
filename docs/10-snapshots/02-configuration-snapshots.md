@@ -96,21 +96,21 @@ FROM {{ source('catalog', 'products') }}
 **Fonctionnement :**
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    STRATEGY: TIMESTAMP                               │
+│                    STRATEGY: TIMESTAMP                              │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   Source                           Snapshot                          │
+│                                                                     │
+│   Source                           Snapshot                         │
 │   ┌──────────────────────────┐    ┌──────────────────────────────┐  │
-│   │ id │ name  │ updated_at  │    │ id │ name  │ dbt_updated_at │  │
-│   │ 1  │ Apple │ 2024-01-15  │    │ 1  │ Apple │ 2024-01-10     │  │
+│   │ id │ name  │ updated_at  │    │ id │ name  │ dbt_updated_at  │  │
+│   │ 1  │ Apple │ 2024-01-15  │    │ 1  │ Apple │ 2024-01-10      │  │
 │   └──────────────────────────┘    └──────────────────────────────┘  │
-│          │                                    │                      │
-│          │   Comparaison des timestamps       │                      │
-│          │   2024-01-15 > 2024-01-10 ?       │                      │
-│          │            ✅ OUI                  │                      │
-│          │                                    │                      │
-│          └───────────> Nouvelle version créée ◄──────────────────   │
-│                                                                      │
+│          │                                                 │        │
+│          │   Comparaison des timestamps                    │        │
+│          │   2024-01-15 > 2024-01-10 ?                     │        │
+│          │            ✅ OUI ✅                           │        │
+│          │                                                 │        │
+│          └───────────> Nouvelle version créée ◄────────────┘        │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -162,21 +162,21 @@ check_cols='all'
 **Fonctionnement :**
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    STRATEGY: CHECK                                   │
+│                    STRATEGY: CHECK                                  │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   Source                           Snapshot                          │
-│   ┌────────────────────────────┐  ┌────────────────────────────┐   │
-│   │ id │ name │ dept │ salary │  │ id │ name │ dept │ salary │   │
-│   │ 1  │ Bob  │ IT   │ 60000  │  │ 1  │ Bob  │ HR   │ 55000  │   │
-│   └────────────────────────────┘  └────────────────────────────┘   │
-│          │                                    │                     │
-│          │   Comparaison des colonnes check   │                     │
-│          │   dept: IT != HR ? ✅              │                     │
-│          │   salary: 60000 != 55000 ? ✅      │                     │
-│          │                                    │                     │
-│          └───────────> Nouvelle version créée ◄─────────────────   │
-│                                                                      │
+│                                                                     │
+│   Source                           Snapshot                         │
+│   ┌────────────────────────────┐  ┌────────────────────────────┐    │
+│   │ id │ name │ dept │ salary  │  │ id │ name │ dept │ salary  │    │
+│   │ 1  │ Bob  │ IT   │ 60000   │  │ 1  │ Bob  │ HR   │ 55000   │    │
+│   └────────────────────────────┘  └────────────────────────────┘    │
+│          │                                              │           │
+│          │   Comparaison des colonnes check             │           │
+│          │   ✅ dept: IT != HR ? ✅                    │           │
+│          │   ✅ salary: 60000 != 55000 ? ✅            │           │
+│          │                                              │           │
+│          └───────────> Nouvelle version créée ◄─────────┘          │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -273,22 +273,22 @@ Quand une ligne disparaît de la source, DBT peut l'invalider dans le snapshot.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    HARD DELETES                                      │
+│                    HARD DELETES                                     │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   Source (après suppression)     Snapshot                            │
+│                                                                     │
+│   Source (après suppression)     Snapshot                           │
 │   ┌──────────────────────┐      ┌─────────────────────────────────┐ │
-│   │ id │ name             │     │ id │ name │ valid_to           │ │
-│   │ 1  │ Alice            │     │ 1  │ Alice│ NULL               │ │
-│   │    │ (Bob supprimé)   │     │ 2  │ Bob  │ 2024-01-15 ← Fermé │ │
+│   │ id │ name            │      │ id │ name │ valid_to            │ │
+│   │ 1  │ Alice           │      │ 1  │ Alice│ NULL                │ │
+│   │    │ (Bob supprimé)  │      │ 2  │ Bob  │ 2024-01-15 ← Fermé  │ │
 │   └──────────────────────┘      └─────────────────────────────────┘ │
-│                                                                      │
+│                                                                     │
 │   Avec invalidate_hard_deletes=true :                               │
-│   La ligne de Bob est "fermée" (valid_to = date courante)          │
-│                                                                      │
+│   La ligne de Bob est "fermée" (valid_to = date courante)           │
+│                                                                     │
 │   Avec invalidate_hard_deletes=false (défaut) :                     │
 │   La ligne de Bob reste ouverte (valid_to = NULL)                   │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -430,10 +430,10 @@ WHERE dbt_valid_to IS NULL  -- Version courante uniquement
 
 ### Stratégies
 
-| Stratégie | Quand utiliser |
-|-----------|----------------|
-| `timestamp` | Colonne `updated_at` fiable |
-| `check` | Pas de timestamp, ou besoin de tout surveiller |
+| Stratégie   | Quand utiliser                                 |
+|-------------|------------------------------------------------|
+| `timestamp` | Colonne `updated_at` fiable                    |
+| `check`     | Pas de timestamp, ou besoin de tout surveiller |
 
 ### Configuration minimale
 
@@ -453,10 +453,10 @@ SELECT * FROM {{ source('raw', 'table') }}
 
 ### Commandes
 
-| Commande | Action |
-|----------|--------|
-| `dbt snapshot` | Exécuter tous les snapshots |
-| `dbt snapshot --select X` | Snapshot spécifique |
+| Commande                  | Action                      |
+|---------------------------|-----------------------------|
+| `dbt snapshot`            | Exécuter tous les snapshots |
+| `dbt snapshot --select X` | Snapshot spécifique         |
 
 ### Checklist
 

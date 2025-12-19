@@ -123,15 +123,15 @@ JOIN active_customers c
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    CHOIX DE MATÉRIALISATION                          │
+│                    CHOIX DE MATÉRIALISATION                         │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │   Volume faible + Lecture fréquente    → TABLE                      │
 │   Volume faible + Lecture rare         → VIEW                       │
 │   Volume élevé + Données append-only   → INCREMENTAL                │
 │   Logique intermédiaire réutilisée     → VIEW ou TABLE              │
 │   Logique intermédiaire unique         → EPHEMERAL                  │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -286,21 +286,21 @@ dbt run --threads 32
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    DAG OPTIMISÉ                                      │
+│                    DAG OPTIMISÉ                                     │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   ❌ DAG séquentiel (lent)           ✅ DAG parallélisé (rapide)    │
-│                                                                      │
+│                                                                     │
+│   ❌ DAG séquentiel (lent)           ✅ DAG parallélisé (rapide)   │
+│                                                                     │
 │   A                                  A ── B ── C                    │
-│   │                                  │                               │
+│   │                                  │                              │
 │   B                                  D ── E ── F                    │
-│   │                                  │                               │
+│   │                                  │                              │
 │   C                                  G ── H ── I                    │
-│   │                                                                  │
+│   │                                                                 │
 │   D                                  Les branches indépendantes     │
 │   │                                  s'exécutent en parallèle       │
-│   ...                                                                │
-│                                                                      │
+│   ...                                                               │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -415,13 +415,13 @@ EXPLAIN ANALYZE SELECT * FROM my_model WHERE ...;
 
 ### Règles d'or
 
-| Règle | Impact |
-|-------|--------|
-| Filtrer tôt | Réduit le volume traité |
-| Limiter les colonnes | Réduit I/O |
-| Partitionner | Réduit les scans |
-| Clusterer | Optimise les filtres |
-| Paralléliser | Réduit le temps total |
+| Règle                | Impact                  |
+|----------------------|-------------------------|
+| Filtrer tôt          | Réduit le volume traité |
+| Limiter les colonnes | Réduit I/O              |
+| Partitionner         | Réduit les scans        |
+| Clusterer            | Optimise les filtres    |
+| Paralléliser         | Réduit le temps total   |
 
 ---
 

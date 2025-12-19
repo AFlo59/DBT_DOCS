@@ -17,36 +17,36 @@ Une **exposure** définit comment vos données sont utilisées en dehors de DBT 
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    CONCEPT D'EXPOSURE                                │
+│                    CONCEPT D'EXPOSURE                               │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   DBT (Transformation)              Consommation                     │
+│                                                                     │
+│   DBT (Transformation)              Consommation                    │
 │   ┌─────────────────────┐          ┌─────────────────────────────┐  │
 │   │                     │          │                             │  │
-│   │  stg_orders         │          │  📊 Tableau Dashboard       │  │
+│   │  stg_orders         │          │  📊 Tableau Dashboard 📊   │  │
 │   │       │             │          │                             │  │
-│   │       ▼             │   ────>  │  📈 Looker Report           │  │
+│   │       ▼             │   ────>  │  📈 Looker Report 📈       │  │
 │   │  fct_orders         │ exposure │                             │  │
-│   │       │             │          │  🤖 ML Model                │  │
+│   │       │             │          │  🤖 ML Model 🤖            │  │
 │   │       ▼             │          │                             │  │
-│   │  dim_customers      │          │  📱 Application             │  │
+│   │  dim_customers      │          │  📱 Application 📱         │  │
 │   │                     │          │                             │  │
 │   └─────────────────────┘          └─────────────────────────────┘  │
-│                                                                      │
+│                                                                     │
 │   Les exposures documentent les consommateurs de vos données        │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Pourquoi utiliser les exposures ?
 
-| Avantage | Description |
-|----------|-------------|
-| **Lineage complet** | Voir où les données sont utilisées |
+| Avantage            | Description                                 |
+|---------------------|---------------------------------------------|
+| **Lineage complet** | Voir où les données sont utilisées          |
 | **Impact analysis** | Savoir ce qui est affecté par un changement |
-| **Documentation** | Catalogue des utilisations |
-| **Communication** | Liens vers les dashboards/apps |
-| **Ownership** | Qui est responsable de quoi |
+| **Documentation**   | Catalogue des utilisations                  |
+| **Communication**   | Liens vers les dashboards/apps              |
+| **Ownership**       | Qui est responsable de quoi                 |
 
 ---
 
@@ -153,13 +153,13 @@ exposures:
 
 ### Types disponibles
 
-| Type | Description | Exemple |
-|------|-------------|---------|
-| `dashboard` | Tableau de bord BI | Tableau, Looker, Power BI |
-| `notebook` | Notebook d'analyse | Jupyter, Databricks |
-| `analysis` | Analyse ad-hoc | SQL queries, Sheets |
-| `ml` | Modèle ML | Feature store, prédictions |
-| `application` | Application | Web app, API |
+| Type            | Description        | Exemple                    |
+|-----------------|--------------------|----------------------------|
+| `dashboard`     | Tableau de bord BI | Tableau, Looker, Power BI  |
+| `notebook`      | Notebook d'analyse | Jupyter, Databricks        |
+| `analysis`      | Analyse ad-hoc     | SQL queries, Sheets        |
+| `ml`            | Modèle ML          | Feature store, prédictions |
+| `application`   | Application        | Web app, API               |
 
 ### Exemples par type
 
@@ -237,11 +237,11 @@ exposures:
 
 ### Maturity levels
 
-| Level | Description |
-|-------|-------------|
-| `high` | Production, critique |
-| `medium` | Utilisé régulièrement |
-| `low` | Expérimental, en développement |
+| Level    | Description                    |
+|----------|--------------------------------|
+| `high`   | Production, critique           |
+| `medium` | Utilisé régulièrement          |
+| `low`    | Expérimental, en développement |
 
 ---
 
@@ -251,28 +251,28 @@ exposures:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    LINEAGE AVEC EXPOSURES                            │
+│                    LINEAGE AVEC EXPOSURES                           │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   Sources     Models          Exposures                              │
-│                                                                      │
-│   🟢 raw     🔵 stg_orders    🟡 revenue_dashboard                  │
-│     │              │                    ▲                            │
-│     └──────────────┤                    │                            │
-│                    ▼                    │                            │
-│              🔵 fct_orders ─────────────┤                            │
-│                    │                    │                            │
-│                    │                    │                            │
-│   🟢 raw     🔵 stg_customers           │                            │
-│     │              │                    │                            │
-│     └──────────────┤                    │                            │
-│                    ▼                    │                            │
-│              🔵 dim_customers ──────────┘                            │
-│                    │                                                 │
-│                    └─────────────> 🟡 customer_app                   │
-│                                                                      │
-│   🟢 = Source   🔵 = Model   🟡 = Exposure                          │
-│                                                                      │
+│                                                                     │
+│   Sources     Models          Exposures                             │
+│                                                                     │
+│   🟢 raw 🟢    🔵 stg_orders 🔵   🟡 revenue_dashboard 🟡        │
+│     │              │                       ▲                        │
+│     └──────────────┤                       │                        │
+│                    ▼                       │                        │
+│              🔵 fct_orders 🔵─────────────┤                        │
+│                    │                       │                        │
+│                    │                       │                        │
+│   🟢 raw 🟢    🔵 stg_customers 🔵       │                        │
+│     │              │                       │                        │
+│     └──────────────┤                       │                        │
+│                    ▼                       │                        │
+│              🔵 dim_customers 🔵──────────┘                        │
+│                    │                                                │
+│                    └─────────────> 🟡 customer_app 🟡              │
+│                                                                     │
+│   🟢 = Source 🟢  🔵 = Model 🔵  🟡 = Exposure 🟡                │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -388,13 +388,13 @@ exposures:
 
 ### Types
 
-| Type | Icône | Usage |
-|------|-------|-------|
-| `dashboard` | 📊 | Tableaux de bord |
-| `notebook` | 📓 | Analyses |
-| `ml` | 🤖 | Modèles ML |
-| `application` | 📱 | Applications |
-| `analysis` | 📈 | Analyses ad-hoc |
+| Type          | Icône | Usage            |
+|---------------|-------|------------------|
+| `dashboard`   | 📊📊 | Tableaux de bord |
+| `notebook`    | 📓📓 | Analyses         |
+| `ml`          | 🤖🤖 | Modèles ML       |
+| `application` | 📱📱 | Applications     |
+| `analysis`    | 📈📈 | Analyses ad-hoc  |
 
 ### Checklist
 

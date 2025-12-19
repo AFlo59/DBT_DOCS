@@ -15,18 +15,18 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    GIT WORKFLOW DBT                                  │
+│                    GIT WORKFLOW DBT                                 │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   main (production)                                                  │
+│                                                                     │
+│   main (production)                                                 │
 │   ────────────────────────────────────────────────────────────────  │
-│        │                    │                    │                   │
-│        │  merge             │  merge             │                   │
-│        │                    │                    │                   │
+│        │                    │                    │                  │
+│        │  merge             │  merge             │                  │
+│        │                    │                    │                  │
 │   feature/add-customer-dim  feature/fix-revenue                     │
 │   ────────────────────────  ────────────────────                    │
-│                                                                      │
-│   Workflow :                                                         │
+│                                                                     │
+│   Workflow :                                                        │
 │   1. Créer une branche feature/*                                    │
 │   2. Développer et tester localement                                │
 │   3. Pousser et créer une PR                                        │
@@ -34,18 +34,18 @@
 │   5. Review et approbation                                          │
 │   6. Merge dans main                                                │
 │   7. CD déploie en production                                       │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Convention de nommage des branches
 
-| Préfixe | Usage | Exemple |
-|---------|-------|---------|
-| `feature/` | Nouvelle fonctionnalité | `feature/add-mrr-model` |
-| `fix/` | Correction de bug | `fix/revenue-calculation` |
-| `refactor/` | Refactoring | `refactor/staging-layer` |
-| `docs/` | Documentation | `docs/update-readme` |
+| Préfixe     | Usage                   | Exemple                   |
+|-------------|-------------------------|---------------------------|
+| `feature/`  | Nouvelle fonctionnalité | `feature/add-mrr-model`   |
+| `fix/`      | Correction de bug       | `fix/revenue-calculation` |
+| `refactor/` | Refactoring             | `refactor/staging-layer`  |
+| `docs/`     | Documentation           | `docs/update-readme`      |
 
 ### Template de PR
 
@@ -209,35 +209,35 @@ deploy:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    PIPELINE DE DÉPLOIEMENT                           │
+│                    PIPELINE DE DÉPLOIEMENT                          │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   PR merged → main                                                   │
-│        │                                                             │
-│        ▼                                                             │
+│                                                                     │
+│   PR merged → main                                                  │
+│        │                                                            │
+│        ▼                                                            │
 │   ┌─────────────────┐                                               │
-│   │ dbt source      │ Vérifier fraîcheur des sources               │
+│   │ dbt source      │ Vérifier fraîcheur des sources                │
 │   │ freshness       │                                               │
 │   └────────┬────────┘                                               │
-│            │                                                         │
-│            ▼                                                         │
+│            │                                                        │
+│            ▼                                                        │
 │   ┌─────────────────┐                                               │
 │   │ dbt run         │ Exécuter les transformations                  │
 │   │ --target prod   │                                               │
 │   └────────┬────────┘                                               │
-│            │                                                         │
-│            ▼                                                         │
+│            │                                                        │
+│            ▼                                                        │
 │   ┌─────────────────┐                                               │
 │   │ dbt test        │ Tester les données                            │
 │   │ --target prod   │                                               │
 │   └────────┬────────┘                                               │
-│            │                                                         │
-│            ▼                                                         │
+│            │                                                        │
+│            ▼                                                        │
 │   ┌─────────────────┐                                               │
-│   │ dbt docs        │ Mettre à jour la documentation               │
+│   │ dbt docs        │ Mettre à jour la documentation                │
 │   │ generate        │                                               │
 │   └─────────────────┘                                               │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -460,12 +460,12 @@ echo "=== Maintenance Complete ==="
 
 ### Commandes essentielles
 
-| Contexte | Commandes |
-|----------|-----------|
-| **CI** | `dbt build --select state:modified+` |
-| **CD** | `dbt run && dbt test` |
-| **Monitoring** | `dbt source freshness` |
-| **Maintenance** | `dbt clean && dbt deps` |
+| Contexte        | Commandes                            |
+|-----------------|--------------------------------------|
+| **CI**          | `dbt build --select state:modified+` |
+| **CD**          | `dbt run && dbt test`                |
+| **Monitoring**  | `dbt source freshness`               |
+| **Maintenance** | `dbt clean && dbt deps`              |
 
 ### Checklist CI/CD
 

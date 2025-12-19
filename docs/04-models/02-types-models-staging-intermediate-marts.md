@@ -16,37 +16,37 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    ARCHITECTURE EN 3 COUCHES                         │
+│                    ARCHITECTURE EN 3 COUCHES                        │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  SOURCES                STAGING              INTERMEDIATE            │
+│                                                                     │
+│  SOURCES                STAGING              INTERMEDIATE           │
 │  (Données brutes)       (Nettoyage)          (Préparation)          │
-│                                                                      │
-│  ┌──────────────┐      ┌──────────────┐     ┌──────────────┐       │
-│  │ raw.orders   │─────>│ stg_orders   │────>│ int_orders   │       │
-│  └──────────────┘      └──────────────┘     │ _enriched    │       │
-│                                              └───────┬──────┘       │
+│                                                                     │
+│  ┌──────────────┐      ┌──────────────┐     ┌──────────────┐        │
+│  │ raw.orders   │─────>│ stg_orders   │────>│ int_orders   │        │
+│  └──────────────┘      └──────────────┘     │ _enriched    │        │
+│                                             └───────┬──────┘        │
 │  ┌──────────────┐      ┌──────────────┐             │               │
 │  │raw.customers │─────>│stg_customers │─────────────┤               │
 │  └──────────────┘      └──────────────┘             │               │
-│                                                      │               │
-│                                                      ▼               │
+│                                                     │               │
+│                                                     ▼               │
 │                                              ┌──────────────┐       │
 │                         MARTS                │  fct_orders  │       │
 │                    (Tables finales)          ├──────────────┤       │
 │                                              │dim_customers │       │
 │                                              └──────────────┘       │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Caractéristiques par couche
 
-| Couche | Préfixe | Matérialisation | Audience |
-|--------|---------|-----------------|----------|
-| **Staging** | `stg_` | VIEW | Data Engineers |
-| **Intermediate** | `int_` | EPHEMERAL/VIEW | Analytics Engineers |
-| **Marts** | `fct_`, `dim_` | TABLE | Utilisateurs finaux |
+| Couche           | Préfixe        | Matérialisation | Audience            |
+|------------------|----------------|-----------------|---------------------|
+| **Staging**      | `stg_`         | VIEW            | Data Engineers      |
+| **Intermediate** | `int_`         | EPHEMERAL/VIEW  | Analytics Engineers |
+| **Marts**        | `fct_`, `dim_` | TABLE           | Utilisateurs finaux |
 
 ---
 
@@ -58,24 +58,24 @@ La couche staging est la **première transformation** des données brutes. Son r
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    RÈGLES DU STAGING                                 │
+│                    RÈGLES DU STAGING                                │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  ✅ CE QU'ON FAIT                                                    │
-│  ─────────────────                                                   │
+│                                                                     │
+│  ✅ CE QU'ON FAIT ✅                                               │
+│  ─────────────────                                                  │
 │  • Renommer les colonnes (conventions)                              │
 │  • Caster les types de données                                      │
 │  • Conversion d'unités basique                                      │
 │  • Filtrer les lignes invalides (NULL IDs)                          │
 │  • Dédupliquer si nécessaire                                        │
-│                                                                      │
-│  ❌ CE QU'ON NE FAIT PAS                                             │
-│  ────────────────────────                                            │
+│                                                                     │
+│  ❌ CE QU'ON NE FAIT PAS ❌                                        │
+│  ────────────────────────                                           │
 │  • Jointures entre sources                                          │
 │  • Calculs métier                                                   │
 │  • Agrégations                                                      │
 │  • Logique conditionnelle complexe                                  │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -206,22 +206,22 @@ La couche intermediate contient la **logique métier complexe** et prépare les 
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    RÈGLES DE L'INTERMEDIATE                          │
+│                    RÈGLES DE L'INTERMEDIATE                         │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  ✅ CE QU'ON FAIT                                                    │
-│  ─────────────────                                                   │
+│                                                                     │
+│  ✅ CE QU'ON FAIT ✅                                               │
+│  ─────────────────                                                  │
 │  • Jointures entre modèles staging                                  │
 │  • Calculs et métriques                                             │
 │  • Agrégations partielles                                           │
 │  • Logique métier                                                   │
 │  • Transformations complexes                                        │
-│                                                                      │
-│  🎯 OBJECTIF                                                         │
-│  ────────────                                                        │
+│                                                                     │
+│  🎯 OBJECTIF 🎯                                                    │
+│  ────────────                                                       │
 │  Préparer les données pour qu'un SELECT simple                      │
 │  suffise dans les marts                                             │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -342,15 +342,15 @@ SELECT * FROM customer_metrics
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    EPHEMERAL = CTE INLINE                            │
+│                    EPHEMERAL = CTE INLINE                           │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │   int_orders_enriched.sql                                           │
 │   (materialized='ephemeral')                                        │
-│            │                                                         │
+│            │                                                        │
 │            │ Pas de table créée !                                   │
 │            │ Le SQL est injecté comme CTE                           │
-│            ▼                                                         │
+│            ▼                                                        │
 │   ┌─────────────────────────────────────────────────────────────┐   │
 │   │ -- fct_orders.sql (compilé)                                 │   │
 │   │ WITH int_orders_enriched AS (                               │   │
@@ -358,10 +358,10 @@ SELECT * FROM customer_metrics
 │   │ )                                                           │   │
 │   │ SELECT * FROM int_orders_enriched                           │   │
 │   └─────────────────────────────────────────────────────────────┘   │
-│                                                                      │
-│   Avantage : Pas de table intermédiaire à maintenir                │
-│   Inconvénient : Query plus longue, réexécutée à chaque ref()      │
-│                                                                      │
+│                                                                     │
+│   Avantage : Pas de table intermédiaire à maintenir                 │
+│   Inconvénient : Query plus longue, réexécutée à chaque ref()       │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -375,28 +375,28 @@ Les marts sont les **tables finales** consommées par les utilisateurs et outils
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    CARACTÉRISTIQUES DES MARTS                        │
+│                    CARACTÉRISTIQUES DES MARTS                       │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  📊 AUDIENCE                                                         │
-│  ────────────                                                        │
+│                                                                     │
+│  📊 AUDIENCE 📊                                                    │
+│  ────────────                                                       │
 │  • Analystes métier                                                 │
-│  • Outils BI (Tableau, Looker, Power BI)                           │
+│  • Outils BI (Tableau, Looker, Power BI)                            │
 │  • Data Scientists                                                  │
 │  • Applications                                                     │
-│                                                                      │
-│  🎯 OBJECTIFS                                                        │
-│  ────────────                                                        │
+│                                                                     │
+│  🎯 OBJECTIFS 🎯                                                   │
+│  ────────────                                                       │
 │  • Faciles à comprendre                                             │
 │  • Bien documentés                                                  │
-│  • Performants (optimisés pour les queries)                        │
-│  • Stables (contrat avec les consommateurs)                        │
-│                                                                      │
-│  📐 MODÉLISATION                                                     │
-│  ──────────────                                                      │
+│  • Performants (optimisés pour les queries)                         │
+│  • Stables (contrat avec les consommateurs)                         │
+│                                                                     │
+│  📐 MODÉLISATION 📐                                                │
+│  ──────────────                                                     │
 │  • Star Schema (faits + dimensions)                                 │
-│  • Dénormalisé pour la performance                                 │
-│                                                                      │
+│  • Dénormalisé pour la performance                                  │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -555,38 +555,38 @@ models/marts/
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    FLUX COMPLET                                      │
+│                    FLUX COMPLET                                     │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  SOURCES                                                             │
-│  ────────                                                            │
+│                                                                     │
+│  SOURCES                                                            │
+│  ────────                                                           │
 │  raw.shopify_orders  ────┐                                          │
 │  raw.shopify_customers ──┼──> source()                              │
 │  raw.stripe_payments  ───┘                                          │
-│                                                                      │
-│  STAGING (VIEW)                                                      │
-│  ──────────────                                                      │
+│                                                                     │
+│  STAGING (VIEW)                                                     │
+│  ──────────────                                                     │
 │  stg_shopify__orders     ◄── Renommage, types                       │
 │  stg_shopify__customers  ◄── Nettoyage basique                      │
 │  stg_stripe__payments    ◄── Standardisation                        │
-│                                                                      │
-│  INTERMEDIATE (EPHEMERAL)                                            │
-│  ────────────────────────                                            │
+│                                                                     │
+│  INTERMEDIATE (EPHEMERAL)                                           │
+│  ────────────────────────                                           │
 │  int_orders_enriched     ◄── Jointures orders+customers+payments    │
 │  int_customer_metrics    ◄── Agrégation par customer                │
-│                                                                      │
-│  MARTS (TABLE)                                                       │
-│  ─────────────                                                       │
+│                                                                     │
+│  MARTS (TABLE)                                                      │
+│  ─────────────                                                      │
 │  fct_orders              ◄── Table de faits finale                  │
 │  dim_customers           ◄── Dimension client avec métriques        │
-│                                                                      │
-│                                    │                                 │
-│                                    ▼                                 │
+│                                                                     │
+│                                    │                                │
+│                                    ▼                                │
 │                              ┌──────────┐                           │
 │                              │  BI Tool │                           │
 │                              │ Tableau  │                           │
 │                              └──────────┘                           │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -598,48 +598,48 @@ models/marts/
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    ARBRE DE DÉCISION                                 │
+│                    ARBRE DE DÉCISION                                │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │  "Est-ce une donnée brute d'une source externe ?"                   │
-│      │                                                               │
+│      │                                                              │
 │      ├── OUI → STAGING (stg_)                                       │
 │      │         • Un model par table source                          │
 │      │         • Nettoyage minimal                                  │
-│      │                                                               │
-│      └── NON → "Est-ce utilisé par les utilisateurs finaux ?"      │
-│                   │                                                  │
+│      │                                                              │
+│      └── NON → "Est-ce utilisé par les utilisateurs finaux ?"       │
+│                   │                                                 │
 │                   ├── OUI → MARTS (fct_, dim_)                      │
 │                   │         • Bien documenté                        │
 │                   │         • Matérialisé en TABLE                  │
-│                   │                                                  │
+│                   │                                                 │
 │                   └── NON → INTERMEDIATE (int_)                     │
-│                             • Logique complexe                       │
+│                             • Logique complexe                      │
 │                             • Souvent EPHEMERAL                     │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Tableau récapitulatif
 
-| Question | Staging | Intermediate | Marts |
-|----------|---------|--------------|-------|
-| Source de données ? | Externe (raw) | Models DBT | Models DBT |
-| Jointures ? | ❌ Non | ✅ Oui | ✅ Simple |
-| Logique métier ? | ❌ Minimale | ✅ Complexe | ⚠️ Simple |
-| Agrégations ? | ❌ Non | ✅ Oui | ⚠️ Finales |
-| Utilisateurs finaux ? | ❌ Non | ❌ Non | ✅ Oui |
-| Documentation ? | ⚠️ Basique | ⚠️ Interne | ✅ Complète |
+| Question              | Staging         | Intermediate    | Marts           |
+|-----------------------|-----------------|-----------------|-----------------|
+| Source de données ?   | Externe (raw)   | Models DBT      | Models DBT      |
+| Jointures ?           | ❌ Non ❌      | ✅ Oui ✅      | ✅ Simple ✅   |
+| Logique métier ?      | ❌ Minimale ❌ | ✅ Complexe ✅ | ⚠️ Simple ⚠️   |
+| Agrégations ?         | ❌ Non ❌      | ✅ Oui ✅      | ⚠️ Finales ⚠️  |
+| Utilisateurs finaux ? | ❌ Non ❌      | ❌ Non ❌      | ✅ Oui ✅      |
+| Documentation ?       | ⚠️ Basique ⚠️  | ⚠️ Interne ⚠️  | ✅ Complète ✅ |
 
 ---
 
 ## Résumé
 
-| Couche | Préfixe | Rôle | Matérialisation |
-|--------|---------|------|-----------------|
-| **Staging** | `stg_` | Nettoyage source | VIEW |
-| **Intermediate** | `int_` | Logique métier | EPHEMERAL |
-| **Marts** | `fct_`, `dim_` | Tables finales | TABLE |
+| Couche           | Préfixe        | Rôle             | Matérialisation |
+|------------------|----------------|------------------|-----------------|
+| **Staging**      | `stg_`         | Nettoyage source | VIEW            |
+| **Intermediate** | `int_`         | Logique métier   | EPHEMERAL       |
+| **Marts**        | `fct_`, `dim_` | Tables finales   | TABLE           |
 
 ---
 

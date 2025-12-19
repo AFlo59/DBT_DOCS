@@ -17,33 +17,33 @@ Une **SCD** est une dimension dont les attributs changent lentement au fil du te
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    PROBLÈME DES SCD                                  │
+│                    PROBLÈME DES SCD                                 │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │   Le client "Alice" déménage de Paris à Lyon.                       │
-│                                                                      │
+│                                                                     │
 │   AVANT :                          APRÈS :                          │
-│   ┌─────────────────────────┐     ┌─────────────────────────┐      │
-│   │ customer_id: 123        │     │ customer_id: 123        │      │
-│   │ name: Alice             │     │ name: Alice             │      │
-│   │ city: Paris ←──────────────── │ city: Lyon   ← Changé   │      │
-│   └─────────────────────────┘     └─────────────────────────┘      │
-│                                                                      │
+│   ┌─────────────────────────┐     ┌─────────────────────────┐       │
+│   │ customer_id: 123        │     │ customer_id: 123        │       │
+│   │ name: Alice             │     │ name: Alice             │       │
+│   │ city: Paris ←──────────────── │ city: Lyon   ← Changé   │       │
+│   └─────────────────────────┘     └─────────────────────────┘       │
+│                                                                     │
 │   QUESTION : Que faire de l'historique ?                            │
-│                                                                      │
-│   - Les commandes passées à Paris doivent-elles montrer "Paris" ?  │
-│   - Ou doivent-elles montrer "Lyon" (valeur actuelle) ?            │
-│                                                                      │
+│                                                                     │
+│   - Les commandes passées à Paris doivent-elles montrer "Paris" ?   │
+│   - Ou doivent-elles montrer "Lyon" (valeur actuelle) ?             │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Pourquoi c'est important ?
 
-| Scénario | Impact |
-|----------|--------|
-| **Analyse historique** | "Combien de ventes à Paris en 2023 ?" |
-| **Audit** | "Quel était le prix du produit au moment de la vente ?" |
-| **Conformité** | "Quelle était l'adresse du client lors de la commande ?" |
+| Scénario               | Impact                                                   |
+|------------------------|----------------------------------------------------------|
+| **Analyse historique** | "Combien de ventes à Paris en 2023 ?"                    |
+| **Audit**              | "Quel était le prix du produit au moment de la vente ?"  |
+| **Conformité**         | "Quelle était l'adresse du client lors de la commande ?" |
 
 ---
 
@@ -61,22 +61,22 @@ Usage : Données immuables (date de naissance, code pays d'origine)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    SCD TYPE 1 : OVERWRITE                            │
+│                    SCD TYPE 1 : OVERWRITE                           │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│   AVANT                             APRÈS                            │
-│   ┌─────────────────────────┐      ┌─────────────────────────┐     │
-│   │ id   │ name  │ city    │      │ id   │ name  │ city    │     │
-│   ├─────────────────────────┤      ├─────────────────────────┤     │
-│   │ 123  │ Alice │ Paris   │  →   │ 123  │ Alice │ Lyon    │     │
-│   └─────────────────────────┘      └─────────────────────────┘     │
-│                                                                      │
-│   ❌ Historique perdu                                                │
-│   ✅ Simple à implémenter                                            │
-│   ✅ Pas de duplication                                              │
-│                                                                      │
+│                                                                     │
+│   AVANT                             APRÈS                           │
+│   ┌─────────────────────────┐      ┌─────────────────────────┐      │
+│   │ id   │ name  │ city     │      │ id   │ name  │ city     │      │
+│   ├─────────────────────────┤      ├─────────────────────────┤      │
+│   │ 123  │ Alice │ Paris    │  →   │ 123  │ Alice │ Lyon     │      │
+│   └─────────────────────────┘      └─────────────────────────┘      │
+│                                                                     │
+│   ❌ Historique perdu ❌                                           │
+│   ✅ Simple à implémenter ✅                                       │
+│   ✅ Pas de duplication ✅                                         │
+│                                                                     │
 │   Usage : Corrections d'erreurs, données non critiques              │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -84,25 +84,25 @@ Usage : Données immuables (date de naissance, code pays d'origine)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    SCD TYPE 2 : HISTORISATION                        │
+│                    SCD TYPE 2 : HISTORISATION                       │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │   On garde TOUTES les versions avec des dates de validité           │
-│                                                                      │
+│                                                                     │
 │   ┌──────────────────────────────────────────────────────────────┐  │
-│   │ id   │ name  │ city   │ valid_from │ valid_to   │ is_current │ │
+│   │ id   │ name  │ city   │ valid_from │ valid_to   │ is_current │  │
 │   ├──────────────────────────────────────────────────────────────┤  │
-│   │ 123  │ Alice │ Paris  │ 2022-01-01 │ 2024-01-14 │ false      │ │
-│   │ 123  │ Alice │ Lyon   │ 2024-01-15 │ NULL       │ true       │ │
+│   │ 123  │ Alice │ Paris  │ 2022-01-01 │ 2024-01-14 │ false      │  │
+│   │ 123  │ Alice │ Lyon   │ 2024-01-15 │ NULL       │ true       │  │
 │   └──────────────────────────────────────────────────────────────┘  │
-│                                                                      │
-│   ✅ Historique complet                                              │
-│   ✅ Analyses temporelles possibles                                  │
-│   ❌ Plus de lignes (duplication)                                    │
-│   ❌ Jointures plus complexes                                        │
-│                                                                      │
+│                                                                     │
+│   ✅ Historique complet ✅                                         │
+│   ✅ Analyses temporelles possibles ✅                             │
+│   ❌ Plus de lignes (duplication) ❌                               │
+│   ❌ Jointures plus complexes ❌                                   │
+│                                                                     │
 │   Usage : Dimensions critiques (clients, produits, employés)        │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -110,34 +110,34 @@ Usage : Données immuables (date de naissance, code pays d'origine)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                    SCD TYPE 3 : COLONNES                             │
+│                    SCD TYPE 3 : COLONNES                            │
 ├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
+│                                                                     │
 │   On ajoute des colonnes pour les anciennes valeurs                 │
-│                                                                      │
+│                                                                     │
 │   ┌─────────────────────────────────────────────────────────────┐   │
-│   │ id   │ name  │ city_current │ city_previous │              │   │
+│   │ id   │ name  │ city_current │ city_previous │               │   │
 │   ├─────────────────────────────────────────────────────────────┤   │
-│   │ 123  │ Alice │ Lyon         │ Paris         │              │   │
+│   │ 123  │ Alice │ Lyon         │ Paris         │               │   │
 │   └─────────────────────────────────────────────────────────────┘   │
-│                                                                      │
-│   ✅ Simple                                                          │
-│   ❌ Historique limité (1 version précédente)                       │
-│   ❌ Schéma rigide                                                   │
-│                                                                      │
+│                                                                     │
+│   ✅ Simple ✅                                                     │
+│   ❌ Historique limité (1 version précédente) ❌                   │
+│   ❌ Schéma rigide ❌                                              │
+│                                                                     │
 │   Usage : Quand seule la valeur précédente importe                  │
-│                                                                      │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Comparaison
 
-| Type | Historique | Complexité | Usage |
-|------|------------|------------|-------|
-| Type 0 | ❌ Aucun | Minimale | Données immuables |
-| Type 1 | ❌ Écrasé | Faible | Corrections |
-| Type 2 | ✅ Complet | Moyenne | Dimensions critiques |
-| Type 3 | ⚠️ Limité | Faible | Valeur précédente uniquement |
+| Type   | Historique     | Complexité | Usage                        |
+|--------|----------------|------------|------------------------------|
+| Type 0 | ❌ Aucun ❌   | Minimale   | Données immuables            |
+| Type 1 | ❌ Écrasé ❌  | Faible     | Corrections                  |
+| Type 2 | ✅ Complet ✅ | Moyenne    | Dimensions critiques         |
+| Type 3 | ⚠️ Limité ⚠️  | Faible     | Valeur précédente uniquement |
 
 ---
 
@@ -167,12 +167,12 @@ CREATE TABLE dim_customers_scd2 (
 
 ### Colonnes SCD2 standards
 
-| Colonne | Description |
-|---------|-------------|
-| `dbt_scd_id` | Clé de substitution unique par version |
-| `dbt_valid_from` | Date de début de validité |
-| `dbt_valid_to` | Date de fin de validité (NULL = actuel) |
-| `dbt_updated_at` | Timestamp de la source |
+| Colonne          | Description                             |
+|------------------|-----------------------------------------|
+| `dbt_scd_id`     | Clé de substitution unique par version  |
+| `dbt_valid_from` | Date de début de validité               |
+| `dbt_valid_to`   | Date de fin de validité (NULL = actuel) |
+| `dbt_updated_at` | Timestamp de la source                  |
 
 ### Requêtes sur SCD2
 
@@ -340,20 +340,20 @@ LEFT JOIN {{ ref('snap_product_prices') }} p
 
 ### Types de SCD
 
-| Type | Historique | DBT |
-|------|------------|-----|
-| Type 1 | Écrasement | Model standard |
-| Type 2 | Complet | Snapshot |
-| Type 3 | Limité | Model avec colonnes |
+| Type   | Historique | DBT                 |
+|--------|------------|---------------------|
+| Type 1 | Écrasement | Model standard      |
+| Type 2 | Complet    | Snapshot            |
+| Type 3 | Limité     | Model avec colonnes |
 
 ### Colonnes SCD2 DBT
 
-| Colonne | Description |
-|---------|-------------|
-| `dbt_scd_id` | ID unique par version |
-| `dbt_valid_from` | Début validité |
-| `dbt_valid_to` | Fin validité |
-| `dbt_updated_at` | Timestamp source |
+| Colonne          | Description           |
+|------------------|-----------------------|
+| `dbt_scd_id`     | ID unique par version |
+| `dbt_valid_from` | Début validité        |
+| `dbt_valid_to`   | Fin validité          |
+| `dbt_updated_at` | Timestamp source      |
 
 ---
 

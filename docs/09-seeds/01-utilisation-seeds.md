@@ -16,33 +16,33 @@
 Un **seed** est un fichier CSV qui est chargé dans votre data warehouse comme une table.
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
+┌──────────────────────────────────────────────────────────────────────┐
 │                    CONCEPT DE SEED                                   │
-├─────────────────────────────────────────────────────────────────────┤
+├──────────────────────────────────────────────────────────────────────┤
 │                                                                      │
 │   seeds/                               Warehouse                     │
-│   ┌──────────────────┐                ┌───────────────────────────┐ │
-│   │ country_codes.csv │   dbt seed    │  analytics.country_codes  │ │
-│   │                   │ ───────────>  │  ┌────────┬───────────┐   │ │
-│   │ code,name        │               │  │ code   │ name      │   │ │
-│   │ US,United States │               │  │ US     │ United... │   │ │
-│   │ FR,France        │               │  │ FR     │ France    │   │ │
-│   └──────────────────┘                │  └────────┴───────────┘   │ │
+│   ┌───────────────────┐                ┌───────────────────────────┐ │
+│   │ country_codes.csv │   dbt seed     │  analytics.country_codes  │ │
+│   │                   │ ────────────>  │  ┌────────┬───────────┐   │ │
+│   │ code,name         │                │  │ code   │ name      │   │ │
+│   │ US,United States  │                │  │ US     │ United... │   │ │
+│   │ FR,France         │                │  │ FR     │ France    │   │ │
+│   └───────────────────┘                │  └────────┴───────────┘   │ │
 │                                        └───────────────────────────┘ │
 │                                                                      │
-│   Le CSV devient une table dans le warehouse                        │
+│   Le CSV devient une table dans le warehouse                         │
 │                                                                      │
-└─────────────────────────────────────────────────────────────────────┘
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Quand utiliser les seeds ?
 
-| ✅ Utiliser pour | ❌ Ne pas utiliser pour |
-|------------------|-------------------------|
-| Données de référence statiques | Données volumineuses (> 1000 lignes) |
-| Mappings (codes, catégories) | Données changeant fréquemment |
-| Listes de valeurs | Données sensibles (PII) |
-| Configurations métier | Données de source externe |
+| ✅ Utiliser pour ✅           | ❌ Ne pas utiliser pour ❌           |
+|--------------------------------|---------------------------------------|
+| Données de référence statiques | Données volumineuses (> 10000 lignes) |
+| Mappings (codes, catégories)   | Données changeant fréquemment         |
+| Listes de valeurs              | Données sensibles (PII)               |
+| Configurations métier          | Données de source externe             |
 
 ---
 
@@ -174,14 +174,14 @@ seeds:
 
 ### Options de configuration
 
-| Option | Description | Exemple |
-|--------|-------------|---------|
-| `schema` | Schéma cible | `reference_data` |
-| `alias` | Nom de la table | `ref_countries` |
-| `column_types` | Types de colonnes | `{code: varchar(3)}` |
-| `quote_columns` | Quoter les colonnes | `true` |
-| `enabled` | Activer/désactiver | `true` |
-| `tags` | Tags | `['reference']` |
+| Option          | Description         | Exemple              |
+|-----------------|---------------------|----------------------|
+| `schema`        | Schéma cible        | `reference_data`     |
+| `alias`         | Nom de la table     | `ref_countries`      |
+| `column_types`  | Types de colonnes   | `{code: varchar(3)}` |
+| `quote_columns` | Quoter les colonnes | `true`               |
+| `enabled`       | Activer/désactiver  | `true`               |
+| `tags`          | Tags                | `['reference']`      |
 
 ---
 
@@ -359,11 +359,11 @@ calendar_date,fiscal_year,fiscal_quarter,fiscal_month,fiscal_week,is_holiday
 
 ### Commandes
 
-| Commande | Action |
-|----------|--------|
-| `dbt seed` | Charger tous les seeds |
-| `dbt seed --select X` | Charger un seed spécifique |
-| `dbt seed --full-refresh` | Recréer les tables |
+| Commande                  | Action                     |
+|---------------------------|----------------------------|
+| `dbt seed`                | Charger tous les seeds     |
+| `dbt seed --select X`     | Charger un seed spécifique |
+| `dbt seed --full-refresh` | Recréer les tables         |
 
 ### Checklist
 
