@@ -1,0 +1,323 @@
+# =============================================================================
+# .gitignore pour projet DBT + Python
+# =============================================================================
+
+# =============================================================================
+# Python
+# =============================================================================
+
+# Environnements virtuels
+venv/
+.venv/
+env/
+.env/
+ENV/
+virtualenv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# =============================================================================
+# DBT
+# =============================================================================
+
+# Dossier target (artefacts de compilation)
+target/
+
+# Dossier dbt_packages (dépendances installées)
+dbt_packages/
+dbt_modules/
+
+# Logs DBT
+logs/
+dbt.log
+
+# Documentation générée
+site/
+
+# Fichiers de manifeste
+manifest.json
+run_results.json
+catalog.json
+sources.json
+graph.gpickle
+
+# Fichiers temporaires DBT
+.user.yml
+
+# =============================================================================
+# Profils DBT (SÉCURITÉ - NE JAMAIS COMMITTER)
+# =============================================================================
+
+# Le profiles.yml contient des credentials sensibles
+# Il doit rester dans ~/.dbt/ et ne jamais être dans le repo
+profiles.yml
+
+# Fichiers de credentials
+*.credentials
+credentials.json
+service_account.json
+keyfile.json
+
+# =============================================================================
+# Variables d'environnement
+# =============================================================================
+
+# Fichiers .env (contiennent souvent des secrets)
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# =============================================================================
+# IDE et éditeurs
+# =============================================================================
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Cursor
+.cursor/
+
+# PyCharm / JetBrains
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*.swn
+*~
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# =============================================================================
+# Systèmes d'exploitation
+# =============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# =============================================================================
+# Données et fichiers volumineux
+# =============================================================================
+
+# Fichiers de données (à utiliser avec prudence pour les seeds)
+*.csv.bak
+*.xlsx
+*.xls
+data/raw/
+data/exports/
+
+# Fichiers compressés (sauf si nécessaires)
+# *.zip
+# *.tar.gz
+# *.rar
+
+# Fichiers SQL de sauvegarde
+*.sql.bak
+*.dump
+*.backup
+
+# =============================================================================
+# CI/CD et déploiement
+# =============================================================================
+
+# GitHub Actions
+.github/workflows/*.log
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Terraform (si utilisé pour l'infra)
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# =============================================================================
+# Divers
+# =============================================================================
+
+# Fichiers temporaires
+*.tmp
+*.temp
+*.bak
+*.old
+*.orig
+
+# Notes personnelles
+notes.txt
+TODO.txt
+scratch.sql
+*.scratch
+
+# Fichiers de lock (autres que ceux gérés par pip)
+# package-lock.json
+
+# Rapports et exports
+reports/
+exports/
+
+# =============================================================================
+# Exceptions (fichiers à INCLURE malgré les règles ci-dessus)
+# =============================================================================
+
+# Garder les seeds CSV (important pour DBT)
+!seeds/**/*.csv
+
+# Garder le fichier d'exemple .env
+!.env.example
+
+# Garder les fichiers de configuration VS Code partagés (optionnel)
+# !.vscode/settings.json
+# !.vscode/extensions.json
+
