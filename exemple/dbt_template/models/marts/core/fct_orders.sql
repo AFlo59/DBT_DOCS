@@ -112,7 +112,7 @@ final AS (
         END AS hours_to_ship,
         
         CASE 
-            WHEN o.delivered_at IS NOT NULL 
+            WHEN o.shipped_at IS NOT NULL AND o.delivered_at IS NOT NULL 
             THEN DATEDIFF('hour', o.shipped_at, o.delivered_at) 
         END AS hours_to_deliver,
         
