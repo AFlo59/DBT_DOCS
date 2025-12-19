@@ -344,6 +344,61 @@ calendar_date,fiscal_year,fiscal_quarter,fiscal_month,fiscal_week,is_holiday
 2024-01-03,FY2024,Q3,M7,W27,false
 ```
 
+### 6. Seeds comme simulation de données (développement/test)
+
+Dans un contexte de **développement**, **formation** ou **démonstration**, vous pouvez utiliser des seeds pour simuler des données brutes qui seraient normalement chargées par un ETL.
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│              SEEDS COMME SIMULATION DE SOURCES                      │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  seeds/                            models/staging/                  │
+│  ┌─────────────────────────┐      ┌─────────────────────────────┐   │
+│  │ sample_data/            │      │ _sources.yml                │   │
+│  │   raw_customers.csv ────┼──────┼─► identifier: raw_customers │   │
+│  │   raw_orders.csv ───────┼──────┼─► identifier: raw_orders    │   │
+│  └─────────────────────────┘      └─────────────────────────────┘   │
+│                                                                     │
+│  Les sources pointent vers les seeds via l'attribut `identifier`    │
+│                                                                     │
+│  ATTENTION : Cette approche est pour le DEV/TEST uniquement !       │
+│  En production, les sources pointent vers les vraies tables.        │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Configuration sources.yml :**
+
+```yaml
+sources:
+  - name: ecommerce
+    description: "Données e-commerce (simulées via seeds en dev)"
+    
+    # En production, utiliser :
+    # database: RAW_DATA
+    # schema: ECOMMERCE_RAW
+    
+    tables:
+      - name: customers
+        identifier: raw_customers  # Pointe vers le seed raw_customers
+      
+      - name: orders
+        identifier: raw_orders     # Pointe vers le seed raw_orders
+```
+
+**Usage dans les modèles :**
+
+```sql
+-- models/staging/stg_customers.sql
+SELECT *
+FROM {{ source('ecommerce', 'customers') }}
+-- En dev : pointe vers le seed raw_customers
+-- En prod : pointe vers la vraie table raw.customers
+```
+
+> ⚠️ **Important** : Cette technique est utile pour les projets de démonstration, les formations ou les tests sans accès aux données réelles. En production, assurez-vous que les sources pointent vers les tables chargées par votre ETL.
+
 ---
 
 ## Résumé

@@ -477,5 +477,5 @@ WHERE {{ column_name }} NOT IN {{ get_valid_values('status') }}
 
 ## Prochaines étapes
 
-→ [Documentation des models](../07-documentation/01-documentation-models.md)
+→ [Unit Tests (DBT 1.8+)](./04-unit-tests.md)
 

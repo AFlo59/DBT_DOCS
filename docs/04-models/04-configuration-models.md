@@ -528,12 +528,12 @@ models:
 }}
 ```
 
-| Option | Comportement |
-|--------|--------------|
-| `ignore` | Ignore les nouvelles colonnes |
-| `fail` | Erreur si le schéma change |
+| Option               | Comportement                  |
+|----------------------|-------------------------------|
+| `ignore`             | Ignore les nouvelles colonnes |
+| `fail`               | Erreur si le schéma change    |
 | `append_new_columns` | Ajoute les nouvelles colonnes |
-| `sync_all_columns` | Synchronise le schéma complet |
+| `sync_all_columns`   | Synchronise le schéma complet |
 
 ---
 
@@ -567,5 +567,5 @@ models:
 
 ## Prochaines étapes
 
-→ [Définition des Sources](../05-sources/01-definition-sources.md)
+→ [Data Contracts (Contrats de Données)](./05-data-contracts.md)
 

@@ -111,8 +111,10 @@ dbt_packages/
 ```yaml
 packages:
   - package: dbt-labs/dbt_utils
-    version: 1.1.1
+    version: 1.3.0
 ```
+
+> 💡 **Note** : Vérifiez toujours la dernière version sur [dbt Hub](https://hub.getdbt.com/dbt-labs/dbt_utils/latest/)
 
 **Macros utiles :**
 
@@ -158,8 +160,10 @@ tests:
 ```yaml
 packages:
   - package: calogica/dbt_expectations
-    version: 0.10.1
+    version: 0.10.4
 ```
+
+> 💡 **Note** : Vérifiez toujours la dernière version sur [dbt Hub](https://hub.getdbt.com/calogica/dbt_expectations/latest/)
 
 **Tests inspirés de Great Expectations :**
 
@@ -182,8 +186,10 @@ tests:
 ```yaml
 packages:
   - package: calogica/dbt_date
-    version: 0.10.0
+    version: 0.10.1
 ```
+
+> 💡 **Note** : Vérifiez toujours la dernière version sur [dbt Hub](https://hub.getdbt.com/calogica/dbt_date/latest/)
 
 **Macros de dates :**
 
@@ -202,8 +208,10 @@ packages:
 ```yaml
 packages:
   - package: dbt-labs/audit_helper
-    version: 0.9.0
+    version: 0.12.0
 ```
+
+> 💡 **Note** : Vérifiez toujours la dernière version sur [dbt Hub](https://hub.getdbt.com/dbt-labs/audit_helper/latest/)
 
 **Comparaison de données :**
 
@@ -227,18 +235,22 @@ packages:
 ```yaml
 packages:
   - package: brooklyn-data/dbt_artifacts
-    version: 2.6.2
+    version: 2.9.0
 ```
 
 Capture les métadonnées d'exécution dans des tables.
+
+> 💡 **Note** : Vérifiez toujours la dernière version sur [dbt Hub](https://hub.getdbt.com/brooklyn-data/dbt_artifacts/latest/)
 
 ### codegen
 
 ```yaml
 packages:
   - package: dbt-labs/codegen
-    version: 0.12.1
+    version: 0.13.1
 ```
+
+> 💡 **Note** : Vérifiez toujours la dernière version sur [dbt Hub](https://hub.getdbt.com/dbt-labs/codegen/latest/)
 
 **Génération de code :**
 

@@ -273,7 +273,7 @@ Les lignes en échec sont stockées dans une table pour analyse.
 # packages.yml
 packages:
   - package: dbt-labs/dbt_utils
-    version: 1.1.1
+    version: 1.3.0
 ```
 
 ```bash
@@ -343,7 +343,7 @@ models:
 # packages.yml
 packages:
   - package: calogica/dbt_expectations
-    version: 0.10.1
+    version: 0.10.4
 ```
 
 ```yaml
