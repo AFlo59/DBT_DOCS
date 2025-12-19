@@ -1,0 +1,12 @@
+product_id,product_name,category,price_cents,currency_code,is_available
+1,Laptop Pro 15,Electronics,129900,USD,true
+2,Wireless Mouse,Electronics,2999,USD,true
+3,USB-C Hub,Electronics,4999,USD,true
+4,Running Shoes,Sports,8999,USD,true
+5,Yoga Mat,Sports,2499,USD,true
+6,Coffee Maker,Home,7999,USD,true
+7,Desk Lamp,Home,3499,USD,true
+8,Backpack,Accessories,5999,USD,true
+9,Headphones,Electronics,19999,USD,true
+10,Water Bottle,Sports,1999,USD,true
+

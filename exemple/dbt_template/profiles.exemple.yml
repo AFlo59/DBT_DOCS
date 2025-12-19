@@ -1,0 +1,118 @@
+# =============================================================================
+# Exemple de profiles.yml pour DBT avec Snowflake
+# =============================================================================
+# 
+# INSTRUCTIONS:
+# 1. Copier ce fichier vers ~/.dbt/profiles.yml
+# 2. Configurer les variables d'environnement
+# 3. Ne JAMAIS versionner le profiles.yml avec des credentials en dur
+#
+# =============================================================================
+
+dbt_template:
+  # Target par défaut (peut être overridé avec --target)
+  target: "{{ env_var('DBT_TARGET', 'dev') }}"
+  
+  outputs:
+    # =========================================================================
+    # ENVIRONNEMENT DE DÉVELOPPEMENT
+    # =========================================================================
+    dev:
+      type: snowflake
+      
+      # Connexion Snowflake
+      account: "{{ env_var('DBT_SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('DBT_SNOWFLAKE_USER') }}"
+      password: "{{ env_var('DBT_SNOWFLAKE_PASSWORD') }}"
+      
+      # Configuration
+      role: "{{ env_var('DBT_SNOWFLAKE_ROLE', 'DEVELOPER') }}"
+      warehouse: "{{ env_var('DBT_SNOWFLAKE_WAREHOUSE', 'DEV_WH') }}"
+      
+      # Database et schema dynamiques par développeur
+      database: "{{ env_var('DBT_SNOWFLAKE_DATABASE', 'DEV_DB') }}"
+      schema: "dbt_{{ env_var('USER', env_var('USERNAME', 'dev')) }}"
+      
+      # Performance
+      threads: 4
+      
+      # Options
+      client_session_keep_alive: false
+      query_tag: "dbt_dev"
+    
+    # =========================================================================
+    # ENVIRONNEMENT DE RECETTE (STAGING)
+    # =========================================================================
+    rec:
+      type: snowflake
+      
+      # Connexion Snowflake
+      account: "{{ env_var('DBT_SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('DBT_SNOWFLAKE_USER') }}"
+      password: "{{ env_var('DBT_SNOWFLAKE_PASSWORD') }}"
+      
+      # Configuration recette
+      role: "{{ env_var('DBT_SNOWFLAKE_ROLE', 'TRANSFORMER') }}"
+      warehouse: "{{ env_var('DBT_SNOWFLAKE_WAREHOUSE', 'STAGING_WH') }}"
+      
+      # Database et schema recette
+      database: "{{ env_var('DBT_SNOWFLAKE_DATABASE', 'STAGING_DB') }}"
+      schema: staging
+      
+      # Performance
+      threads: 8
+      
+      # Options
+      client_session_keep_alive: false
+      query_tag: "dbt_rec"
+    
+    # =========================================================================
+    # ENVIRONNEMENT DE PRODUCTION
+    # =========================================================================
+    prod:
+      type: snowflake
+      
+      # Connexion Snowflake (credentials production séparés recommandés)
+      account: "{{ env_var('DBT_SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('DBT_SNOWFLAKE_PROD_USER', env_var('DBT_SNOWFLAKE_USER')) }}"
+      password: "{{ env_var('DBT_SNOWFLAKE_PROD_PASSWORD', env_var('DBT_SNOWFLAKE_PASSWORD')) }}"
+      
+      # Configuration production
+      role: "{{ env_var('DBT_SNOWFLAKE_PROD_ROLE', 'TRANSFORMER') }}"
+      warehouse: "{{ env_var('DBT_SNOWFLAKE_PROD_WAREHOUSE', 'PROD_WH') }}"
+      
+      # Database et schema production
+      database: "{{ env_var('DBT_SNOWFLAKE_PROD_DATABASE', 'PROD_DB') }}"
+      schema: analytics
+      
+      # Performance maximale
+      threads: 16
+      
+      # Options
+      client_session_keep_alive: true
+      query_tag: "dbt_prod"
+
+# =============================================================================
+# Variables d'environnement requises
+# =============================================================================
+#
+# Obligatoires:
+#   - DBT_SNOWFLAKE_ACCOUNT
+#   - DBT_SNOWFLAKE_USER
+#   - DBT_SNOWFLAKE_PASSWORD
+#
+# Optionnelles (avec défauts):
+#   - DBT_TARGET (défaut: dev)
+#   - DBT_SNOWFLAKE_ROLE (défaut: DEVELOPER/TRANSFORMER)
+#   - DBT_SNOWFLAKE_WAREHOUSE (défaut: DEV_WH/STAGING_WH/PROD_WH)
+#   - DBT_SNOWFLAKE_DATABASE (défaut: DEV_DB/STAGING_DB/PROD_DB)
+#
+# Production (si différents de dev):
+#   - DBT_SNOWFLAKE_PROD_USER
+#   - DBT_SNOWFLAKE_PROD_PASSWORD
+#   - DBT_SNOWFLAKE_PROD_ROLE
+#   - DBT_SNOWFLAKE_PROD_WAREHOUSE
+#   - DBT_SNOWFLAKE_PROD_DATABASE
+#
+# =============================================================================
+

@@ -1,0 +1,20 @@
+country_code,country_name,region,currency_code,language_code
+US,United States,North America,USD,en
+CA,Canada,North America,CAD,en
+MX,Mexico,North America,MXN,es
+FR,France,Europe,EUR,fr
+DE,Germany,Europe,EUR,de
+GB,United Kingdom,Europe,GBP,en
+ES,Spain,Europe,EUR,es
+IT,Italy,Europe,EUR,it
+NL,Netherlands,Europe,EUR,nl
+BE,Belgium,Europe,EUR,fr
+CH,Switzerland,Europe,CHF,de
+JP,Japan,Asia,JPY,ja
+CN,China,Asia,CNY,zh
+KR,South Korea,Asia,KRW,ko
+AU,Australia,Oceania,AUD,en
+NZ,New Zealand,Oceania,NZD,en
+BR,Brazil,South America,BRL,pt
+AR,Argentina,South America,ARS,es
+

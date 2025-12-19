@@ -1,0 +1,193 @@
+version: 2
+
+# =============================================================================
+# SOURCES E-COMMERCE
+# =============================================================================
+# Ces sources pointent vers les seeds qui simulent des données brutes.
+# En production, remplacer par les vraies tables de votre data warehouse.
+# =============================================================================
+
+sources:
+  - name: ecommerce
+    description: |
+      Données e-commerce provenant du système de vente.
+      
+      ## Contexte
+      Ces données représentent les clients, produits et commandes.
+      Dans cet exemple, les données sont simulées via des seeds.
+      
+      ## En production
+      Remplacer les identifiers par les vraies tables sources:
+      - database: RAW_DATA
+      - schema: ECOMMERCE
+      
+    # Configuration dynamique selon l'environnement
+    database: "{{ env_var('DBT_SNOWFLAKE_DATABASE', target.database) }}"
+    schema: "{{ 'raw' if target.name == 'prod' else 'raw_' ~ target.name }}"
+    
+    # Métadonnées
+    loader: seed_simulation
+    loaded_at_field: null  # Pas de champ loaded_at dans les seeds
+    
+    # Tags
+    tags: ['ecommerce', 'core']
+    
+    # Tables sources
+    tables:
+      # =========================================================================
+      # CUSTOMERS
+      # =========================================================================
+      - name: customers
+        description: |
+          Données clients brutes.
+          
+          **Grain**: Une ligne par client
+          **Volumétrie exemple**: ~10 clients
+          
+        identifier: raw_customers  # Pointe vers le seed raw_customers
+        
+        columns:
+          - name: customer_id
+            description: "Identifiant unique du client (PK)"
+            tests:
+              - unique
+              - not_null
+              
+          - name: first_name
+            description: "Prénom du client"
+            tests:
+              - not_null
+              
+          - name: last_name
+            description: "Nom de famille du client"
+            tests:
+              - not_null
+              
+          - name: email
+            description: "Adresse email du client"
+            tests:
+              - unique
+              - not_null
+              
+          - name: country_code
+            description: "Code pays ISO 3166-1 alpha-2"
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('country_codes')
+                  field: country_code
+                  
+          - name: created_at
+            description: "Date de création du compte client"
+            
+          - name: is_active
+            description: "Indique si le client est actif"
+
+      # =========================================================================
+      # PRODUCTS
+      # =========================================================================
+      - name: products
+        description: |
+          Catalogue produits brut.
+          
+          **Grain**: Une ligne par produit
+          
+        identifier: raw_products
+        
+        columns:
+          - name: product_id
+            description: "Identifiant unique du produit (PK)"
+            tests:
+              - unique
+              - not_null
+              
+          - name: product_name
+            description: "Nom du produit"
+            tests:
+              - not_null
+              
+          - name: category
+            description: "Catégorie du produit"
+            
+          - name: price_cents
+            description: "Prix du produit en centimes"
+            tests:
+              - not_null
+              
+          - name: currency_code
+            description: "Code devise du prix"
+            
+          - name: is_available
+            description: "Indique si le produit est disponible à la vente"
+
+      # =========================================================================
+      # ORDERS
+      # =========================================================================
+      - name: orders
+        description: |
+          Commandes brutes.
+          
+          **Grain**: Une ligne par commande
+          
+        identifier: raw_orders
+        
+        columns:
+          - name: order_id
+            description: "Identifiant unique de la commande (PK)"
+            tests:
+              - unique
+              - not_null
+              
+          - name: customer_id
+            description: "FK vers customers"
+            tests:
+              - not_null
+              - relationships:
+                  to: source('ecommerce', 'customers')
+                  field: customer_id
+                  
+          - name: product_id
+            description: "FK vers products"
+            tests:
+              - not_null
+              - relationships:
+                  to: source('ecommerce', 'products')
+                  field: product_id
+                  
+          - name: quantity
+            description: "Quantité commandée"
+            tests:
+              - not_null
+              
+          - name: status_code
+            description: "Code statut de la commande"
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('order_status_mapping')
+                  field: status_code
+                  
+          - name: payment_method_code
+            description: "Code méthode de paiement"
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('payment_methods')
+                  field: payment_method_code
+                  
+          - name: order_total_cents
+            description: "Montant total de la commande en centimes"
+            tests:
+              - not_null
+              
+          - name: ordered_at
+            description: "Date et heure de la commande"
+            tests:
+              - not_null
+              
+          - name: shipped_at
+            description: "Date et heure d'expédition (NULL si non expédié)"
+            
+          - name: delivered_at
+            description: "Date et heure de livraison (NULL si non livré)"
+

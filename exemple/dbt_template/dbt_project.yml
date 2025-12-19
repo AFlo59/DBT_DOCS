@@ -1,0 +1,155 @@
+# =============================================================================
+# DBT Project Configuration
+# =============================================================================
+# Ce fichier configure le projet DBT selon les bonnes pratiques.
+# Documentation: https://docs.getdbt.com/reference/dbt_project.yml
+# =============================================================================
+
+name: 'dbt_template'
+version: '1.0.0'
+config-version: 2
+
+# Profile de connexion (voir profiles.exemple.yml)
+profile: 'dbt_template'
+
+# =============================================================================
+# Chemins des fichiers
+# =============================================================================
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+# Chemins à nettoyer avec 'dbt clean'
+clean-targets:
+  - "target"
+  - "dbt_packages"
+  - "logs"
+
+# =============================================================================
+# Variables globales
+# =============================================================================
+vars:
+  # Environnement courant (utilisé dans les macros et modèles)
+  environment: "{{ env_var('DBT_TARGET', 'dev') }}"
+  
+  # Date de début pour les analyses historiques
+  start_date: '2023-01-01'
+  
+  # Limite de lignes en dev (pour les tests rapides)
+  dev_row_limit: 10000
+  
+  # Feature flags
+  enable_contract_enforcement: true
+
+# =============================================================================
+# Configuration des Seeds
+# =============================================================================
+seeds:
+  dbt_template:
+    # Configuration globale des seeds
+    +quote_columns: true
+    
+    # Seeds de référence
+    reference:
+      +schema: "{{ 'reference' if target.name == 'prod' else 'reference_' ~ target.name }}"
+      +tags: ['reference', 'seed']
+      
+    # Seeds de données exemple
+    sample_data:
+      +schema: "{{ 'raw' if target.name == 'prod' else 'raw_' ~ target.name }}"
+      +tags: ['sample_data', 'seed']
+
+# =============================================================================
+# Configuration des Models
+# =============================================================================
+models:
+  dbt_template:
+    # Configuration globale pour tout le projet
+    +persist_docs:
+      relation: true
+      columns: true
+    
+    # =========================================================================
+    # STAGING LAYER
+    # =========================================================================
+    # Convention: stg_<source>__<table>
+    # Matérialisation: view (lecture à chaque query)
+    # =========================================================================
+    staging:
+      +materialized: view
+      +schema: "{{ 'staging' if target.name == 'prod' else 'staging_' ~ target.name }}"
+      +tags: ['staging']
+      
+      # Par source
+      ecommerce:
+        +tags: ['ecommerce']
+    
+    # =========================================================================
+    # INTERMEDIATE LAYER (optionnel)
+    # =========================================================================
+    # Convention: int_<description>
+    # Matérialisation: ephemeral (pas de table créée) ou view
+    # =========================================================================
+    intermediate:
+      +materialized: ephemeral
+      +schema: "{{ 'intermediate' if target.name == 'prod' else 'intermediate_' ~ target.name }}"
+      +tags: ['intermediate']
+    
+    # =========================================================================
+    # MARTS LAYER
+    # =========================================================================
+    # Convention: fct_<event> ou dim_<entity>
+    # Matérialisation: table (persisté pour performance)
+    # =========================================================================
+    marts:
+      +materialized: table
+      +tags: ['marts']
+      
+      # Mart Core (modèles partagés)
+      core:
+        +schema: "{{ 'analytics' if target.name == 'prod' else 'analytics_' ~ target.name }}"
+        +tags: ['core']
+        
+        # Contract enforcement pour les tables finales
+        +contract:
+          enforced: "{{ var('enable_contract_enforcement', true) }}"
+
+# =============================================================================
+# Configuration des Tests
+# =============================================================================
+tests:
+  dbt_template:
+    +severity: warn  # warn en dev, error en prod
+    +store_failures: true  # Stocker les résultats pour debug
+
+# =============================================================================
+# Configuration des Snapshots
+# =============================================================================
+snapshots:
+  dbt_template:
+    +target_schema: "{{ 'snapshots' if target.name == 'prod' else 'snapshots_' ~ target.name }}"
+    +strategy: timestamp
+    +invalidate_hard_deletes: true
+
+# =============================================================================
+# Hooks (optionnel)
+# =============================================================================
+# Décommenter pour activer
+
+# on-run-start:
+#   - "{{ log('Starting DBT run for ' ~ target.name, info=True) }}"
+
+# on-run-end:
+#   - "{{ log('Completed DBT run with ' ~ results|length ~ ' models', info=True) }}"
+
+# =============================================================================
+# Documentation
+# =============================================================================
+# Configuration pour la génération de documentation
+
+# Requiert dbt version >= 1.5
+# docs-paths: ["docs"]
+# asset-paths: ["assets"]
